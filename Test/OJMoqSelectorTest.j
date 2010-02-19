@@ -1,4 +1,4 @@
-@import "../Framework/OJMoq/OJMoqSelector.j"
+@import "../Frameworks/OJMoq/OJMoqSelector.j"
 
 @implementation OJMoqSelectorTest : OJTestCase
 

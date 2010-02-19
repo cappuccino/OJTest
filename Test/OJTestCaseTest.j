@@ -1,4 +1,4 @@
-@import "../Framework/OJUnit/OJTestCase.j"
+@import "../Frameworks/OJUnit/OJTestCase.j"
 
 @implementation OJTestCaseTest : OJTestCase
 
