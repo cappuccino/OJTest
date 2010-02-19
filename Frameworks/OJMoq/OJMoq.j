@@ -17,10 +17,9 @@ function moq(baseObject)
 }
 
 /*!
- * A mocking library based off of the Moq library for .NET
+ * A mocking library for Cappuccino applications
  *
- * The benefits of OJMoq include easy-to-use standard mocking and
- * fluent advanced mocking. See the README for more details.
+ *
  */
 @implementation OJMoq : CPObject
 {
@@ -29,6 +28,9 @@ function moq(baseObject)
 	CPArray		expectations;
 }
 
+/*!
+   
+ */
 + (id)mockBaseObject:(CPObject)aBaseObject
 {
 	return [[OJMoq alloc] initWithBaseObject:aBaseObject];
