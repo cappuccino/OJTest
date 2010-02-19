@@ -4,5 +4,6 @@
     "contributors": ["Derek Hammer", "Tom Robinson", "Ross Boucher", "Martin Hacker"],
     "description": "The Cappuccino Test Framework",
     "keywords": ["objective-j", "unit test", "testing", "test"],
-    "objj-frameworks": ["Framework"]
+    "objj-frameworks": ["Framework"],
+    "version": "0.1.0"
 }
