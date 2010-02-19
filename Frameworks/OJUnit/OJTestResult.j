@@ -62,9 +62,11 @@
     }
     catch (e)
     {
-        // HACK to convert JS errors to CPExceptions. Should they be toll free bridged?
-        if (!e.isa)
-            e = [CPException exceptionWithName:e.name reason:e.message userInfo:nil];
+        // if not objj object, toll-free bridge to CPException
+        if (!e.isa) {
+            CPLog.warn("toll-free bridging e="+e+" to CPException")
+            e.isa = CPException;
+        }
 
         if ([e name] == AssertionFailedError)
             [self addFailure:e forTest:aTest];

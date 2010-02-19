@@ -1,5 +1,24 @@
 @import <Foundation/Foundation.j>
 
+function convertRhinoBacktrace(javaException) {
+    var s = new Packages.java.io.StringWriter();
+    javaException.printStackTrace(new Packages.java.io.PrintWriter(s));
+    return String(s.toString()).split("\n").filter(function(s) { return (/^\s*at script/).test(s); }).join("\n");
+}
+
+function getBacktrace(e) {
+    if (!e) {
+        return "";
+    }
+    else if (e.rhinoException) {
+        return convertRhinoBacktrace(e.rhinoException);
+    }
+    else if (e.javaException) {
+        return convertRhinoBacktrace(e.javaException);
+    }
+    return "";
+}
+
 @implementation OJTestListenerText : CPObject
 {
     CPArray _errors;
@@ -16,10 +35,13 @@
     return self;
 }
 
-- (void)addError:(CPException)error forTest:(OJTest)aTest
+- (void)addError:(CPException)anException forTest:(OJTest)aTest
 {
-    _errors.push(error);
-    CPLog.error("addError  test="+[aTest description]+" error="+error);
+    _errors.push(anException);
+    CPLog.error("addError  test="+[aTest description]+" error="+anException);
+    var backTrace = getBacktrace(anException);
+    if (backTrace)
+        CPLog.error(backTrace);
 }
 
 - (CPArray)errors
@@ -27,10 +49,13 @@
     return _errors;
 }
 
-- (void)addFailure:(CPException)failure forTest:(OJTest)aTest
+- (void)addFailure:(CPException)anException forTest:(OJTest)aTest
 {
-    _failures.push(failure);
-    CPLog.warn("addFailure test="+[aTest description]+" failure="+failure);
+    _failures.push(anException);
+    CPLog.warn("addFailure test="+[aTest description]+" failure="+anException);
+    var backTrace = getBacktrace(anException);
+    if (backTrace)
+        CPLog.warn(backTrace);
 }
 
 - (CPArray)failures
@@ -40,6 +65,7 @@
 
 - (void)startTest:(OJTest)aTest
 {
+    system.stderr.write(".").flush();
     CPLog.info("startTest  test="+[aTest description]);
 }
 

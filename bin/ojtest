@@ -39,26 +39,28 @@ CPLogRegister(CPLogPrint, "warn");
 
 - (void)startWithArguments:(CPArray)args
 {
-    var testCaseFile = args.shift();
-    
-    if (!testCaseFile)
+    if (args.length === 0)
     {
         [self report];
         return;
     }
 
-    var matches = testCaseFile.match(/([^\/]+)\.j$/)
-    print(matches[1]);
-    var testCaseClass = matches[1];
-        
-    objj_import(testCaseFile, YES, function() {
-        var suite = [self getTest:testCaseClass];
+    var testCaseFile = require("file").absolute(args.shift());
 
-        [self run:suite];
-        
-        // run the next test when this is done
-        [self startWithArguments:args];
-    });
+    var matches = testCaseFile.match(/([^\/]+)\.j$/);
+
+    system.stderr.write(matches[1]).flush();
+    var testCaseClass = matches[1];
+
+    require(testCaseFile);
+
+    var suite = [self getTest:testCaseClass];
+
+    [self run:suite];
+    system.stderr.write("\n").flush();
+
+    // run the next test when this is done
+    [self startWithArguments:args];
 }
 
 - (OJTestResult)run:(OJTest)suite wait:(BOOL)wait
