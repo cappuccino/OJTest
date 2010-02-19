@@ -18,8 +18,6 @@ function moq(baseObject)
 
 /*!
  * A mocking library for Cappuccino applications
- *
- *
  */
 @implementation OJMoq : CPObject
 {
@@ -29,7 +27,12 @@ function moq(baseObject)
 }
 
 /*!
-   
+    Creates an OJMoq object based on the base object. If the base object is nil, then a benign
+    stub is created. If the base object is non-nil, it creates a spy mock that allows all of
+    the messages to go through to the base object.
+    
+    \param aBaseObject A nil or non-nil base object that will be wrapped by OJMoq
+    \returns An instance of OJMoq that wraps the given base object
  */
 + (id)mockBaseObject:(CPObject)aBaseObject
 {
