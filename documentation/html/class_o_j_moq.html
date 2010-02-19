@@ -75,8 +75,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>DEPRECATED** </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>selector</em>&nbsp;</td><td>The selector which should be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>times</em>&nbsp;</td><td>The number of times that selector should be called </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00053">53</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00067">67</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -110,8 +118,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>DEPRECATED** </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>selector</em>&nbsp;</td><td>The selector which should be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>times</em>&nbsp;</td><td>The number of times that selector should be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arguments</em>&nbsp;</td><td>Arguments for the selector. If an empty array of arguments is passed in, then the selector matches all arguments. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00059">59</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00080">80</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -131,7 +148,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00156">156</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00236">236</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -150,8 +167,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Creates an <a class="el" href="class_o_j_moq.html">OJMoq</a> object based on the base object. If the base object is nil, then a benign stub is created. If the base object is non-nil, it creates a spy mock that allows all of the messages to go through to the base object.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aBaseObject</em>&nbsp;</td><td>A nil or non-nil base object that will be wrapped by <a class="el" href="class_o_j_moq.html">OJMoq</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>An instance of <a class="el" href="class_o_j_moq.html">OJMoq</a> that wraps the given base object </dd></dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00042">42</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00051">51</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -171,7 +196,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00151">151</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00228">228</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -219,7 +244,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00171">171</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00254">254</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -247,8 +272,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Provides a callback with the parameters that were passed in to the specified selector</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aSelector</em>&nbsp;</td><td>The selector on the base object that will be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>aCallback</em>&nbsp;</td><td>A single-argument function that is passed the array of arguments </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00116">116</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00178">178</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -282,8 +315,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Provides a callback with the parameters that were passed in to the specified selector and match the given arguments</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aSelector</em>&nbsp;</td><td>The selector on the base object that will be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>aCallback</em>&nbsp;</td><td>A single-argument function that is passed the array of arguments </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arguments</em>&nbsp;</td><td>The arguments that the selector must match </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00121">121</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00191">191</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -311,8 +353,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Ensure that selector returns value when selector is called. Selector will match all arguments. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aSelector</em>&nbsp;</td><td>The selector on the base object that will be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>The value that the selector should return </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00088">88</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00130">130</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -346,8 +396,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Ensure that the selector, when called with the specified arguments, will return the given value. If you pass an empty array of arguments, then the selector will match all calls.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aSelector</em>&nbsp;</td><td>The selector on the base object that will be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arguments</em>&nbsp;</td><td>The arguments that must be passed to selector for this to work </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>The value that the selector should return </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00099">99</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00155">155</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -375,8 +434,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Expect that selector is called times on the base object. The selector here will match all arguments. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>selector</em>&nbsp;</td><td>The selector which should be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>times</em>&nbsp;</td><td>The number of times that selector should be called </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00065">65</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00092">92</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -410,8 +477,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Expect that selector is called times with arguments on the base object. The selector here will match the arguments that you pass it. If an empty array is passed then the selector will match all arguments!</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>selector</em>&nbsp;</td><td>The selector which should be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>times</em>&nbsp;</td><td>The number of times that selector should be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arguments</em>&nbsp;</td><td>Arguments for the selector. If an empty array of arguments is passed in, then the selector matches all arguments. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00070">70</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00107">107</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -445,8 +521,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>DEPRECATED </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aSelector</em>&nbsp;</td><td>The selector on the base object that will be called </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>arguments</em>&nbsp;</td><td>The arguments that must be passed to selector for this to work </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td>The value that the selector should return </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00093">93</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00141">141</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -464,8 +549,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Verifies all of the expectations that were set on the <a class="el" href="class_o_j_moq.html">OJMoq</a> and fails the test if any of the expectations fail. </p>
 
-<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00137">137</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_moq_8j_source.html#l00211">211</a> of file <a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a>.</p>
 
 </div>
 </div>
@@ -473,7 +559,7 @@
 <li>Frameworks/OJMoq/<a class="el" href="_o_j_moq_8j_source.html">OJMoq.j</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Fri Feb 19 18:32:32 2010 for Objective-J Test API by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Fri Feb 19 18:53:31 2010 for Objective-J Test API by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
