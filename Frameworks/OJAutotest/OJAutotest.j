@@ -1,8 +1,9 @@
 @import <Foundation/CPObject.j>
+@import <OJUnit/OJTestRunnerText.j>
 OS = require("os");
 SYSTEM = require("system");
 
-@implementation OJAutotest : CPObject
+@implementation OJAutotest : OJTestRunnerText
 
 + (void)start
 {
@@ -27,7 +28,7 @@ SYSTEM = require("system");
     
     OS.sleep(1);
     
-    var testStatus = OS.system("ojtest Test/*.j");
+    [self startWithArguments:[@"Test/*.j"]];
     
     [self loop];
 }
