@@ -230,9 +230,7 @@ function moq(baseObject)
 	return YES;
 }
 
-/*!
-   @ignore
- */
+/* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
 {		
 	__ojmoq_incrementNumberOfCalls(anInvocation, selectors);

@@ -26,6 +26,9 @@
 </div>
 <div class="contents">
 <h1>OJTestCase Class Reference</h1><!-- doxytag: class="OJTestCase" -->
+<p>A single test case.  
+<a href="#_details">More...</a></p>
+
 <p><a href="class_o_j_test_case-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
@@ -67,8 +70,21 @@
 <tr><td class="memItemLeft" align="right" valign="top">(void)&nbsp;</td><td class="memItemRight" valign="bottom">- <a class="el" href="class_o_j_test_case.html#a41efa5c0dc6ff78894df0e7866fcd3b7">tearDown</a><code> [implementation]</code></td></tr>
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>A single test case. </p>
+<p>A single test case. This is an abstract superclass that each of your test cases (which are usually in their own separate files and of which each tests one and only one class) should subclass. Each of these test cases have the ability to run seperately.</p>
+<p>Example:</p>
+<p>OJMoqTest : <a class="el" href="class_o_j_test_case.html" title="A single test case.">OJTestCase</a></p>
+<p>... // tests and other files</p>
+<p>In order to increase readability, there is a conventional way of writing tests. Each test should be prepended by the word "test" and non-tests should not be prepended by the word "test".</p>
+<p>Example:</p>
+<ul>
+<li>(void)testThatOJMoqDoesInitialize {} // a test</li>
+<li>(<a class="el" href="class_o_j_moq.html">OJMoq</a>)createStandardOJMoqInstance {return nil;} // a non-test</li>
+</ul>
+<p>Before each test, the message "setUp" will be passed to your test. By default, this does nothing but you can override the "setUp" method to do something for your test.</p>
+<p>After each test, the message "tearDown" will be passed to your test. By default, this does nothing but you can override the "tearDown" method to do something for your test. </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00007">7</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00037">37</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 <hr/><h2>Member Function Documentation</h2>
 <a class="anchor" id="aefd06e9d3a3adc05821b629e0279b685"></a><!-- doxytag: member="OJTestCase::assert:equals:" ref="aefd06e9d3a3adc05821b629e0279b685" args="(id expected,[equals] id actual)" -->
 <div class="memitem">
@@ -94,8 +110,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected value is equal to the actual value</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00093">93</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00196">196</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -129,8 +154,18 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected value is equal to the actual value and not equal then report the given message</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00098">98</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00211">211</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -158,8 +193,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given Regular Expression matches the given string</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>aRegex</em>&nbsp;</td><td>A string that represents a regular expression (e.g. @"^(.*)$") </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>aString</em>&nbsp;</td><td>The string to test the regular expression against </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00173">173</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00399">399</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -187,8 +231,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected value is not equal to the actual value</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00104">104</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00225">225</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -222,8 +275,18 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected value is not equal to the actual value and if equal then report the given message</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00109">109</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00240">240</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -251,8 +314,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected object and the actual object are not the same object.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00126">126</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00283">283</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -286,8 +358,18 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected object and the actual object are not the same object. If they are the same, then report the given message.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00131">131</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00298">298</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -315,8 +397,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected object and the actual object are the same object.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00115">115</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00254">254</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -350,8 +441,18 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the expected object and the actual object are the same object. If they are different, then report the given message.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>expected</em>&nbsp;</td><td>The expected value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>The actual value </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00120">120</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00269">269</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -370,8 +471,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given condition is false</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>condition</em>&nbsp;</td><td>The condition to verify </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00083">83</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00170">170</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -399,8 +508,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given condition is false and if not false then report the given message</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>condition</em>&nbsp;</td><td>The condition to verify </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00088">88</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00183">183</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -419,8 +537,18 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the zero argument closure that is given does not throw an exception.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>zeroArgClosure</em>&nbsp;</td><td>The zero argument closure that will be run.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Example:</p>
+<p>[self assertNoThrow:function(){[myObject myMessage:myArgument];}]; </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00157">157</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00364">364</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -439,8 +567,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given object is not null.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>object</em>&nbsp;</td><td>The given object </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00147">147</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00335">335</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -468,8 +604,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given object is not null. If it is null, report the given message.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>object</em>&nbsp;</td><td>The given object </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00152">152</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00348">348</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -488,8 +633,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given object is null</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>object</em>&nbsp;</td><td>The given object </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00137">137</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00311">311</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -517,8 +670,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given object is null. If it is not null, report the given message.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>parameter </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00142">142</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00323">323</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -537,8 +698,18 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the zero argument closure that is given does throw an exception.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>zeroArgClosure</em>&nbsp;</td><td>The zero argument closure that will be run.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Example:</p>
+<p>[self assertThrows:function(){[myObject myMessage:myArgument];}]; </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00165">165</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00383">383</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -557,8 +728,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given condition is true</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>condition</em>&nbsp;</td><td>The condition to verify </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00072">72</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00144">144</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -586,8 +765,17 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Assert that the given condition is true and if it is not report the given message</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>condition</em>&nbsp;</td><td>The condition to verify </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00077">77</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00157">157</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -605,8 +793,10 @@
       </table>
 </div>
 <div class="memdoc">
+<p>The number of test cases this represents.</p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>1 </dd></dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00067">67</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00132">132</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -624,8 +814,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Factory method for creating the <a class="el" href="class_o_j_test_result.html">OJTestResult</a> </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00012">12</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00045">45</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -644,7 +835,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00209">209</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00447">447</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -662,8 +853,10 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Fails the test case. </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00179">179</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00410">410</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -682,8 +875,16 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Assertions</p>
+<p>Fails the test case and reports the given message.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>message</em>&nbsp;</td><td>The failure message </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00184">184</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00422">422</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -718,7 +919,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00199">199</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00437">437</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -753,7 +954,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00204">204</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00442">442</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -788,7 +989,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00194">194</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00432">432</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -823,7 +1024,7 @@
 </div>
 <div class="memdoc">
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00189">189</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00427">427</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -841,8 +1042,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Runs the tests and returns the result. </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00017">17</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00053">53</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -861,8 +1063,15 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Informs the <a class="el" href="class_o_j_test_result.html">OJTestResult</a> to run the tests </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>result</em>&nbsp;</td><td>The <a class="el" href="class_o_j_test_result.html">OJTestResult</a> that will run the tests </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00024">24</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00064">64</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -880,8 +1089,15 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Runs the setup, test and teardown for the </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>parameter </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00029">29</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00073">73</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -899,8 +1115,15 @@
       </table>
 </div>
 <div class="memdoc">
+<p>If the selector is not null, </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>parameter </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00042">42</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00090">90</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -918,8 +1141,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>The selector for this test </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00057">57</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00114">114</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -938,8 +1162,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>Set the selector for this test </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00062">62</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00122">122</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -957,8 +1182,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>SetUp method that is called before each run. </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00049">49</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00100">100</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -976,8 +1202,9 @@
       </table>
 </div>
 <div class="memdoc">
+<p>TearDown method that is called after each run. </p>
 
-<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00053">53</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
+<p>Definition at line <a class="el" href="_o_j_test_case_8j_source.html#l00107">107</a> of file <a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a>.</p>
 
 </div>
 </div>
@@ -985,7 +1212,7 @@
 <li>Frameworks/OJUnit/<a class="el" href="_o_j_test_case_8j_source.html">OJTestCase.j</a></li>
 </ul>
 </div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Fri Feb 19 18:53:31 2010 for Objective-J Test API by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Sat Feb 20 02:20:16 2010 for Objective-J Test API by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>

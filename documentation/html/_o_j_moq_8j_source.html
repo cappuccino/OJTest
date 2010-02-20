@@ -167,71 +167,72 @@
 <a name="l00230"></a>00230         <span class="keywordflow">return</span> YES;
 <a name="l00231"></a>00231 }
 <a name="l00232"></a>00232 
-<a name="l00236"></a><a class="code" href="class_o_j_moq.html#a4e13948a5112d74fe003c367106f5378">00236</a> - (void)forwardInvocation:(<a class="code" href="class_c_p_invocation.html">CPInvocation</a>)anInvocation
-<a name="l00237"></a>00237 {               
-<a name="l00238"></a>00238         __ojmoq_incrementNumberOfCalls(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>);
-<a name="l00239"></a>00239         
-<a name="l00240"></a>00240         <span class="keywordflow">if</span>(_baseObject !== nil)
-<a name="l00241"></a>00241         {
-<a name="l00242"></a>00242             <span class="keywordflow">return</span> [anInvocation invokeWithTarget:_baseObject];
-<a name="l00243"></a>00243         }
-<a name="l00244"></a>00244         <span class="keywordflow">else</span>
-<a name="l00245"></a>00245         {
-<a name="l00246"></a>00246                 __ojmoq_setReturnValue(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>);
-<a name="l00247"></a>00247                 __ojmoq_startCallback(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>);
-<a name="l00248"></a>00248         }
-<a name="l00249"></a>00249 }
-<a name="l00250"></a>00250 
-<a name="l00254"></a><a class="code" href="class_o_j_moq.html#abf987dadcab0586c40d22333c4b2d158">00254</a> - (BOOL)respondsToSelector:(<span class="keywordtype">SEL</span>)aSelector
-<a name="l00255"></a>00255 {
-<a name="l00256"></a>00256     <span class="keywordflow">return</span> [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName(aSelector) 
-<a name="l00257"></a>00257             withArguments:[<a class="code" href="class_c_p_array.html">CPArray</a> array]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
-<a name="l00258"></a>00258 }
+<a name="l00233"></a>00233 <span class="comment">/* @ignore */</span>
+<a name="l00234"></a><a class="code" href="class_o_j_moq.html#a4e13948a5112d74fe003c367106f5378">00234</a> - (void)forwardInvocation:(<a class="code" href="class_c_p_invocation.html">CPInvocation</a>)anInvocation
+<a name="l00235"></a>00235 {               
+<a name="l00236"></a>00236         __ojmoq_incrementNumberOfCalls(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>);
+<a name="l00237"></a>00237         
+<a name="l00238"></a>00238         <span class="keywordflow">if</span>(_baseObject !== nil)
+<a name="l00239"></a>00239         {
+<a name="l00240"></a>00240             <span class="keywordflow">return</span> [anInvocation invokeWithTarget:_baseObject];
+<a name="l00241"></a>00241         }
+<a name="l00242"></a>00242         <span class="keywordflow">else</span>
+<a name="l00243"></a>00243         {
+<a name="l00244"></a>00244                 __ojmoq_setReturnValue(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>);
+<a name="l00245"></a>00245                 __ojmoq_startCallback(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>);
+<a name="l00246"></a>00246         }
+<a name="l00247"></a>00247 }
+<a name="l00248"></a>00248 
+<a name="l00252"></a><a class="code" href="class_o_j_moq.html#abf987dadcab0586c40d22333c4b2d158">00252</a> - (BOOL)respondsToSelector:(<span class="keywordtype">SEL</span>)aSelector
+<a name="l00253"></a>00253 {
+<a name="l00254"></a>00254     <span class="keywordflow">return</span> [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName(aSelector) 
+<a name="l00255"></a>00255             withArguments:[<a class="code" href="class_c_p_array.html">CPArray</a> array]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
+<a name="l00256"></a>00256 }
+<a name="l00257"></a>00257 
+<a name="l00258"></a>00258 <span class="keyword">@end</span>
 <a name="l00259"></a>00259 
-<a name="l00260"></a>00260 <span class="keyword">@end</span>
-<a name="l00261"></a>00261 
-<a name="l00262"></a>00262 function __ojmoq_incrementNumberOfCalls(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>)
-<a name="l00263"></a>00263 {
-<a name="l00264"></a>00264         var theSelector = [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector])
-<a name="l00265"></a>00265                 withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
-<a name="l00266"></a>00266         <span class="keywordflow">if</span>(theSelector)
-<a name="l00267"></a>00267         {
-<a name="l00268"></a>00268                 [theSelector call];
-<a name="l00269"></a>00269         }
-<a name="l00270"></a>00270         <span class="keywordflow">else</span>
-<a name="l00271"></a>00271         {
-<a name="l00272"></a>00272                 var aNewSelector = [[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector]) 
-<a name="l00273"></a>00273                         withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]];
-<a name="l00274"></a>00274                 [aNewSelector call];
-<a name="l00275"></a>00275                 [selectors addObject:aNewSelector];
-<a name="l00276"></a>00276         }
-<a name="l00277"></a>00277 }
-<a name="l00278"></a>00278 
-<a name="l00279"></a>00279 function __ojmoq_setReturnValue(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>)
-<a name="l00280"></a>00280 {
-<a name="l00281"></a>00281         var theSelector = [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector]) 
-<a name="l00282"></a>00282             withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
-<a name="l00283"></a>00283         <span class="keywordflow">if</span>(theSelector)
-<a name="l00284"></a>00284         {
-<a name="l00285"></a>00285                 [anInvocation setReturnValue:[theSelector returnValue]];
-<a name="l00286"></a>00286         }
-<a name="l00287"></a>00287         <span class="keywordflow">else</span>
-<a name="l00288"></a>00288         {
-<a name="l00289"></a>00289                 [anInvocation setReturnValue:[[CPObject alloc] init]];
-<a name="l00290"></a>00290         }
-<a name="l00291"></a>00291 }
-<a name="l00292"></a>00292 
-<a name="l00293"></a>00293 function __ojmoq_startCallback(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>)
-<a name="l00294"></a>00294 {
-<a name="l00295"></a>00295     var theSelector = [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector]) 
-<a name="l00296"></a>00296             withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
-<a name="l00297"></a>00297         <span class="keywordflow">if</span>(theSelector)
-<a name="l00298"></a>00298         {
-<a name="l00299"></a>00299                 [theSelector callback]([anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]);
-<a name="l00300"></a>00300         }
-<a name="l00301"></a>00301 }
+<a name="l00260"></a>00260 function __ojmoq_incrementNumberOfCalls(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>)
+<a name="l00261"></a>00261 {
+<a name="l00262"></a>00262         var theSelector = [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector])
+<a name="l00263"></a>00263                 withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
+<a name="l00264"></a>00264         <span class="keywordflow">if</span>(theSelector)
+<a name="l00265"></a>00265         {
+<a name="l00266"></a>00266                 [theSelector call];
+<a name="l00267"></a>00267         }
+<a name="l00268"></a>00268         <span class="keywordflow">else</span>
+<a name="l00269"></a>00269         {
+<a name="l00270"></a>00270                 var aNewSelector = [[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector]) 
+<a name="l00271"></a>00271                         withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]];
+<a name="l00272"></a>00272                 [aNewSelector call];
+<a name="l00273"></a>00273                 [selectors addObject:aNewSelector];
+<a name="l00274"></a>00274         }
+<a name="l00275"></a>00275 }
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277 function __ojmoq_setReturnValue(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>)
+<a name="l00278"></a>00278 {
+<a name="l00279"></a>00279         var theSelector = [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector]) 
+<a name="l00280"></a>00280             withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
+<a name="l00281"></a>00281         <span class="keywordflow">if</span>(theSelector)
+<a name="l00282"></a>00282         {
+<a name="l00283"></a>00283                 [anInvocation setReturnValue:[theSelector returnValue]];
+<a name="l00284"></a>00284         }
+<a name="l00285"></a>00285         <span class="keywordflow">else</span>
+<a name="l00286"></a>00286         {
+<a name="l00287"></a>00287                 [anInvocation setReturnValue:[[CPObject alloc] init]];
+<a name="l00288"></a>00288         }
+<a name="l00289"></a>00289 }
+<a name="l00290"></a>00290 
+<a name="l00291"></a>00291 function __ojmoq_startCallback(anInvocation, <a class="code" href="_o_j_moq_8j.html#a65a650ee5200b7802c3c3aa33c154e3a">selectors</a>)
+<a name="l00292"></a>00292 {
+<a name="l00293"></a>00293     var theSelector = [<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">find</a>:[[<a class="code" href="class_o_j_moq_selector.html">OJMoqSelector</a> alloc] initWithName:sel_getName([anInvocation selector]) 
+<a name="l00294"></a>00294             withArguments:[anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]] <a class="code" href="class_o_j_moq_selector.html#a6a4b58db0d08b7d112def918e39367a9">in</a>:selectors];
+<a name="l00295"></a>00295         <span class="keywordflow">if</span>(theSelector)
+<a name="l00296"></a>00296         {
+<a name="l00297"></a>00297                 [theSelector callback]([anInvocation <a class="code" href="class_c_p_invocation.html#a13f8db5f97c1d84e16da2b6e8ded960b">userArguments</a>]);
+<a name="l00298"></a>00298         }
+<a name="l00299"></a>00299 }
 </pre></div></div>
-<hr size="1"/><address style="text-align: right;"><small>Generated on Fri Feb 19 18:53:31 2010 for Objective-J Test API by&nbsp;
+<hr size="1"/><address style="text-align: right;"><small>Generated on Sat Feb 20 02:20:16 2010 for Objective-J Test API by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.1 </small></address>
 </body>
