@@ -17,6 +17,7 @@ SYSTEM = require("system");
 {
     files = new (require("jake").FileList)(@"Test/*.j");
     [self startWithArguments:files];
+    lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
     
     print("---------- STARTING LOOP ----------");
     print("In order to stop the tests, do Control-C in quick succession.");
@@ -34,22 +35,33 @@ SYSTEM = require("system");
     
     files = new (require("jake").FileList)(@"Test/*.j");
     [self startWithArguments:files];
+    lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
     
     [self loop];
 }
 
 - (CPString)nextTest:(CPArray)arguments
 {
+    if(arguments.length == 0)
+        return "";
+    
     var nextTest = require("file").absolute(arguments.shift());
     
-    var lastModification = require("file").mtime(nextTest);
+    if([self testHasBeenModified:nextTest])
+        return [self nextTest:arguments];
     
     return nextTest;
 }
 
+- (BOOL)testHasBeenModified:(CPString)test
+{
+    var lastModification = require("file").mtime(test);
+    return [lastModification compare:lastRunTime] < 0;
+}
+
 - (void)exit
 {
-    
+    // do nothing
 }
 
 @end

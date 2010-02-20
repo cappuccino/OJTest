@@ -41,6 +41,12 @@
     }
 
     var testCaseFile = [self nextTest:args];
+    
+    if(!testCaseFile || testCaseFile == "")
+    {
+        [self report];
+        return;
+    }
 
     var matches = testCaseFile.match(/([^\/]+)\.j$/);
 
