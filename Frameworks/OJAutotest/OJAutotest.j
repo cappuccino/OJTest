@@ -15,9 +15,7 @@ SYSTEM = require("system");
 
 - (void)start
 {
-    files = new (require("jake").FileList)(@"Test/*.j");
-    [self startWithArguments:files];
-    lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
+    [self runTests];
     
     print("---------- STARTING LOOP ----------");
     print("In order to stop the tests, do Control-C in quick succession.");
@@ -28,16 +26,30 @@ SYSTEM = require("system");
 - (void)loop
 {
     print("---------- WAITING FOR CHANGES ----------");
-    var waitStatus = OS.system("ojautotest-wait Test");
+    OS.system("ojautotest-wait Test");
     print("----------  CHANGES  DETECTED  ----------");
     
     OS.sleep(1);
     
-    files = new (require("jake").FileList)(@"Test/*.j");
-    [self startWithArguments:files];
-    lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
+    [self runTests];
     
     [self loop];
+}
+
+- (void)runTests
+{
+    [self startWithArguments:[self files]];
+    [self testsWereRun];
+}
+
+- (CPArray)files
+{
+    return new (require("jake").FileList)(@"Test/*.j");
+}
+
+- (void)testsWereRun
+{
+    lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
 }
 
 - (CPString)nextTest:(CPArray)arguments
