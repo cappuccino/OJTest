@@ -1,8 +1,8 @@
 @import <Foundation/Foundation.j>
-@import <OJUnit/OJTestCase.j>
-@import <OJUnit/OJTestSuite.j>
-@import <OJUnit/OJTestResult.j>
-@import <OJUnit/OJTestListenerText.j>
+@import "OJTestCase.j"
+@import "OJTestSuite.j"
+@import "OJTestResult.j"
+@import "OJTestListenerText.j"
 
 @implementation OJTestRunnerText : CPObject
 {
@@ -40,7 +40,7 @@
         return;
     }
 
-    var testCaseFile = require("file").absolute(args.shift());
+    var testCaseFile = [self nextTest:args];
 
     var matches = testCaseFile.match(/([^\/]+)\.j$/);
 
@@ -53,9 +53,14 @@
 
     [self run:suite];
     system.stderr.write("\n").flush();
-
+    
     // run the next test when this is done
     [self startWithArguments:args];
+}
+
+- (CPString)nextTest:(CPArray)arguments
+{
+    return require("file").absolute(arguments.shift());
 }
 
 - (OJTestResult)run:(OJTest)suite wait:(BOOL)wait
@@ -93,6 +98,11 @@
 
     CPLog.fatal("Test suite failed with "+[[_listener errors] count]+" errors and "+[[_listener failures] count]+" failures.");
     
+    [self exit];
+}
+
+- (void)exit
+{
     require("os").exit(1);
 }
 
