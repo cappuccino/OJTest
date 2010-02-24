@@ -30,11 +30,11 @@ var stream = require("term").stream;
 
         if(isDirty === "true") // because isDirty needs to be coerce. UGH.
         {
-            [self growlWithMessage:@"Dirty tests passed!", "OJAutotest Success!", SUCCESS_IMAGE];
+            [self growlWithMessage:@"Dirty tests passed!" title:"OJAutotest Success!" image:SUCCESS_IMAGE];
         }
         else
         {
-            [self growlWithMessage:@"All tests passed!", "OJAutotest Success!", SUCCESS_IMAGE];
+            [self growlWithMessage:@"All tests passed!" title:"OJAutotest Success!" image:SUCCESS_IMAGE];
         }
         
         stream.print("\0green(All tests passed in the test suite.\0)");
