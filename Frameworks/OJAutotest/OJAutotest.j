@@ -8,6 +8,7 @@ OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks",
 {
     CPArray         testsAlreadyRun;
     CPDate          lastRunTime;
+    BOOL            isDirty;
 }
 
 + (void)start
@@ -41,7 +42,20 @@ OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks",
 - (void)runTests
 {
     var tests = [self testsOfFiles:[self files]];
-    OS.system([OJAUTOTEST_RUNNER].concat(tests));
+    var runnerResult = OS.system([OJAUTOTEST_RUNNER].concat(tests));
+    
+    if(runnerResult == 0)
+    {
+        if(isDirty)
+        {
+            OS.system([OJAUTOTEST_RUNNER].concat([self files].items()));
+        }
+    }
+    else
+    {
+        isDirty = true;
+    }
+    
     [self testsWereRun];
 }
 
