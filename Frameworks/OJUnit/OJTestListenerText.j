@@ -1,5 +1,7 @@
 @import <Foundation/Foundation.j>
 
+stream = require("term").stream;
+
 function convertRhinoBacktrace(javaException) {
     var s = new Packages.java.io.StringWriter();
     javaException.printStackTrace(new Packages.java.io.PrintWriter(s));
@@ -38,10 +40,13 @@ function getBacktrace(e) {
 - (void)addError:(CPException)anException forTest:(OJTest)aTest
 {
     _errors.push(anException);
-    CPLog.error("addError  test="+[aTest description]+" error="+anException);
+    
+    stream.print("\n\0red(addError test="+[aTest description]+" error="+anException+"\0)");
     var backTrace = getBacktrace(anException);
-    if (backTrace)
+    if (backTrace) {
         CPLog.error(backTrace);
+        stream.print(backTrace);
+    }
 }
 
 - (CPArray)errors
@@ -52,7 +57,7 @@ function getBacktrace(e) {
 - (void)addFailure:(CPException)anException forTest:(OJTest)aTest
 {
     _failures.push(anException);
-    CPLog.warn("addFailure test="+[aTest description]+" failure="+anException);
+    stream.print("\n\0yellow(addFailure test="+[aTest description]+" failure="+anException+"\0)");
     var backTrace = getBacktrace(anException);
     if (backTrace)
         CPLog.warn(backTrace);
