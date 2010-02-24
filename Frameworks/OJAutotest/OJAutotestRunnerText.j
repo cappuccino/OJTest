@@ -5,7 +5,9 @@
 var SYSTEM = require("system");
 var OS = require("os");
 var FILE = require("file");
-var GROWLER_SCRIPT_OPTIONS = "-w -n OJAutotest -p 0 -m '%@' '%@' '' &";
+var GROWLER_SCRIPT_OPTIONS = "-w -n OJAutotest -p 0 --image '%@' -m '%@' '%@' '' &";
+var ERROR_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "error.png");
+var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "success.png");
 
 var stream = require("term").stream;
 
@@ -16,7 +18,7 @@ var stream = require("term").stream;
     var totalErrors = [[_listener errors] count] + [[_listener failures] count];
 
     if (!totalErrors) {
-        var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, "All tests passed!", "OJAutotest Success!"];
+        var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "All tests passed!", "OJAutotest Success!"];
         var growlCommand = "ojautotest-growl " + growlArguments;
         OS.system(growlCommand+growlArguments);
         
@@ -24,7 +26,7 @@ var stream = require("term").stream;
         return CPLog.info("End of all tests.");
     }
     
-    var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, totalErrors+" failures!", "OJAutotest Failed!"];
+    var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, ERROR_IMAGE, totalErrors+" failures!", "OJAutotest Failed!"];
     var growlCommand = "ojautotest-growl " + growlArguments;
     OS.system(growlCommand+growlArguments);
 
