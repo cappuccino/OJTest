@@ -18,6 +18,7 @@ OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks",
 
 - (void)start
 {
+    isDirty = NO;
     [self runTests];
     
     print("---------- STARTING LOOP ----------");
@@ -42,20 +43,26 @@ OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks",
 - (void)runTests
 {
     var tests = [self testsOfFiles:[self files]];
-    var runnerResult = OS.system([OJAUTOTEST_RUNNER].concat(tests));
-    
+    var runnerResult = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
+    print(runnerResult);
     if(runnerResult == 0)
     {
         if(isDirty)
         {
-            OS.system([OJAUTOTEST_RUNNER].concat([self files].items()));
+            isDirty = NO;
+            var allTestRun = OS.system([OJAUTOTEST_RUNNER, isDirty].concat([self files].items()));
+            
+            if(allTestRun !== 0)
+            {
+                isDirty = YES;
+            }
         }
     }
     else
     {
-        isDirty = true;
+        isDirty = YES;
     }
-    
+
     [self testsWereRun];
 }
 

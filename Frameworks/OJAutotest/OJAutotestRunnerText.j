@@ -12,15 +12,34 @@ var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "su
 var stream = require("term").stream;
 
 @implementation OJAutotestRunnerText : OJTestRunnerText
+{
+    BOOL        isDirty;
+}
+
+- (void)startWithArguments:arguments withDirty:(BOOL)shouldSetDirty
+{
+    isDirty = shouldSetDirty;
+    [self startWithArguments:arguments];
+}
 
 - (void)report
 {
     var totalErrors = [[_listener errors] count] + [[_listener failures] count];
 
     if (!totalErrors) {
-        var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "All tests passed!", "OJAutotest Success!"];
-        var growlCommand = "ojautotest-growl " + growlArguments;
-        OS.system(growlCommand+growlArguments);
+        print(isDirty);
+        if(isDirty === "true") // because isDirty needs to be coerce. UGH.
+        {
+            var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "Dirty tests passed!", "OJAutotest Success!"];
+            var growlCommand = "ojautotest-growl " + growlArguments;
+            OS.system(growlCommand+growlArguments);
+        }
+        else
+        {
+            var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "All tests passed!", "OJAutotest Success!"];
+            var growlCommand = "ojautotest-growl " + growlArguments;
+            OS.system(growlCommand+growlArguments);
+        }
         
         stream.print("\0green(All tests passed in the test suite.\0)");
         return CPLog.info("End of all tests.");
@@ -40,6 +59,7 @@ var stream = require("term").stream;
 @end
 
 function main(args) {
+    print(args[1]);
     runner = [[OJAutotestRunnerText alloc] init];
-    [runner startWithArguments:args.slice(1)];
+    [runner startWithArguments:args.slice(2) withDirty:args[1]];
 }
