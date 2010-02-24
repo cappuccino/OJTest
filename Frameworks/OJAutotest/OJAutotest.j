@@ -44,7 +44,7 @@ OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks",
 {
     var tests = [self testsOfFiles:[self files]];
     var runnerResult = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
-    print(runnerResult);
+
     if(runnerResult == 0)
     {
         if(isDirty)

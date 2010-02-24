@@ -27,7 +27,7 @@ var stream = require("term").stream;
     var totalErrors = [[_listener errors] count] + [[_listener failures] count];
 
     if (!totalErrors) {
-        print(isDirty);
+
         if(isDirty === "true") // because isDirty needs to be coerce. UGH.
         {
             var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "Dirty tests passed!", "OJAutotest Success!"];
@@ -59,7 +59,7 @@ var stream = require("term").stream;
 @end
 
 function main(args) {
-    print(args[1]);
+
     runner = [[OJAutotestRunnerText alloc] init];
     [runner startWithArguments:args.slice(2) withDirty:args[1]];
 }
