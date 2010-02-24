@@ -1,6 +1,7 @@
 #!/usr/bin/env objj
 
 @import <OJAutotest/OJAutotest.j>
+CPLogRegister(CPLogPrint, "warn");
 
 function main(args) {
     [OJAutotest start];

@@ -1,6 +1,7 @@
 @import "../OJUnit/OJTestRunnerText.j"
 OS = require("os");
 SYSTEM = require("system");
+FILE = require("file");
 
 @implementation OJAutotest : OJTestRunnerText
 {
@@ -38,11 +39,12 @@ SYSTEM = require("system");
 
 - (void)runTests
 {
-    [self startWithArguments:[self files]];
+    var tests = [self testsOfFiles:[self files]];
+    OS.system(["ojtest"].concat(tests));
     [self testsWereRun];
 }
 
-- (CPArray)files
+- (FileList)files
 {
     return new (require("jake").FileList)(@"Test/*.j");
 }
@@ -52,28 +54,29 @@ SYSTEM = require("system");
     lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
 }
 
-- (CPString)nextTest:(CPArray)arguments
+- (CPString)testsOfFiles:(FileList)someFileList
 {
-    if(arguments.length == 0)
-        return "";
+    var result = [CPArray array];
+    var files = someFileList.items();
     
-    var nextTest = require("file").absolute(arguments.shift());
+    if([files count] == 0)
+        return result;
+        
+    for(var i = 0; i < [files count]; i++)
+    {
+        var nextTest = FILE.absolute([files objectAtIndex:i]);
     
-    if([self testHasBeenModified:nextTest])
-        return [self nextTest:arguments];
+        if([self testHasBeenModified:nextTest])
+            [result addObject:nextTest];
+    }
     
-    return nextTest;
+    return result;
 }
 
 - (BOOL)testHasBeenModified:(CPString)test
 {
-    var lastModification = require("file").mtime(test);
-    return [lastModification compare:lastRunTime] < 0;
-}
-
-- (void)exit
-{
-    // do nothing
+    var lastModification = FILE.mtime(test);
+    return [lastModification compare:lastRunTime] > 0;
 }
 
 @end

@@ -4,6 +4,8 @@
 @import "OJTestResult.j"
 @import "OJTestListenerText.j"
 
+var stream = require("term").stream;
+
 @implementation OJTestRunnerText : CPObject
 {
     OJTestListener _listener;
@@ -99,10 +101,14 @@
 {
     var totalErrors = [[_listener errors] count] + [[_listener failures] count];
 
-    if (!totalErrors)
+    if (!totalErrors) {
+        stream.print("\0green(All tests passed in the test suite.\0)");
         return CPLog.info("End of all tests.");
+    }
 
-    CPLog.fatal("Test suite failed with "+[[_listener errors] count]+" errors and "+[[_listener failures] count]+" failures.");
+    stream.print("Test suite failed with \0red(" + [[_listener errors] count] + 
+        " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
+    CPLog.info("Test suite failed with "+[[_listener errors] count]+" errors and "+[[_listener failures] count]+" failures.");
     
     [self exit];
 }
