@@ -30,30 +30,30 @@ var stream = require("term").stream;
 
         if(isDirty === "true") // because isDirty needs to be coerce. UGH.
         {
-            var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "Dirty tests passed!", "OJAutotest Success!"];
-            var growlCommand = "ojautotest-growl " + growlArguments;
-            OS.system(growlCommand+growlArguments);
+            [self growlWithMessage:@"Dirty tests passed!", "OJAutotest Success!", SUCCESS_IMAGE];
         }
         else
         {
-            var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, SUCCESS_IMAGE, "All tests passed!", "OJAutotest Success!"];
-            var growlCommand = "ojautotest-growl " + growlArguments;
-            OS.system(growlCommand+growlArguments);
+            [self growlWithMessage:@"All tests passed!", "OJAutotest Success!", SUCCESS_IMAGE];
         }
         
         stream.print("\0green(All tests passed in the test suite.\0)");
         return CPLog.info("End of all tests.");
     }
     
-    var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, ERROR_IMAGE, totalErrors+" failures!", "OJAutotest Failed!"];
-    var growlCommand = "ojautotest-growl " + growlArguments;
-    OS.system(growlCommand+growlArguments);
+    [self growlWithMessage:totalErrors+" failures!", "OJAutotest Failed!", ERROR_IMAGE];
 
     stream.print("Test suite failed with \0red(" + [[_listener errors] count] + 
         " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
-    CPLog.info("Test suite failed with "+[[_listener errors] count]+" errors and "+[[_listener failures] count]+" failures.");
     
     [self exit];
+}
+
+- (void)growlWithMessage:(CPString)message title:(CPString)title image:(CPString)image
+{
+    var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, image, message, title];
+    var growlCommand = "ojautotest-growl " + growlArguments;
+    OS.system(growlCommand+growlArguments);
 }
 
 @end
