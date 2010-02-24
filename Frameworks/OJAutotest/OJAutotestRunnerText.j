@@ -41,7 +41,7 @@ var stream = require("term").stream;
         return CPLog.info("End of all tests.");
     }
     
-    [self growlWithMessage:totalErrors+" failures!", "OJAutotest Failed!", ERROR_IMAGE];
+    [self growlWithMessage:totalErrors+" failures!" title:"OJAutotest Failed!" image:ERROR_IMAGE];
 
     stream.print("Test suite failed with \0red(" + [[_listener errors] count] + 
         " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
