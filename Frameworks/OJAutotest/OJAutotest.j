@@ -2,6 +2,7 @@
 OS = require("os");
 SYSTEM = require("system");
 FILE = require("file");
+OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks", "OJAutotest", "OJAutotestRunnerText.j");
 
 @implementation OJAutotest : OJTestRunnerText
 {
@@ -40,7 +41,7 @@ FILE = require("file");
 - (void)runTests
 {
     var tests = [self testsOfFiles:[self files]];
-    OS.system(["ojtest"].concat(tests));
+    OS.system([OJAUTOTEST_RUNNER].concat(tests));
     [self testsWereRun];
 }
 

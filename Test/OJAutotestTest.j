@@ -4,7 +4,8 @@
 
 - (void)testThatOJAutotestDoesInitialize
 {
-    [[[B alloc] init] go];
+    var autotest = [[OJAutotest alloc] init];
+    [self assertNotNull:autotest];
 }
 
 @end
