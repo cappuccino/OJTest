@@ -233,9 +233,10 @@ function moq(baseObject)
 /* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
 {		
+    var selector = __ojmoq_createSelector(anInvocation, selectors);
 	__ojmoq_incrementNumberOfCalls(anInvocation, selectors);
 	
-	if(_baseObject !== nil)
+	if(_baseObject !== nil && !selector)
 	{
 	    return [anInvocation invokeWithTarget:_baseObject];
 	}
@@ -257,6 +258,12 @@ function moq(baseObject)
 
 @end
 
+function __ojmoq_createSelector(anInvocation, selectors)
+{
+    return [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector])
+	    withArguments:[anInvocation userArguments]] in:selectors];
+}
+
 function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 {
 	var theSelector = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector])
@@ -265,13 +272,13 @@ function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 	{
 		[theSelector call];
 	}
-	else
-	{
-		var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
-			withArguments:[anInvocation userArguments]];
-		[aNewSelector call];
-		[selectors addObject:aNewSelector];
-	}
+    else
+    {
+        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
+            withArguments:[anInvocation userArguments]];
+        [aNewSelector call];
+        [selectors addObject:aNewSelector];
+    }
 }
 
 function __ojmoq_setReturnValue(anInvocation, selectors)

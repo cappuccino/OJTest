@@ -224,6 +224,33 @@
     [self assert:"BOB" equals:result];
 }
 
+- (void)testThatOJMoqDoesMockSelectorOnSpy
+{
+    var anObject = @"Test";
+    var aMock = moq(anObject);
+    var called = NO;
+    
+    [aMock selector:@selector(isEqualToString:) callback:function(args){called = YES;}];
+    
+    [aMock isEqualToString:@"BOB"];
+    
+    [self assertTrue:called];
+}
+
+- (void)testThatOJMoqDoesMockSelectorOnSpyTwice
+{
+    var anObject = @"Test";
+    var aMock = moq(anObject);
+    var called = 0;
+
+    [aMock selector:@selector(isEqualToString:) callback:function(args){called++;}];
+
+    [aMock isEqualToString:@"BOB"];
+    [aMock isEqualToString:@"BOB"];
+
+    [self assert:2 equals:called];
+}
+
 // Adding these because ojtest does not have them. Should eventually
 // do a pull request for these.
 - (void)assert:(id)expected notEqual:(id)actual
