@@ -12,7 +12,7 @@ Frameworks
 Tools
 =====
 
-_None currently available._
+* OJAutotest - an tool to automatically test your Cappuccino application when you make changes
 
 Contributors
 ============

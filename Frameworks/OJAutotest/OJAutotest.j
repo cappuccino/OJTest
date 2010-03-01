@@ -2,8 +2,13 @@
 OS = require("os");
 SYSTEM = require("system");
 FILE = require("file");
+
 OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks", "OJAutotest", "OJAutotestRunnerText.j");
 
+/*!
+   A test runner that automatically detects changes and runs relevant tests. In order to use this,
+   you should be using the ojautotest script located at $NARWHAL_HOME/bin/ojautotest.
+ */
 @implementation OJAutotest : OJTestRunnerText
 {
     CPArray         testsAlreadyRun;

@@ -5,12 +5,17 @@
 var SYSTEM = require("system");
 var OS = require("os");
 var FILE = require("file");
+
 var GROWLER_SCRIPT_OPTIONS = "-w -n OJAutotest -p 0 --image '%@' -m '%@' '%@' '' &";
 var ERROR_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "error.png");
 var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "success.png");
 
 var stream = require("term").stream;
 
+/*!
+   This is a subclass of OJTestRunnerText that provides growl functionality along with some
+   other pertinent information in the context of OJAutotest.
+ */
 @implementation OJAutotestRunnerText : OJTestRunnerText
 {
     BOOL        isDirty;
