@@ -233,7 +233,7 @@ function moq(baseObject)
 /* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
 {		
-    var selector = __ojmoq_createSelectorFromInvocation(anInvocation, selectors);
+    var selector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
 	__ojmoq_incrementNumberOfCalls(anInvocation, selectors);
 	
 	if(_baseObject !== nil && !selector)
@@ -263,14 +263,14 @@ function __ojmoq_findSelector(selector, selectorArguments, selectors)
         withArguments:selectorArguments] in:selectors];
 }
 
-function __ojmoq_createSelectorFromInvocation(anInvocation, selectors)
+function __ojmoq_findSelectorFromInvocation(anInvocation, selectors)
 {
     return __ojmoq_findSelector([anInvocation selector], [anInvocation userArguments], selectors);
 }
 
 function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 {
-	var theSelector = __ojmoq_createSelectorFromInvocation(anInvocation, selectors);
+	var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
 	if(theSelector)
 	{
 		[theSelector call];
@@ -286,7 +286,7 @@ function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 
 function __ojmoq_setReturnValue(anInvocation, selectors)
 {
-    var theSelector = __ojmoq_createSelectorFromInvocation(anInvocation, selectors);
+    var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
 	if(theSelector)
 	{
 		[anInvocation setReturnValue:[theSelector returnValue]];
@@ -299,7 +299,7 @@ function __ojmoq_setReturnValue(anInvocation, selectors)
 
 function __ojmoq_startCallback(anInvocation, selectors)
 {
-    var theSelector = __ojmoq_createSelectorFromInvocation(anInvocation, selectors);
+    var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
 	if(theSelector)
 	{
 		[theSelector callback]([anInvocation userArguments]);
