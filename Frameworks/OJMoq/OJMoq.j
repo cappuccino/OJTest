@@ -266,8 +266,7 @@ function __ojmoq_createSelector(anInvocation, selectors)
 
 function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 {
-	var theSelector = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector])
-		withArguments:[anInvocation userArguments]] in:selectors];
+	var theSelector = __ojmoq_createSelector(anInvocation, selectors);
 	if(theSelector)
 	{
 		[theSelector call];
@@ -283,8 +282,7 @@ function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 
 function __ojmoq_setReturnValue(anInvocation, selectors)
 {
-	var theSelector = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
-	    withArguments:[anInvocation userArguments]] in:selectors];
+    var theSelector = __ojmoq_createSelector(anInvocation, selectors);
 	if(theSelector)
 	{
 		[anInvocation setReturnValue:[theSelector returnValue]];
@@ -297,8 +295,7 @@ function __ojmoq_setReturnValue(anInvocation, selectors)
 
 function __ojmoq_startCallback(anInvocation, selectors)
 {
-    var theSelector = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
-	    withArguments:[anInvocation userArguments]] in:selectors];
+    var theSelector = __ojmoq_createSelector(anInvocation, selectors);
 	if(theSelector)
 	{
 		[theSelector callback]([anInvocation userArguments]);
