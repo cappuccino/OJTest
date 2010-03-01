@@ -21,3 +21,5 @@ Contributors
 * Tom Robinson
 * Ross Boucher
 * Martin Hacker
+* Jared Santo
+* Chandler Kent
