@@ -106,7 +106,7 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)arguments   
 {
-    var theSelector = __ojmoq_createSelector(aSelector, arguments, selectors);
+    var theSelector = __ojmoq_findSelector(aSelector, arguments, selectors);
     if(theSelector)
     {
     	var expectationFunction = function(){[OJMoqAssert selector:theSelector hasBeenCalled:times];};
@@ -154,7 +154,7 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)aSelector returns:(CPObject)value arguments:(CPArray)arguments
 {
-    var theSelector = __ojmoq_createSelector(aSelector, arguments, selectors);
+    var theSelector = __ojmoq_findSelector(aSelector, arguments, selectors);
 	if(theSelector)
 	{
 		[theSelector setReturnValue:value];
@@ -190,7 +190,7 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)aSelector callback:(Function)aCallback arguments:(CPArray)arguments
 {
-    var theSelector = __ojmoq_createSelector(aSelector, arguments, selectors);
+    var theSelector = __ojmoq_findSelector(aSelector, arguments, selectors);
     
     if(theSelector)
     {
@@ -252,12 +252,12 @@ function moq(baseObject)
  */
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-    return __ojmoq_createSelector(aSelector, [CPArray array], selectors);
+    return __ojmoq_findSelector(aSelector, [CPArray array], selectors);
 }
 
 @end
 
-function __ojmoq_createSelector(selector, selectorArguments, selectors)
+function __ojmoq_findSelector(selector, selectorArguments, selectors)
 {
     return [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName(selector)
         withArguments:selectorArguments] in:selectors];
@@ -265,7 +265,7 @@ function __ojmoq_createSelector(selector, selectorArguments, selectors)
 
 function __ojmoq_createSelectorFromInvocation(anInvocation, selectors)
 {
-    return __ojmoq_createSelector([anInvocation selector], [anInvocation userArguments], selectors);
+    return __ojmoq_findSelector([anInvocation selector], [anInvocation userArguments], selectors);
 }
 
 function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
