@@ -1,0 +1,8 @@
+#!/usr/bin/env objj
+
+@import <OJAutotest/OJAutotestRunnerText.j>
+
+function main(args) {
+    runner = [[OJAutotestRunnerText alloc] init];
+    [runner startWithArguments:args.slice(2) withDirty:args[1]];
+}

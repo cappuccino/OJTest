@@ -4,10 +4,10 @@
 CPLogRegister(CPLogPrint, "warn");
 
 function main(args) {
-    if(system.os != "darwin") {
-        print("OJAutotest is currently not supported on non-Mac operating systems.")
-        require("os").exit(1);
+    if(system.os.match(/darwin/) || system.os.match(/Mac OS X/)) {
+        return [OJAutotest start];
     }
     
-    [OJAutotest start];
+    print("OJAutotest is currently not supported on non-Mac operating systems.")
+    require("os").exit(1);
 }

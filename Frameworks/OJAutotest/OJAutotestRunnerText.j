@@ -1,5 +1,3 @@
-#!/usr/bin/env objj
-
 @import <OJUnit/OJTestRunnerText.j>
 
 var SYSTEM = require("system");
@@ -62,9 +60,3 @@ var stream = require("term").stream;
 }
 
 @end
-
-function main(args) {
-
-    runner = [[OJAutotestRunnerText alloc] init];
-    [runner startWithArguments:args.slice(2) withDirty:args[1]];
-}

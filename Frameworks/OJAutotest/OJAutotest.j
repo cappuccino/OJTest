@@ -3,7 +3,7 @@ OS = require("os");
 SYSTEM = require("system");
 FILE = require("file");
 
-OJAUTOTEST_RUNNER = FILE.join(SYSTEM.prefix, "packages", "ojtest", "Frameworks", "OJAutotest", "OJAutotestRunnerText.j");
+OJAUTOTEST_RUNNER = "ojautotest-run";
 
 /*!
    A test runner that automatically detects changes and runs relevant tests. In order to use this,
