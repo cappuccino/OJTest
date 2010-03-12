@@ -1,24 +1,31 @@
 #!/usr/bin/env objj
 
 @import <OJAutotest/OJAutotest.j>
-CPLogRegister(CPLogPrint, "warn");
-File = require("file");
+var File = require("file");
 
-OPTIONS_FILENAME = ".ojautotest";
+CPLogRegister(CPLogPrint, "warn");
+
+var OPTIONS_FILENAME = ".ojautotest";
 
 function main(args) {
-    if(system.os.match(/darwin/) || system.os.match(/Mac OS X/)) {
-        if(File.isFile(OPTIONS_FILENAME))
-        {
-            var options = JSON.parse(readFile(OPTIONS_FILENAME));
-            return [OJAutotest startWithWatchedLocations:options.watch];
-        }
-        
-        return [OJAutotest startWithWatchedLocations:["Test"]];
+    if (isSystemSupported()) {
+        var options = readConfigurationFile();
+        return [OJAutotest startWithWatchedLocations:options.watch];
     }
     
     print("OJAutotest is currently not supported on non-Mac operating systems.")
     require("os").exit(1);
+}
+
+function readConfigurationFile()
+{
+    if (File.isFile(OPTIONS_FILENAME))
+    {
+        var options = JSON.parse(readFile(OPTIONS_FILENAME));
+        return options;
+    }
+    
+    return {"watch": ["Test"]};
 }
 
 function readFile(fileName)
@@ -32,6 +39,13 @@ function readFile(fileName)
     catch (e)
     {
         CPLog.error("Error reading file: " + filePath);
+        throw e;
         require("os").exit(1);
     }
+}
+
+function isSystemSupported()
+{
+    var System = require("system");
+    return (System.os.match(/darwin/) || System.os.match(/Mac OS X/));
 }

@@ -1,9 +1,9 @@
-@import "../OJUnit/OJTestRunnerText.j"
-OS = require("os");
-SYSTEM = require("system");
-FILE = require("file");
+@import <OJUnit/OJTestRunnerText.j>
 
-OJAUTOTEST_RUNNER = "ojautotest-run";
+var OS = require("os");
+var FILE = require("file");
+
+var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 /*!
    A test runner that automatically detects changes and runs relevant tests. In order to use this,
@@ -29,8 +29,7 @@ OJAUTOTEST_RUNNER = "ojautotest-run";
     [self runTests];
     
     print("---------- STARTING LOOP ----------");
-    print("In order to stop the tests, do Control-C in quick succession.");
-    
+    print("In order to stop the tests, do Control-C twice in quick succession.");
     [self loop];
 }
 
@@ -43,7 +42,6 @@ OJAUTOTEST_RUNNER = "ojautotest-run";
     OS.sleep(1);
     
     [self runTests];
-    
     [self loop];
 }
 

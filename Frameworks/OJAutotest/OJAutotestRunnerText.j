@@ -3,12 +3,12 @@
 var SYSTEM = require("system");
 var OS = require("os");
 var FILE = require("file");
+var STREAM = require("term").stream;
 
 var GROWLER_SCRIPT_OPTIONS = "-w -n OJAutotest -p 0 --image '%@' -m '%@' '%@' '' &";
 var ERROR_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "error.png");
 var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "success.png");
 
-var stream = require("term").stream;
 
 /*!
    This is a subclass of OJTestRunnerText that provides growl functionality along with some
@@ -31,7 +31,7 @@ var stream = require("term").stream;
 
     if (!totalErrors) {
 
-        if(isDirty === "true") // because isDirty needs to be coerce. UGH.
+        if(isDirty === "true") // because isDirty needs to be coerced. UGH.
         {
             [self growlWithMessage:@"Dirty tests passed!" title:"OJAutotest Success!" image:SUCCESS_IMAGE];
         }
@@ -40,13 +40,13 @@ var stream = require("term").stream;
             [self growlWithMessage:@"All tests passed!" title:"OJAutotest Success!" image:SUCCESS_IMAGE];
         }
         
-        stream.print("\0green(All tests passed in the test suite.\0)");
+        STREAM.print("\0green(All tests passed in the test suite.\0)");
         return CPLog.info("End of all tests.");
     }
     
     [self growlWithMessage:totalErrors+" failures!" title:"OJAutotest Failed!" image:ERROR_IMAGE];
 
-    stream.print("Test suite failed with \0red(" + [[_listener errors] count] + 
+    STREAM.print("Test suite failed with \0red(" + [[_listener errors] count] + 
         " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
     
     [self exit];
