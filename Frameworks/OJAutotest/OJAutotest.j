@@ -75,7 +75,17 @@ OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (FileList)files
 {
-    return new (require("jake").FileList)(@"Test/*.j");
+    var result = [];
+    
+    for(var i = 0; i < [watchedLocations count]; i++)
+    {
+        var items = new (require("jake").FileList)(watchedLocations[i] + "/*.j").items();
+        
+        for(var j = 0; j < [items count]; j++)
+            result.push( items[j] );
+    }
+    
+    return result;
 }
 
 - (void)testsWereRun
@@ -83,23 +93,39 @@ OJAUTOTEST_RUNNER = "ojautotest-run";
     lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
 }
 
-- (CPString)testsOfFiles:(FileList)someFileList
+- (CPString)testsOfFiles:(CPArray)files
 {
     var result = [CPArray array];
-    var files = someFileList.items();
     
     if([files count] == 0)
         return result;
         
     for(var i = 0; i < [files count]; i++)
     {
-        var nextTest = FILE.absolute([files objectAtIndex:i]);
+        var nextFile = FILE.absolute([files objectAtIndex:i]);
     
-        if([self testHasBeenModified:nextTest])
-            [result addObject:nextTest];
+        if([self isTest:nextFile] && [self testHasBeenModified:nextFile] && ![result containsObject:nextFile])
+            [result addObject:nextFile];
+        else if(![self isTest:nextFile] && [self testForFileHasBeenModified:nextFile] && ![result containsObject:[self testForFile:nextFile]])
+            [result addObject:[self testForFile:nextFile]];
     }
     
     return result;
+}
+
+- (BOOL)isTest:(CPString)fileName
+{
+    return [fileName hasSuffix:@"Test.j"];
+}
+
+- (BOOL)testForFileHasBeenModified:(CPString)file
+{
+    return FILE.isFile([self testForFile:file]) && [self testHasBeenModified:file];
+}
+
+- (CPString)testForFile:(CPString)file
+{
+    return FILE.absolute("Test/"+[[file lastPathComponent] substringToIndex:[[file lastPathComponent] length]-2]+"Test.j");
 }
 
 - (BOOL)testHasBeenModified:(CPString)test

@@ -3,6 +3,11 @@
 @import <OJAutotest/OJAutotestRunnerText.j>
 
 function main(args) {
+    if([args count] < 3) {
+        print("There were no tests to run!");
+        require("os").exit(0);
+    }
+
     runner = [[OJAutotestRunnerText alloc] init];
     [runner startWithArguments:args.slice(2) withDirty:args[1]];
 }
