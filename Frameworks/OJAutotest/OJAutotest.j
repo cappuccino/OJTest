@@ -11,18 +11,20 @@ OJAUTOTEST_RUNNER = "ojautotest-run";
  */
 @implementation OJAutotest : OJTestRunnerText
 {
+    CPArray         watchedLocations;
     CPArray         testsAlreadyRun;
     CPDate          lastRunTime;
     BOOL            isDirty;
 }
 
-+ (void)start
++ (void)startWithWatchedLocations:(CPArray)locations
 {
-    [[[self alloc] init] start];
+    [[[self alloc] init] startWithWatchedLocations:locations];
 }
 
-- (void)start
+- (void)startWithWatchedLocations:(CPArray)locations
 {
+    watchedLocations = locations;
     isDirty = NO;
     [self runTests];
     
@@ -35,7 +37,7 @@ OJAUTOTEST_RUNNER = "ojautotest-run";
 - (void)loop
 {
     print("---------- WAITING FOR CHANGES ----------");
-    OS.system("ojautotest-wait Test");
+    OS.system("ojautotest-wait " + watchedLocations.join(" "));
     print("----------  CHANGES  DETECTED  ----------");
     
     OS.sleep(1);

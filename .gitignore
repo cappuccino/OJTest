@@ -1,2 +1,6 @@
 documentation/xml
 debug.txt
+.ojautotest
+*.xcodeproj
+build
+*.1

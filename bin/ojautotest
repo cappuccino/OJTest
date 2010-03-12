@@ -2,12 +2,36 @@
 
 @import <OJAutotest/OJAutotest.j>
 CPLogRegister(CPLogPrint, "warn");
+File = require("file");
+
+OPTIONS_FILENAME = ".ojautotest";
 
 function main(args) {
     if(system.os.match(/darwin/) || system.os.match(/Mac OS X/)) {
-        return [OJAutotest start];
+        if(File.isFile(OPTIONS_FILENAME))
+        {
+            var options = JSON.parse(readFile(OPTIONS_FILENAME));
+            return [OJAutotest startWithWatchedLocations:options.watch];
+        }
+        
+        return [OJAutotest startWithWatchedLocations:["Test"]];
     }
     
     print("OJAutotest is currently not supported on non-Mac operating systems.")
     require("os").exit(1);
+}
+
+function readFile(fileName)
+{
+    try
+    {
+        var filePath = File.absolute(fileName);
+        fileBytes = File.read(filePath);
+        return fileBytes;
+    }
+    catch (e)
+    {
+        CPLog.error("Error reading file: " + filePath);
+        require("os").exit(1);
+    }
 }

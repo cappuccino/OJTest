@@ -1,4 +1,5 @@
 #include <CoreServices/CoreServices.h>
+#import <Foundation/Foundation.h>
 
 static void callback(ConstFSEventStreamRef streamRef,
 					 void *clientCallBackInfo,
@@ -11,23 +12,22 @@ static void callback(ConstFSEventStreamRef streamRef,
 
 int main (int argc, const char * argv[]) {
 	// Show help
-	if (argc != 2 || strncmp(argv[1], "-h", 2) == 0) {
+	if (argc < 2 || strncmp(argv[1], "-h", 2) == 0) {
 		printf("Sleep until a file in or below the watchdir is modified.\n");
 		printf("Usage: fsevent_sleep /path/to/watchdir\n");
 		exit(1);
 	}
 	
-	// Create event stream
-	CFStringRef pathToWatch = CFStringCreateWithCString(kCFAllocatorDefault, argv[1], kCFStringEncodingUTF8);
-    CFArrayRef pathsToWatch = CFArrayCreate(NULL, (const void **)&pathToWatch, 1, NULL);	
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    CFAbsoluteTime latency = 1.0;
+	NSArray *paths = [[NSProcessInfo processInfo] arguments];
     void *callbackInfo = NULL;
     FSEventStreamRef stream;
-    CFAbsoluteTime latency = 1.0;
     stream = FSEventStreamCreate(
 								 kCFAllocatorDefault,
 								 callback,
 								 callbackInfo,
-								 pathsToWatch,
+								 (CFArrayRef)paths,
 								 kFSEventStreamEventIdSinceNow,
 								 latency,
 								 kFSEventStreamCreateFlagNone
@@ -38,6 +38,7 @@ int main (int argc, const char * argv[]) {
 	FSEventStreamStart(stream);
 	CFRunLoopRun();
 	
+	[pool drain];
 	// Exit
 	return 2;
 }
