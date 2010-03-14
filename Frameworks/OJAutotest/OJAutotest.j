@@ -2,6 +2,7 @@
 
 var OS = require("os");
 var FILE = require("file");
+var FSEVENTS = require("fsevents");
 
 var OJAUTOTEST_RUNNER = "ojautotest-run";
 
@@ -35,14 +36,15 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (void)loop
 {
+    var callback = function() {
+        print("----------  CHANGES  DETECTED  ----------");
+            
+        [self runTests];
+        [self loop];
+    };
+    
     print("---------- WAITING FOR CHANGES ----------");
-    OS.system("ojautotest-wait " + watchedLocations.join(" "));
-    print("----------  CHANGES  DETECTED  ----------");
-    
-    OS.sleep(1);
-    
-    [self runTests];
-    [self loop];
+    FSEVENTS.watch(watchedLocations, callback);
 }
 
 - (void)runTests
