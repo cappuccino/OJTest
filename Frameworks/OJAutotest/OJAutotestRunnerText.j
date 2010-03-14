@@ -1,11 +1,10 @@
 @import <OJUnit/OJTestRunnerText.j>
 
 var SYSTEM = require("system");
-var OS = require("os");
 var FILE = require("file");
 var STREAM = require("term").stream;
+var GROWL = require("growl-js");
 
-var GROWLER_SCRIPT_OPTIONS = "-w -n OJAutotest -p 0 --image '%@' -m '%@' '%@' '' &";
 var ERROR_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "error.png");
 var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "success.png");
 
@@ -33,30 +32,23 @@ var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "su
 
         if(isDirty === "true") // because isDirty needs to be coerced. UGH.
         {
-            [self growlWithMessage:@"Dirty tests passed!" title:"OJAutotest Success!" image:SUCCESS_IMAGE];
+            GROWL.postNotification("OJAutotest Success!", "Dirty tests passed!", SUCCESS_IMAGE);
         }
         else
         {
-            [self growlWithMessage:@"All tests passed!" title:"OJAutotest Success!" image:SUCCESS_IMAGE];
+            GROWL.postNotification("OJAutotest Success!", "All tests passed!", SUCCESS_IMAGE);
         }
         
         STREAM.print("\0green(All tests passed in the test suite.\0)");
         return CPLog.info("End of all tests.");
     }
     
-    [self growlWithMessage:totalErrors+" failures!" title:"OJAutotest Failed!" image:ERROR_IMAGE];
+    GROWL.postNotification("OJAutotest Failure!", totalErrors + " failures!", ERROR_IMAGE);
 
     STREAM.print("Test suite failed with \0red(" + [[_listener errors] count] + 
         " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
     
     [self exit];
-}
-
-- (void)growlWithMessage:(CPString)message title:(CPString)title image:(CPString)image
-{
-    var growlArguments = [CPString stringWithFormat:GROWLER_SCRIPT_OPTIONS, image, message, title];
-    var growlCommand = "ojautotest-growl " + growlArguments;
-    OS.system(growlCommand+growlArguments);
 }
 
 @end
