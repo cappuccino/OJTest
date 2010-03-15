@@ -102,9 +102,6 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 {
     var result = [CPArray array];
     
-    if([files count] == 0)
-        return result;
-        
     for(var i = 0; i < [files count]; i++)
     {
         var nextFile = FILE.absolute([files objectAtIndex:i]);
