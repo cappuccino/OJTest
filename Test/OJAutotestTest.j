@@ -9,9 +9,14 @@ var oldSystem = OS.system;
 var oldWatch = FSEVENTS.watch;
 
 @implementation OJAutotestTest : OJTestCase
+{
+    OJAutotest      target;
+}
 
 - (void)setUp
 {
+    target = [[OJAutotest alloc] init];
+    [target setWatchLocations:["Test"]];
     OS.system = function(){return moq();};
     FSEVENTS.watch = function(){return moq();};
 }
@@ -24,8 +29,7 @@ var oldWatch = FSEVENTS.watch;
 
 - (void)testThatOJAutotestDoesInitialize
 {
-    var autotest = [[OJAutotest alloc] init];
-    [self assertNotNull:autotest];
+    [self assertNotNull:target];
 }
 
 - (void)testThatOJAutotestDoesStartWithWatchedLocationTest
@@ -37,7 +41,7 @@ var oldWatch = FSEVENTS.watch;
         }
     };
     
-    var autotest = [OJAutotest startWithWatchedLocations:["Test"]];
+    [target start];
     
     [self assertTrue:watchingTest];
 }
@@ -51,79 +55,64 @@ var oldWatch = FSEVENTS.watch;
         }
     };
 
-    var autotest = [OJAutotest startWithWatchedLocations:["Test", "lib"]];
+    [target setWatchLocations:["Test", "lib"]];
+    [target start];
 
     [self assertTrue:watchingTest];   
 }
 
 - (void)testThatOJAutotestDoesReturnCorrectFiles
-{
-    var autotest = [OJAutotest startWithWatchedLocations:["Test"]];
-    
-    [self assert:[autotest files] contains:"Test/OJAutotestTest.j"];
-    [self assert:[autotest files] contains:"Test/OJMoqSelectorTest.j"];
-    [self assert:[autotest files] contains:"Test/OJMoqTest.j"];
-    [self assert:[autotest files] contains:"Test/OJTestCaseTest.j"];
+{   
+    [self assert:[target files] contains:"Test/OJAutotestTest.j"];
+    [self assert:[target files] contains:"Test/OJMoqSelectorTest.j"];
+    [self assert:[target files] contains:"Test/OJMoqTest.j"];
+    [self assert:[target files] contains:"Test/OJTestCaseTest.j"];
 }
 
 - (void)testThatOJAutotestDoesIdentifyTests
 {
-    var autotest = [[OJAutotest alloc] init];
-    
-    [self assertTrue:[autotest isTest:@"OneTest.j"]];
+    [self assertTrue:[target isTest:@"OneTest.j"]];
 }
 
 - (void)testThatOJAutotestDoesDetectFileHasBeenModified
 {
-    var autotest = [[OJAutotest alloc] init];
-    
     [self createFiles:["Test/OneTest.j"] andRun:function(){
-        [self assertTrue:[autotest testHasBeenModified:@"Test/OneTest.j"]];        
+        [self assertTrue:[target testHasBeenModified:@"Test/OneTest.j"]];        
     }];
 }
 
 - (void)testThatOJAutotestDoesIdentifyNonTests
 {
-    var autotest = [[OJAutotest alloc] init];
-    
-    [self assertFalse:[autotest isTest:@"One.j"]];
+    [self assertFalse:[target isTest:@"One.j"]];
 }
 
 
 - (void)testThatOJAutotestDoesGetTestFileForFile
 {
-    var autotest = [[OJAutotest alloc] init];
-    
     var expectedOutput = FILE.absolute("Test/OJAutotestTest.j");
     var input = FILE.absolute("Frameworks/OJAutotest/OJAutotest.j");
     
-    [self assert:expectedOutput equals:[autotest testForFile:input]];
+    [self assert:expectedOutput equals:[target testForFile:input]];
 }
 
 
 - (void)testThatOJAutotestDoesDoesReturnFalseIfTestDoesNotExistWhenCheckingModification
 {
-    var autotest = [[OJAutotest alloc] init];
-    
-    [self assertFalse:[autotest testHasBeenModified:@"DoesNotExist.j"]];
+    [self assertFalse:[target testHasBeenModified:@"DoesNotExist.j"]];
 }
 
 
 - (void)testThatOJAutotestDoesDetectThatTestForFileHasBeenModified
 {
-    var autotest = [[OJAutotest alloc] init];
-    
     [self createFiles:["Test/OneTest.j", "One.j"] andRun:function(){
-        [self assertTrue:[autotest testForFileHasBeenModified:FILE.absolute("One.j")]];
+        [self assertTrue:[target testForFileHasBeenModified:FILE.absolute("One.j")]];
     }];
 }
 
 - (void)testThatOJAutotestDoesReturnTheTestsOfFiles
 {
-    var autotest = [[OJAutotest alloc] init];
-    
     [self createFiles:["Test/OneTest.j", "Two.j", "Test/TwoTest.j"] andRun:function(){
-        var output = [autotest testsOfFiles:["Test/OneTest.j", "Two.j"]];
+        var output = [target testsOfFiles:["Test/OneTest.j", "Two.j"]];
         [self assert:["Test/OneTest.j", "Test/TwoTest.j"].map(function(str){return FILE.absolute(str);}) equals:output];
     }];
 }

@@ -1,4 +1,4 @@
-@import <OJUnit/OJTestRunnerText.j>
+@import <Foundation/Foundation.j>
 
 var OS = require("os");
 var FILE = require("file");
@@ -10,25 +10,28 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
    A test runner that automatically detects changes and runs relevant tests. In order to use this,
    you should be using the ojautotest script located at $NARWHAL_HOME/bin/ojautotest.
  */
-@implementation OJAutotest : OJTestRunnerText
+@implementation OJAutotest : CPObject
 {
-    CPArray         watchedLocations;
+    CPArray         watchLocations        @accessors;
     CPArray         testsAlreadyRun;
     CPDate          lastRunTime;
     BOOL            isDirty;
 }
 
-+ (id)startWithWatchedLocations:(CPArray)locations
+- (id)init
 {
-    var autotest = [[self alloc] init];
-    [autotest startWithWatchedLocations:locations];
-    return autotest;
+    self = [super init];
+    if(self)
+    {
+        isDirty = NO;
+        watchLocations = [CPArray array];
+        testsAlreadyRun = [CPArray array];
+    }
+    return self;
 }
 
-- (void)startWithWatchedLocations:(CPArray)locations
+- (void)start
 {
-    watchedLocations = locations;
-    isDirty = NO;
     [self runTests];
     
     print("---------- STARTING LOOP ----------");
@@ -46,7 +49,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     };
     
     print("---------- WAITING FOR CHANGES ----------");
-    FSEVENTS.watch(watchedLocations, callback);
+    FSEVENTS.watch(watchLocations, callback);
 }
 
 - (void)runTests
@@ -79,9 +82,9 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 {
     var result = [];
     
-    for(var i = 0; i < [watchedLocations count]; i++)
+    for(var i = 0; i < [watchLocations count]; i++)
     {
-        var items = new (require("jake").FileList)(watchedLocations[i] + "/*.j").items();
+        var items = new (require("jake").FileList)(watchLocations[i] + "/*.j").items();
         
         for(var j = 0; j < [items count]; j++)
             result.push( items[j] );

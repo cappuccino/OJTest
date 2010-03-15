@@ -10,7 +10,10 @@ var OPTIONS_FILENAME = ".ojautotest";
 function main(args) {
     if (isSystemSupported()) {
         var options = readConfigurationFile();
-        return [OJAutotest startWithWatchedLocations:options.watch];
+        var autotest = [[OJAutotest alloc] init];
+        [autotest setWatchLocations:options.watch];
+        [autotest start];
+        return 0;
     }
     
     print("OJAutotest is currently not supported on non-Mac operating systems.")
