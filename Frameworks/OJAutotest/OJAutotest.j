@@ -18,9 +18,11 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     BOOL            isDirty;
 }
 
-+ (void)startWithWatchedLocations:(CPArray)locations
++ (id)startWithWatchedLocations:(CPArray)locations
 {
-    [[[self alloc] init] startWithWatchedLocations:locations];
+    var autotest = [[self alloc] init];
+    [autotest startWithWatchedLocations:locations];
+    return autotest;
 }
 
 - (void)startWithWatchedLocations:(CPArray)locations
@@ -130,8 +132,13 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (BOOL)testHasBeenModified:(CPString)test
 {
-    var lastModification = FILE.mtime(test);
-    return [lastModification compare:lastRunTime] > 0;
+    if(FILE.isFile(test))
+    {
+        var lastModification = FILE.mtime(test);
+        return [lastModification compare:lastRunTime] > 0;
+    }
+    
+    return NO;
 }
 
 @end
