@@ -57,7 +57,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
         if(isDirty)
         {
             isDirty = NO;
-            var allTestRun = OS.system([OJAUTOTEST_RUNNER, isDirty].concat([self files].items()));
+            var allTestRun = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
             
             if(allTestRun !== 0)
             {
@@ -73,7 +73,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     [self testsWereRun];
 }
 
-- (FileList)files
+- (CPArray)files
 {
     var result = [];
     
