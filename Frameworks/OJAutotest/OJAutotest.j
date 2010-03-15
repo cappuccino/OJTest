@@ -59,16 +59,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
     if(runnerResult == 0)
     {
-        if(isDirty)
-        {
-            isDirty = NO;
-            var allTestRun = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
-            
-            if(allTestRun !== 0)
-            {
-                isDirty = YES;
-            }
-        }
+        [self runDirtyTests];
     }
     else
     {
@@ -76,6 +67,21 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     }
 
     [self testsWereRun];
+}
+
+- (void)runDirtyTests
+{
+    var tests = [self testsOfFiles:[self files]];
+    if(isDirty)
+    {
+        isDirty = NO;
+        var allTestRun = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
+        
+        if(allTestRun !== 0)
+        {
+            isDirty = YES;
+        }
+    }
 }
 
 - (CPArray)files
