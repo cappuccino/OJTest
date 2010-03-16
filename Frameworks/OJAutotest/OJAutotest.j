@@ -32,8 +32,6 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (void)start
 {
-    [self runTests];
-    
     print("---------- STARTING LOOP ----------");
     print("In order to stop the tests, do Control-C twice in quick succession.");
     [self loop];
@@ -41,14 +39,17 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (void)loop
 {
-    var callback = function() {
-        print("----------  CHANGES  DETECTED  ----------");
-            
+    var runTests = function() {
         [self runTests];
-        [self loop];
+        print("---------- WAITING FOR CHANGES ----------");
     };
     
-    print("---------- WAITING FOR CHANGES ----------");
+    var callback = function() {
+        print("----------  CHANGES  DETECTED  ----------");
+        runTests();
+    };
+    
+    runTests();
     FSEVENTS.watch(watchLocations, callback);
 }
 
