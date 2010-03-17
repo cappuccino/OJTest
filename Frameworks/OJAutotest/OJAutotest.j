@@ -14,6 +14,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 {
     CPArray         watchLocations        @accessors;
     CPArray         testsAlreadyRun;
+    CPDate          lastRunTime;
     BOOL            isDirty;
 }
 
@@ -38,39 +39,40 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (void)loop
 {
-    var runTests = function(modifiedFiles) {
-        var modifiedFilePaths = modifiedFiles.map(function(modifiedFile) {
-            return modifiedFile.path;
-        });
-        [self runTests:[self testsForFiles:modifiedFilePaths]];
+    var runTests = function() {
+        [self runTests];
         print("---------- WAITING FOR CHANGES ----------");
     };
     
-    var callback = function(modifiedFiles) {
+    var callback = function() {
         print("----------  CHANGES  DETECTED  ----------");
-        runTests(modifiedFiles);
+        runTests();
     };
     
-    runTests([]);
+    runTests();
     FSEVENTS.watch(watchLocations, callback);
 }
 
-- (void)runTests:(CPArray)tests
+- (void)runTests
 {
+    var tests = [self testsOfFiles:[self files]];
     var runnerResult = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
 
-    if(runnerResult === 0)
+    if(runnerResult == 0)
     {
-        [self runDirtyTests:tests];
+        [self runDirtyTests];
     }
     else
     {
         isDirty = YES;
     }
+
+    [self testsWereRun];
 }
 
-- (void)runDirtyTests:(CPArray)tests
+- (void)runDirtyTests
 {
+    var tests = [self testsOfFiles:[self files]];
     if(isDirty)
     {
         isDirty = NO;
@@ -83,37 +85,67 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     }
 }
 
-- (CPArray)testsForFiles:(CPArray)files
+- (CPArray)files
 {
-    var tests = [CPArray array];
+    var result = [];
+    
+    for(var i = 0; i < [watchLocations count]; i++)
+    {
+        var items = new (require("jake").FileList)(watchLocations[i] + "/*.j").items();
+        
+        for(var j = 0; j < [items count]; j++)
+            result.push( items[j] );
+    }
+    
+    return result;
+}
+
+- (void)testsWereRun
+{
+    lastRunTime = [CPDate dateWithTimeIntervalSinceNow:0];
+}
+
+- (CPString)testsOfFiles:(CPArray)files
+{
+    var result = [CPArray array];
     
     for(var i = 0; i < [files count]; i++)
     {
-        var testForFile = [self testForFile:[files objectAtIndex:i]];
-        if(FILE.exists(testForFile) && ![tests containsObject:testForFile])
-        {
-            [tests addObject:testForFile];
-        }
+        var nextFile = FILE.absolute([files objectAtIndex:i]);
+    
+        if([self isTest:nextFile] && [self testHasBeenModified:nextFile] && ![result containsObject:nextFile])
+            [result addObject:nextFile];
+        else if(![self isTest:nextFile] && [self testForFileHasBeenModified:nextFile] && ![result containsObject:[self testForFile:nextFile]])
+            [result addObject:[self testForFile:nextFile]];
     }
     
-    return tests;
+    return result;
 }
 
-- (BOOL)isTest:(CPString)filePath
+- (BOOL)isTest:(CPString)fileName
 {
-    return [filePath hasSuffix:@"Test.j"];
+    return [fileName hasSuffix:@"Test.j"];
 }
 
-- (CPString)testForFile:(CPString)filePath
+- (BOOL)testForFileHasBeenModified:(CPString)file
 {
-    if ([self isTest:filePath])
-        return FILE.absolute(filePath);
+    return FILE.isFile([self testForFile:file]) && [self testHasBeenModified:file];
+}
 
-    var fileName = [filePath lastPathComponent];
-    var fileNameWithoutExtension = [fileName stringByReplacingOccurrencesOfString:(@"." + [filePath pathExtension]) withString:@""];
-    var testName = [CPString stringWithFormat:@"%s/%s%s", @"Test", fileNameWithoutExtension, @"Test.j"];
+- (CPString)testForFile:(CPString)file
+{
+    return FILE.absolute("Test/"+[[file lastPathComponent] substringToIndex:[[file lastPathComponent] length]-2]+"Test.j");
+}
 
-    return FILE.absolute(testName);
+- (BOOL)testHasBeenModified:(CPString)test
+{
+    if(FILE.isFile(test))
+    {
+        var lastModification = FILE.mtime(test);
+        return [lastModification compare:lastRunTime] > 0;
+    }
+    
+    return NO;
 }
 
 @end

@@ -61,15 +61,31 @@ var oldWatch = FSEVENTS.watch;
     [self assertTrue:watchingTest];   
 }
 
+- (void)testThatOJAutotestDoesReturnCorrectFiles
+{   
+    [self assert:[target files] contains:"Test/OJAutotestTest.j"];
+    [self assert:[target files] contains:"Test/OJMoqSelectorTest.j"];
+    [self assert:[target files] contains:"Test/OJMoqTest.j"];
+    [self assert:[target files] contains:"Test/OJTestCaseTest.j"];
+}
+
 - (void)testThatOJAutotestDoesIdentifyTests
 {
     [self assertTrue:[target isTest:@"OneTest.j"]];
+}
+
+- (void)testThatOJAutotestDoesDetectFileHasBeenModified
+{
+    [self createFiles:["Test/OneTest.j"] andRun:function(){
+        [self assertTrue:[target testHasBeenModified:@"Test/OneTest.j"]];        
+    }];
 }
 
 - (void)testThatOJAutotestDoesIdentifyNonTests
 {
     [self assertFalse:[target isTest:@"One.j"]];
 }
+
 
 - (void)testThatOJAutotestDoesGetTestFileForFile
 {
@@ -79,10 +95,24 @@ var oldWatch = FSEVENTS.watch;
     [self assert:expectedOutput equals:[target testForFile:input]];
 }
 
+
+- (void)testThatOJAutotestDoesDoesReturnFalseIfTestDoesNotExistWhenCheckingModification
+{
+    [self assertFalse:[target testHasBeenModified:@"DoesNotExist.j"]];
+}
+
+
+- (void)testThatOJAutotestDoesDetectThatTestForFileHasBeenModified
+{
+    [self createFiles:["Test/OneTest.j", "One.j"] andRun:function(){
+        [self assertTrue:[target testForFileHasBeenModified:FILE.absolute("One.j")]];
+    }];
+}
+
 - (void)testThatOJAutotestDoesReturnTheTestsOfFiles
 {
     [self createFiles:["Test/OneTest.j", "Two.j", "Test/TwoTest.j"] andRun:function(){
-        var output = [target testsForFiles:["Test/OneTest.j", "Two.j"]];
+        var output = [target testsOfFiles:["Test/OneTest.j", "Two.j"]];
         [self assert:["Test/OneTest.j", "Test/TwoTest.j"].map(function(str){return FILE.absolute(str);}) equals:output];
     }];
 }
