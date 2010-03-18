@@ -13,7 +13,6 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 @implementation OJAutotest : CPObject
 {
     CPArray         watchLocations        @accessors;
-    CPArray         testsAlreadyRun;
     BOOL            isDirty;
 }
 
@@ -24,7 +23,6 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     {
         isDirty = NO;
         watchLocations = [CPArray array];
-        testsAlreadyRun = [CPArray array];
     }
     return self;
 }
