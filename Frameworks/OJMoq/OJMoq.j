@@ -106,10 +106,10 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)arguments   
 {
-    theSelector = __ojmoq_findUniqueSelector(aSelector, arguments, selectors);
+    theSelector = __ojmoq_findUniqueSelector(selector, arguments, selectors);
     if(theSelector)
     {
-    	var expectationFunction = function(){[OJMoqAssert selector:foundSelectors[0] hasBeenCalled:times];};
+    	var expectationFunction = function(){[OJMoqAssert selector:theSelector hasBeenCalled:times];};
         [expectations addObject:expectationFunction];
     }
     else

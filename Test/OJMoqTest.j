@@ -144,13 +144,24 @@
     [self assert:returnValue equals:[aMock a:@"Arg1"]];
 }
 
-- (void)testSettingMultipleExpectationsOnASelector
+- (void)testSettingMultipleExpectationsOnASelectorWithDifferentArguments
 {
     var aMock = moq();
     [aMock selector:@selector(aSelector:) times:2];
     [aMock selector:@selector(aSelector:) times:1 arguments:[0]];
     [aMock aSelector:0];
     [aMock aSelector:1];
+    [aMock verifyThatAllExpectationsHaveBeenMet];
+}
+
+- (void)testThatCallbackGetsCalledWhenExpectationsAreSet
+{
+    var aMock = moq(),
+        callbackValue = nil;
+    [aMock selector:@selector(aSelector:) callback:(function(args) {callbackValue = 1;})];
+    [aMock selector:@selector(aSelector:) times:1];
+    [aMock aSelector:4];
+    [self assert:callbackValue equals:1];
     [aMock verifyThatAllExpectationsHaveBeenMet];
 }
 
