@@ -132,7 +132,7 @@
 	var returnValue = "Value";
 	[aMock selector:@selector(a:) returns:returnValue arguments:[CPArray arrayWithObject:@"Arg1"]];
 	[self assert:[aMock a:@"Arg1"] equals:returnValue];
-	[self assert:[aMock a:@"Arg2"] notEqual:returnValue];
+        [self assert:[aMock a:@"Arg2"] notEqual:returnValue];
 }
 
 - (void)testThatOJMoqDoesIgnoreEmptyArgumentsArrayWhenGettingReturnValue
@@ -142,6 +142,16 @@
     [aMock selector:@selector(a:) returns:returnValue arguments:[CPArray array]];
     [self assert:returnValue equals:[aMock a:[CPArray array]]];
     [self assert:returnValue equals:[aMock a:@"Arg1"]];
+}
+
+- (void)testSettingMultipleExpectationsOnASelector
+{
+    var aMock = moq();
+    [aMock selector:@selector(aSelector:) times:2];
+    [aMock selector:@selector(aSelector:) times:1 arguments:[0]];
+    [aMock aSelector:0];
+    [aMock aSelector:1];
+    [aMock verifyThatAllExpectationsHaveBeenMet];
 }
 
 - (void)testThatOJMoqDoesIgnoreArgumentsWhenGettingReturnValueWhenNotSpecified
@@ -158,6 +168,15 @@
     var aMock = moq();
     
     [aMock selector:@selector(test:) returns:NO];
+    [self assertTrue:[aMock respondsToSelector:@selector(test:)]];
+    [self assertFalse:[aMock respondsToSelector:@selector(verifyThatAllExpectationsHaveBeenMet)]];
+}
+
+- (void)testThatOJMoqDoesRespondToSelectorWhenArgumentsAreUsed
+{
+    var aMock = moq();
+    
+    [aMock selector:@selector(test:) returns:NO arguments:[5]];
     [self assertTrue:[aMock respondsToSelector:@selector(test:)]];
     [self assertFalse:[aMock respondsToSelector:@selector(verifyThatAllExpectationsHaveBeenMet)]];
 }

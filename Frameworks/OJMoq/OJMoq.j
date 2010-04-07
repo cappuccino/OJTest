@@ -13,7 +13,7 @@ function moq(baseObject)
         baseObject = nil;
     }
        
-	return [OJMoq mockBaseObject:baseObject];
+    return [OJMoq mockBaseObject:baseObject];
 }
 
 /*!
@@ -21,9 +21,9 @@ function moq(baseObject)
  */
 @implementation OJMoq : CPObject
 {
-	CPObject	_baseObject		@accessors(readonly);
-	CPArray		selectors;
-	CPArray		expectations;
+    CPObject	_baseObject		@accessors(readonly);
+    CPArray	selectors;
+    CPArray	expectations;
 }
 
 /*!
@@ -36,7 +36,7 @@ function moq(baseObject)
  */
 + (id)mockBaseObject:(CPObject)aBaseObject
 {
-	return [[OJMoq alloc] initWithBaseObject:aBaseObject];
+    return [[OJMoq alloc] initWithBaseObject:aBaseObject];
 }
 
 
@@ -50,13 +50,13 @@ function moq(baseObject)
  */
 - (id)initWithBaseObject:(CPObject)aBaseObject
 {
-	if(self = [super init])
-	{
-		_baseObject = aBaseObject;
-		expectations = [[CPArray alloc] init];
-		selectors = [[CPArray alloc] init];
-	}
-	return self;
+    if(self = [super init])
+    {
+        _baseObject = aBaseObject;
+        expectations = [[CPArray alloc] init];
+        selectors = [[CPArray alloc] init];
+    }
+    return self;
 }
 
 /*!
@@ -67,7 +67,7 @@ function moq(baseObject)
 - (OJMoq)expectSelector:(SEL)selector times:(int)times
 {
     CPLog.warn([[CPString alloc] initWithFormat:DEPRECATED_METHOD, @"expectSelector:times:", @"selector:times:"]);
-	return [self selector:selector times:times arguments:[CPArray array]];
+    return [self selector:selector times:times arguments:[CPArray array]];
 }
 
 /*!
@@ -106,10 +106,10 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)arguments   
 {
-    var theSelector = __ojmoq_findSelector(aSelector, arguments, selectors);
+    theSelector = __ojmoq_findUniqueSelector(aSelector, arguments, selectors);
     if(theSelector)
     {
-    	var expectationFunction = function(){[OJMoqAssert selector:theSelector hasBeenCalled:times];};
+    	var expectationFunction = function(){[OJMoqAssert selector:foundSelectors[0] hasBeenCalled:times];};
         [expectations addObject:expectationFunction];
     }
     else
@@ -119,7 +119,7 @@ function moq(baseObject)
         [expectations addObject:expectationFunction];
     	[selectors addObject:aSelector];
     }
-	return self;
+    return self;
 }
 
 /*!
@@ -129,7 +129,7 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)aSelector returns:(CPObject)value
 {
-	[self selector:aSelector returns:value arguments:[CPArray array]];
+    [self selector:aSelector returns:value arguments:[CPArray array]];
 }
 
 /*!
@@ -154,19 +154,18 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)aSelector returns:(CPObject)value arguments:(CPArray)arguments
 {
-    var theSelector = __ojmoq_findSelector(aSelector, arguments, selectors);
-	if(theSelector)
-	{
-		[theSelector setReturnValue:value];
-	}
-	else
-	{
-		var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName(aSelector) withArguments:arguments];
-		[aNewSelector setReturnValue:value];
-		[selectors addObject:aNewSelector];
-	}
-	
-	return self;
+    var theSelector = __ojmoq_findUniqueSelector(aSelector, arguments, selectors);
+    if(theSelector)
+    {
+        [theSelector setReturnValue:value];
+    }
+    else
+    {
+        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName(aSelector) withArguments:arguments];
+        [aNewSelector setReturnValue:value];
+        [selectors addObject:aNewSelector];
+    }
+    return self;
 }
 
 /*!
@@ -190,7 +189,7 @@ function moq(baseObject)
  */
 - (OJMoq)selector:(SEL)aSelector callback:(Function)aCallback arguments:(CPArray)arguments
 {
-    var theSelector = __ojmoq_findSelector(aSelector, arguments, selectors);
+    var theSelector = __ojmoq_findUniqueSelector(aSelector, arguments, selectors);
     
     if(theSelector)
     {
@@ -206,16 +205,16 @@ function moq(baseObject)
 
 /*!
    Verifies all of the expectations that were set on the OJMoq and fails the test if any of
-     the expectations fail.
+   the expectations fail.
  */
 - (OJMoq)verifyThatAllExpectationsHaveBeenMet
 {
-	for(var i = 0; i < [expectations count]; i++)
-	{
-		expectations[i]();
-	}
+    for(var i = 0; i < [expectations count]; i++)
+    {
+        expectations[i]();
+    }
 	
-	return self;
+    return self;
 }
 
 // Ignore the following interface unless you know what you are doing! 
@@ -223,85 +222,112 @@ function moq(baseObject)
 // should be handled automatically.
 
 /*!
-   @ignore
- */
+  @ignore
+*/
 - (CPMethodSignature)methodSignatureForSelector:(SEL)aSelector
 {
-	return YES;
+    return YES;
 }
 
 /* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
 {		
-    var selector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
-	__ojmoq_incrementNumberOfCalls(anInvocation, selectors);
+    var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
+    __ojmoq_incrementNumberOfCalls(anInvocation, selectors);
 	
-	if(_baseObject !== nil && !selector)
-	{
-	    return [anInvocation invokeWithTarget:_baseObject];
-	}
-	else
-	{
-		__ojmoq_setReturnValue(anInvocation, selectors);
-		__ojmoq_startCallback(anInvocation, selectors);
-	}
+    if(_baseObject !== nil && !theSelector)
+    {
+        return [anInvocation invokeWithTarget:_baseObject];
+    }
+    else
+    {
+        __ojmoq_setReturnValue(anInvocation, selectors);
+        __ojmoq_startCallback(anInvocation, selectors);
+    }
 }
 
 /*!
-   @ignore
- */
+  @ignore
+*/
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-    return __ojmoq_findSelector(aSelector, [CPArray array], selectors);
+    return [__ojmoq_findSelectors(aSelector, [CPArray array], selectors, NO) count] > 0;
 }
 
 @end
 
-function __ojmoq_findSelector(selector, selectorArguments, selectors)
+function __ojmoq_findUniqueSelector(selector, selectorArguments, selectors)
+{
+    var foundSelectors = __ojmoq_findSelectors(selector, selectorArguments, selectors, YES);
+    if ([foundSelectors count] > 1)
+        [CPException raise:CPInternalInconsistencyException reason:"Multiple selectors found with the exact same name and arguments"];
+    else if ([foundSelectors count] === 1)
+        return foundSelectors[0];
+    else
+        return nil;
+}
+
+function __ojmoq_findSelectors(selector, selectorArguments, selectors, shouldIgnoreWildcards)
 {
     return [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName(selector)
-        withArguments:selectorArguments] in:selectors];
+                                                     withArguments:selectorArguments] in:selectors ignoreWildcards:shouldIgnoreWildcards];
 }
 
 function __ojmoq_findSelectorFromInvocation(anInvocation, selectors)
 {
-    return __ojmoq_findSelector([anInvocation selector], [anInvocation userArguments], selectors);
+    var foundSelectors = __ojmoq_findSelectors([anInvocation selector], [anInvocation userArguments], selectors, NO);
+    // We don't find the unique selector first, since if you did [mock selector:@selector(aSelector:) returns:5],
+    // doing [mock aSelector:5] should still return the selector you set up
+    if ([foundSelectors count] === 1)
+        return foundSelectors[0];
+    else if ([foundSelectors count] === 0)
+        return nil;
+    // More than one selector found - for example, if you did [mock selector:@selector(aSelector:) returns:5] and 
+    // [mock selector:@selector(aSelector:) returns:6 arguments:[5]] and then call [mock aSelector:5];, should only
+    // call the selector that was set up with args.
+    else
+        return __ojmoq_findUniqueSelector([anInvocation selector], [anInvocation userArguments], selectors);
 }
 
 function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 {
-	var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
-	if(theSelector)
-	{
-		[theSelector call];
-	}
-    else
-    {
-        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
-            withArguments:[anInvocation userArguments]];
-        [aNewSelector call];
-        [selectors addObject:aNewSelector];
-    }
+    var foundSelectors = __ojmoq_findSelectors([anInvocation selector], [anInvocation userArguments], selectors, NO),
+        count = [foundSelectors count];
+	
+    while (count--)
+        [foundSelectors[count] call];
+
+    // Make sure we didn't just find the wildcard selector and increment only that.  
+    // Taking this out for now - it causes this bug: http://github.com/280north/OJTest/issues#issue/3
+//     var uniqueSelector = __ojmoq_findUniqueSelector([anInvocation selector], [anInvocation userArguments], selectors);
+//     if (!uniqueSelector)
+//     {
+//         var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
+//                                                  withArguments:[anInvocation userArguments]];
+//         [aNewSelector call];
+//         [selectors addObject:aNewSelector];
+//     }
 }
 
 function __ojmoq_setReturnValue(anInvocation, selectors)
 {
     var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
-	if(theSelector)
-	{
-		[anInvocation setReturnValue:[theSelector returnValue]];
-	}
-	else
-	{
-		[anInvocation setReturnValue:[[CPObject alloc] init]];
-	}
+    if(theSelector)
+    {
+        [anInvocation setReturnValue:[theSelector returnValue]];
+    }
+    else
+    {
+        [anInvocation setReturnValue:[[CPObject alloc] init]];
+    }
 }
 
 function __ojmoq_startCallback(anInvocation, selectors)
 {
     var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
-	if(theSelector)
-	{
-		[theSelector callback]([anInvocation userArguments]);
-	}
+    if(theSelector)
+    {
+        [theSelector callback]([anInvocation userArguments]);
+    }
 }
+

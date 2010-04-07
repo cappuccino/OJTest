@@ -10,19 +10,24 @@
 	Function    callback        @accessors;
 }
 
-+ (OJMoqSelector)find:(OJMoqSelector)aSelector in:(CPArray)selectors
++ (CPArray)find:(OJMoqSelector)aSelector in:(CPArray)selectors ignoreWildcards:(BOOL)shouldIgnoreWildcards
 {
     return [selectors findBy:function(anotherSelector)
     {
-        if([anotherSelector numberOfArguments] > 0)
+        if(!shouldIgnoreWildcards && ([anotherSelector matchesAllArgs] || [aSelector matchesAllArgs]))
         {
-            return [aSelector equals:anotherSelector]
+            return [aSelector isEqualToNameOf:anotherSelector]
         }
         else
         {
-            return [aSelector isEqualToNameOf:anotherSelector];
+            return [aSelector equals:anotherSelector];
         }
     }];
+}
+
++ (CPArray)find:(OJMoqSelector)aSelector in:(CPArray)selectors
+{
+    return [self find:aSelector in:selectors ignoreWildcards:NO];
 }
 
 - (id)initWithName:(CPString)aName withArguments:(CPArray)someArguments
@@ -53,9 +58,9 @@
     return [self isEqualToNameOf:anotherSelector] && [arguments isEqualToArray:[anotherSelector arguments]];
 }
 
-- (CPNumber)numberOfArguments
+- (BOOL)matchesAllArgs
 {
-    return [arguments count];
+    return [arguments count] === 0;
 }
 
 - (CPComparisonResult)compareTimesCalled:(CPNumber)anotherNumber
