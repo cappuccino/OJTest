@@ -92,7 +92,7 @@
         var numCalled = [[groupCalledMethods objectForKey:key] count];
         var numFound = [[groupFoundMethods objectForKey:key] count];
         
-        index += li(a(key + " - " + numCalled/numFound + "\%", "key.html"));
+        index += li(a(key + " - " + numCalled/numFound + "\%", key+".html"));
         
         var link = "";
         
