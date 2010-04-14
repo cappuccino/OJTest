@@ -3,8 +3,6 @@
 @import "OJTestSuite.j"
 @import "OJTestResult.j"
 @import "OJTestListenerText.j"
-@import <OJCov/OJCoverageListener.j>
-@import <OJCov/OJCoverageReporter.j>
 
 var stream = require("term").stream;
 
@@ -56,27 +54,16 @@ var stream = require("term").stream;
 
     system.stderr.write(matches[1]).flush();
     var testCaseClass = matches[1];
-    
-    [self beforeRequire];
+
     require(testCaseFile);
 
     var suite = [self getTest:testCaseClass];
+
     [self run:suite];
-    [self afterRun];
     system.stderr.write("\n").flush();
     
     // run the next test when this is done
     [self startWithArguments:args];
-}
-
-- (void)beforeRequire
-{
-    // do nothing. This is for subclassing purposes.
-}
-
-- (void)afterRun
-{
-    // do nothing. This is for subclassing purposes.
 }
 
 - (CPString)nextTest:(CPArray)arguments
