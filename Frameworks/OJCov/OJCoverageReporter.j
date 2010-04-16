@@ -96,9 +96,9 @@
         
         var link = "";
         
-        for(var j = 0; j < [[groupCalledMethods objectForKey:key] count]; j++) {
-            var array = [[groupCalledMethods objectForKey:key] objectAtIndex:j];
-            link += div(array, ([[groupFoundMethods objectForKey:key] containsObject:array] ? "#66FF66" : "#FF6666"));
+        for(var j = 0; j < [[groupFoundMethods objectForKey:key] count]; j++) {
+            var array = [[groupFoundMethods objectForKey:key] objectAtIndex:j];
+            link += div(array, ([[groupCalledMethods objectForKey:key] containsObject:array] ? "#66FF66" : "#FF6666"));
         }
         
         FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key)) 

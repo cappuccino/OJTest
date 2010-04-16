@@ -19,7 +19,7 @@ SHOULD_APPEND = YES;
     objj_msgSend = function(aReceiver, aSelector) {
         if(aReceiver != null && delegate !== aReceiver && SHOULD_APPEND) {
             SHOULD_APPEND = NO;
-            og_objj_msgSend(delegate, "calledMethod:", [OJCoverageSelector selectorWithObject:[aReceiver class] selector:aSelector]);
+            og_objj_msgSend(delegate, "calledMethod:", [OJCoverageSelector selectorWithObject:aReceiver selector:aSelector]);
             SHOULD_APPEND = YES;
         }
         
