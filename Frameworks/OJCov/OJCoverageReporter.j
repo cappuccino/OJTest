@@ -40,6 +40,7 @@
         || [[[aMethod klass] description] hasSuffix:@"Test"]
         || [[[aMethod klass] description] hasPrefix:@"CP"]
         || [[[aMethod klass] description] hasPrefix:@"_"]
+        || [[[aMethod klass] description] hasPrefix:@"$"]
         || [[[aMethod klass] description] hasPrefix:@"OJ"]) return;
 
     [foundMethods setObject:[foundMethods objectForKey:aMethod]+1 forKey:aMethod];
@@ -51,6 +52,7 @@
         || [[[aMethod klass] description] hasSuffix:@"Test"]
         || [[[aMethod klass] description] hasPrefix:@"CP"]
         || [[[aMethod klass] description] hasPrefix:@"_"]
+        || [[[aMethod klass] description] hasPrefix:@"$"]
         || [[[aMethod klass] description] hasPrefix:@"OJ"]) return;
     
     [calledMethods setObject:[calledMethods objectForKey:aMethod]+1 forKey:aMethod];
@@ -93,18 +95,17 @@
         var key = [[groupCalledMethods allKeys] objectAtIndex:i];
         var numCalled = [[groupCalledMethods objectForKey:key] count];
         var numFound = [[groupFoundMethods objectForKey:key] count];
-        var calledCount = 1;
         
-        // for(var i = 0; i < [[groupCalledMethods objectForKey:key] count]; i++) {
-        //     var anotherKey = [[groupCalledMethods objectForKey:key] objectAtIndex:i];
-        // 
-        //     if([[groupFoundMethods objectForKey:key] containsObject:anotherKey]) {
-        //         calledCount += 1;
-        //     }
-        // }
-        // 
+        for(var k = 0; k < [[groupCalledMethods objectForKey:key] count]; k++) {
+            var method = [[groupCalledMethods objectForKey:key] objectAtIndex:k];
+            
+            if(![[groupFoundMethods objectForKey:key] containsObject:method]) {
+                numCalled--;
+            }
+        }
+
         if(numFound > 0) {
-            index += li(a(key + " - " + numCalled/numFound + "\%", key+".html"));
+            index += li(a(key + " - " + numCalled + "/" + numFound + " : " + (numCalled/numFound * 100) + "\%", key+".html"));
         
             var link = "";
         
@@ -132,7 +133,8 @@
     for(var i = 0; i < [methodList count]; i++) {
         var key = [[[methodList allKeys] objectAtIndex:i] klass];
         if([[result allKeys] containsObject:key]) {
-            [[result objectForKey:key] addObject:[[methodList allKeys] objectAtIndex:i]]
+            if(![[result objectForKey:key] containsObject:[[methodList allKeys] objectAtIndex:i]])
+                [[result objectForKey:key] addObject:[[methodList allKeys] objectAtIndex:i]];
         } else {
             [result setObject:[[[methodList allKeys] objectAtIndex:i]] forKey:key];
         }
