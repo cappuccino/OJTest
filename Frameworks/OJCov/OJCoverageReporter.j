@@ -124,7 +124,7 @@
             )));
 
 
-    print([CPString stringWithFormat:"Your current test coverage is %@", totalNumCalled / totalNumFound]);
+    print([CPString stringWithFormat:"Your current test coverage is %@\%", totalNumCalled / totalNumFound * 100]);
     if(totalNumCalled / totalNumFound < 0.80) {
         print("Exiting... Coverage not sufficient");
         require("os").exit(1);
