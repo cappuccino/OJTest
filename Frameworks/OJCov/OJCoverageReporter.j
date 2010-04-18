@@ -39,6 +39,7 @@
     if([ignoreClasses containsObject:[[aMethod klass] description]] 
         || [[[aMethod klass] description] hasSuffix:@"Test"]
         || [[[aMethod klass] description] hasPrefix:@"CP"]
+        || [[[aMethod klass] description] hasPrefix:@"_"]
         || [[[aMethod klass] description] hasPrefix:@"OJ"]) return;
 
     [foundMethods setObject:[foundMethods objectForKey:aMethod]+1 forKey:aMethod];
@@ -49,6 +50,7 @@
     if([ignoreClasses containsObject:[[aMethod klass] description]] 
         || [[[aMethod klass] description] hasSuffix:@"Test"]
         || [[[aMethod klass] description] hasPrefix:@"CP"]
+        || [[[aMethod klass] description] hasPrefix:@"_"]
         || [[[aMethod klass] description] hasPrefix:@"OJ"]) return;
     
     [calledMethods setObject:[calledMethods objectForKey:aMethod]+1 forKey:aMethod];
@@ -91,18 +93,29 @@
         var key = [[groupCalledMethods allKeys] objectAtIndex:i];
         var numCalled = [[groupCalledMethods objectForKey:key] count];
         var numFound = [[groupFoundMethods objectForKey:key] count];
+        var calledCount = 1;
         
-        index += li(a(key + " - " + numCalled/numFound + "\%", key+".html"));
+        // for(var i = 0; i < [[groupCalledMethods objectForKey:key] count]; i++) {
+        //     var anotherKey = [[groupCalledMethods objectForKey:key] objectAtIndex:i];
+        // 
+        //     if([[groupFoundMethods objectForKey:key] containsObject:anotherKey]) {
+        //         calledCount += 1;
+        //     }
+        // }
+        // 
+        if(numFound > 0) {
+            index += li(a(key + " - " + numCalled/numFound + "\%", key+".html"));
         
-        var link = "";
+            var link = "";
         
-        for(var j = 0; j < [[groupFoundMethods objectForKey:key] count]; j++) {
-            var array = [[groupFoundMethods objectForKey:key] objectAtIndex:j];
-            link += div(array, ([[groupCalledMethods objectForKey:key] containsObject:array] ? "#66FF66" : "#FF6666"));
+            for(var j = 0; j < [[groupFoundMethods objectForKey:key] count]; j++) {
+                var array = [[groupFoundMethods objectForKey:key] objectAtIndex:j];
+                link += div(array, ([[groupCalledMethods objectForKey:key] containsObject:array] ? "#66FF66" : "#FF6666"));
+            }
+        
+            FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key)) 
+                + body(div(a("Home", "index.html")) + link)));
         }
-        
-        FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key)) 
-            + body(div(a("Home", "index.html")) + link)));
     }
 
     FILE.write(FILE.absolute("results/index.html"), html(head(title("OJCov Results")) + body(
@@ -130,7 +143,7 @@
 
 - (BOOL)meetsThreshold
 {
-    return [calledMethods count] / [foundMethods count] > threshold;
+    return [foundMethods count] / [calledMethods count] > threshold;
 }
 
 - (CPArray)methodsNotCalled
@@ -192,5 +205,5 @@ function html(innerHTML) {
 }
 
 function tag(name, inner, attributes) {
-    return "<" + name + attributes + ">" + inner + "</" + name + ">";
+    return "<" + name + (attributes ? attributes : "") + ">" + inner + "</" + name + ">";
 }
