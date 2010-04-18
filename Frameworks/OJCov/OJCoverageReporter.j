@@ -65,18 +65,13 @@
     print("Methods Found : " + [foundMethods count]);
     
     [self generateHTML];
-    
-    if([foundMethods count] / [calledMethods count] < 0.80) {
-        print("Exiting... Coverage not sufficient");
-        require("os").exit(1);
-    }
-    
-    print([CPString stringWithFormat:"Your current test coverage is %@", [foundMethods count] / [calledMethods count]]);
 }
 
 - (void)generateHTML
 {
     FILE = require("file");
+    var totalNumCalled = 0;
+    var totalNumFound = 0;
     
     if(FILE.exists(FILE.absolute("results")))
         FILE.rmtree(FILE.absolute("results"));
@@ -117,6 +112,9 @@
             FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key)) 
                 + body(div(a("Home", "index.html")) + link)));
         }
+        
+        totalNumCalled += numCalled;
+        totalNumFound += numFound;
     }
 
     FILE.write(FILE.absolute("results/index.html"), html(head(title("OJCov Results")) + body(
@@ -124,6 +122,13 @@
             h2("Run at" + [CPDate date]) +
             ul(index)
             )));
+
+
+    print([CPString stringWithFormat:"Your current test coverage is %@", totalNumCalled / totalNumFound]);
+    if(totalNumCalled / totalNumFound < 0.80) {
+        print("Exiting... Coverage not sufficient");
+        require("os").exit(1);
+    }
 }
 
 - (CPDictionary)groupMethodsByClassIn:(CPDictionary)methodList
