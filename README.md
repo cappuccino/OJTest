@@ -13,6 +13,7 @@ Tools
 =====
 
 * OJAutotest - a tool to automatically test your Cappuccino application when you make changes
+* OJCov - a coverage tool to help you identify code not covered by tests
 
 Contributors
 ============
@@ -23,3 +24,4 @@ Contributors
 * Martin Hacker
 * Jared Santo
 * Chandler Kent
+* Saikat Chakrabarti
