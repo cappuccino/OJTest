@@ -1,8 +1,21 @@
 #!/usr/bin/env objj
 
 @import <OJUnit/OJTestRunnerText.j>
+@import <OJCov/OJCoverageRunnerText.j>
 
 CPLogRegister(CPLogPrint, "warn");
+
+var parser = new (require("args").Parser)();
+
+parser.usage("INPUT_FILE ...");
+parser.help("Runs the given suite of tests.");
+
+parser.option("-c", "coverage")
+    .def(false)
+    .set(true)
+    .help("Runs test coverage along with your OJUnit tests.");
+
+parser.helpful();
 
 function main(args) {
     var options = parser.parse(args);
