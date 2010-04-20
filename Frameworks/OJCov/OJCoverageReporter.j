@@ -109,7 +109,7 @@
                 link += div(array, ([[groupCalledMethods objectForKey:key] containsObject:array] ? "#66FF66" : "#FF6666"));
             }
         
-            FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key)) 
+            FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key) + stylesheet()) 
                 + body(div(a("Home", "index.html")) + link)));
         }
         
@@ -117,12 +117,14 @@
         totalNumFound += numFound;
     }
 
-    FILE.write(FILE.absolute("results/index.html"), html(head(title("OJCov Results")) + body(
+    FILE.write(FILE.absolute("results/index.html"), html(head(title("OJCov Results") + stylesheet()) + body(
             h1("The results are in!") + 
             h2("Run at" + [CPDate date]) +
             ul(index)
             )));
 
+    var cssFile = FILE.join(SYSTEM.prefix, "packages", "OJTest", "Frameworks", "OJCov", "Resources", "style.css");
+    FILE.copy(cssFile, FILE.absolute("results/style.css"));
 
     print([CPString stringWithFormat:"Your current test coverage is %@\%", totalNumCalled / totalNumFound * 100]);
     if(totalNumCalled / totalNumFound < 0.80) {
@@ -197,6 +199,10 @@ function div(inner, color) {
 
 function body(inner) {
     return tag("body", inner);
+}
+
+function stylesheet() {
+    return "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" media=\"all\" />";
 }
 
 function title(inner) {
