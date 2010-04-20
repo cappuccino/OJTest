@@ -1,5 +1,7 @@
 @import <Foundation/CPObject.j>
 
+SYSTEM = require("system");
+
 @implementation OJCoverageReporter : CPObject
 {
     CPDictionary            foundMethods;
@@ -100,7 +102,7 @@
         }
 
         if(numFound > 0) {
-            index += li(a(key + " - " + numCalled + "/" + numFound + " : " + (numCalled/numFound * 100) + "\%", key+".html"));
+            index += li(a(key + " - " + numCalled + "/" + numFound + " : " + (numCalled/numFound * 100).toPrecision(4) + "\%", key+".html"));
         
             var link = "";
         
@@ -110,7 +112,7 @@
             }
         
             FILE.write(FILE.absolute("results/" + key + ".html"), html(head(title(key) + stylesheet()) 
-                + body(div(a("Home", "index.html")) + link)));
+                + body(divid(div(a("Home", "index.html")) + link, "result-container"))));
         }
         
         totalNumCalled += numCalled;
@@ -126,7 +128,7 @@
     var cssFile = FILE.join(SYSTEM.prefix, "packages", "OJTest", "Frameworks", "OJCov", "Resources", "style.css");
     FILE.copy(cssFile, FILE.absolute("results/style.css"));
 
-    print([CPString stringWithFormat:"Your current test coverage is %@\%", totalNumCalled / totalNumFound * 100]);
+    print([CPString stringWithFormat:"Your current test coverage is %@\%", (totalNumCalled / totalNumFound * 100).toPrecision(4)]);
     if(totalNumCalled / totalNumFound < 0.80) {
         print("Exiting... Coverage not sufficient");
         require("os").exit(1);
@@ -195,6 +197,10 @@ function ul(inner) {
 
 function div(inner, color) {
     return tag("div", inner, " style=\"background-color:"+color+"\"");
+}
+
+function divid(inner, id) {
+    return tag("div", inner, " id=\""+id+"\"");
 }
 
 function body(inner) {
