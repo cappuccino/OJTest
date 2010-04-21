@@ -436,7 +436,7 @@ AssertionFailedError = "AssertionFailedError";
 {
     if(!!expected.isa && !!actual.isa) {
         [self fail:((message ? message+" " : "")+"expected same:<"+[expected description]+
-            "> was not:<"+[actual description]+">"];
+            "> was not:<"+[actual description]+">")];
     } else {
         [self fail:((message ? message+" " : "")+"expected same:<"+expected+"> was not:<"+actual+">")];
     }
@@ -446,7 +446,7 @@ AssertionFailedError = "AssertionFailedError";
 {
     if(!!expected.isa && !!actual.isa) {
         [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+[expected description]+
-            "> Got:<"+[actual description]+">"];
+            "> Got:<"+[actual description]+">")];
     } else {
         [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+expected+"> Got:<"+actual+">")];
     }
@@ -455,8 +455,8 @@ AssertionFailedError = "AssertionFailedError";
 - (void)failNotEqual:(id)expected actual:(id)actual message:(CPString)message
 {
     if(!!expected.isa && !!actual.isa) {
-        [self fail:((message ? message+" " : "")+"expected:<"+[expected description]+
-            "> but was:<"+[actual description]+">"];
+        [self fail:((message ? message+" " : "")+"expected:<"+[expected description]+"> but was:<"
+            +[actual description]+">")];
     } else {
         [self fail:((message ? message+" " : "")+"expected:<"+expected+"> but was:<"+actual+">")];
     }
