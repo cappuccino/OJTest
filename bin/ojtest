@@ -16,6 +16,7 @@ parser.option("-c", "coverage")
     .help("Runs test coverage along with your OJUnit tests.");
 
 parser.option("-t", "threshold")
+    .def(0.8)
     .set()
     .help("Set the threshold for test coverage to the specified percentage. Implies -c.");
 
@@ -32,10 +33,9 @@ function main(args) {
 
     if (options.coverage || options.threshold)
     {
-        var threshold = 0.8;
+        var threshold = options.threshold > 1 ? options.threshold / 100 : options.threshold;
         
-        if (options.threshold)
-            threshold = options.threshold > 1 ? options.threshold / 100 : options.threshold;
+        print(threshold);
 
         var runner = [[OJCoverageRunnerText alloc] initWithThreshold:threshold];
     }

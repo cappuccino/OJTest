@@ -63,9 +63,12 @@ SYSTEM = require("system");
 - (void)report
 {
     print("Calculating report...");
-    print("Methods Called: " + [calledMethods allValues].reduce(function(x, y) { return x + y; }));
-    print("Methods Found : " + [foundMethods count]);
     
+    if([calledMethods count] > 0)
+        print("Methods Called: " + [calledMethods allValues].reduce(function(x, y) { return x + y; }));
+
+    print("Methods Found : " + [foundMethods count]);
+
     [self generateHTML];
 }
 
