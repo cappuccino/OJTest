@@ -25,3 +25,4 @@ Contributors
 * Jared Santo
 * Chandler Kent
 * Saikat Chakrabarti
+* Paul Baumgart
