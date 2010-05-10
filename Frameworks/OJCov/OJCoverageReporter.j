@@ -11,13 +11,13 @@ SYSTEM = require("system");
     float                   threshold       @accessors;
 }
 
-- (id)init
+- (id)initWithThreshold:(float)aThreshold
 {
     self = [super init];
     if(self)
     {
         [self reset];
-        threshold = 0.80;
+        threshold = aThreshold;
         
         ignoreClasses = ["CPMutableDictionary", "CPString", "CPArray", "CPObject", "CPInvocation", 
             "CPDate", "CPNumber", "CPException"];
@@ -129,7 +129,7 @@ SYSTEM = require("system");
     FILE.copy(cssFile, FILE.absolute("results/style.css"));
 
     print([CPString stringWithFormat:"Your current test coverage is %@\%", (totalNumCalled / totalNumFound * 100).toPrecision(4)]);
-    if(totalNumCalled / totalNumFound < 0.80) {
+    if(totalNumCalled / totalNumFound < threshold) {
         print("Exiting... Coverage not sufficient");
         require("os").exit(1);
     }
