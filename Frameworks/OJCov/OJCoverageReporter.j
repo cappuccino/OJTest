@@ -121,7 +121,7 @@ SYSTEM = require("system");
 
     FILE.write(FILE.absolute("results/index.html"), html(head(title("OJCov Results") + stylesheet()) + body(
             h1("The results are in!") + 
-            h2("Run at" + [CPDate date]) +
+            h2("Run at " + [CPDate date]) +
             ul(index)
             )));
 
