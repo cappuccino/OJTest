@@ -34,8 +34,6 @@ function main(args) {
     if (options.coverage || options.threshold)
     {
         var threshold = options.threshold > 1 ? options.threshold / 100 : options.threshold;
-        
-        print(threshold);
 
         var runner = [[OJCoverageRunnerText alloc] initWithThreshold:threshold];
     }
