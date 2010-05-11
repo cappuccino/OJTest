@@ -310,10 +310,7 @@ AssertionFailedError = "AssertionFailedError";
  */
 - (void)assertNull:(id)object
 {
-    if(object && object.isa)
-        [self assertNull:object message:"expected null but got " + [object description]];
-    else
-        [self assertNull:object message:"expected null but got " + object];
+    [self assertNull:object message:"expected null but got " + stringValueOf(object)];
 }
 
 /*!
@@ -434,47 +431,20 @@ AssertionFailedError = "AssertionFailedError";
 
 - (void)failNotSame:(id)expected actual:(id)actual message:(CPString)message
 {
-    if(expected && expected.isa)
-        var expectedStr = [expected description];
-    else
-        var expectedStr = expected;
-
-    if(actual && actual.isa)
-        var actualStr = [actual description];
-    else
-        var actualStr = actual;
-
-    [self fail:((message ? message+" " : "")+"expected same:<"+expectedStr+"> was not:<"+actualStr+">")];
+    [self fail:((message ? message+" " : "")+"expected same:<"+stringValueOf(expected)+
+        "> was not:<"+stringValueOf(actual)+">")];
 }
 
 - (void)failEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    if(expected && expected.isa)
-        var expectedStr = [expected description];
-    else
-        var expectedStr = expected;
-
-    if(actual && actual.isa)
-        var actualStr = [actual description];
-    else
-        var actualStr = actual;
-
-    [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+expectedStr+"> Got:<"+actualStr+">")];
+    [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+stringValueOf(expected)+
+        "> Got:<"+stringValueOf(actual)+">")];
 }
 
 - (void)failNotEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    if(expected && expected.isa)
-        var expectedStr = [expected description];
-    else
-        var expectedStr = expected;
-
-    if(actual && actual.isa)
-        var actualStr = [actual description];
-    else
-        var actualStr = actual;
-
-    [self fail:((message ? message+" " : "")+"expected:<"+expectedStr+"> but was:<"+actualStr+">")];
+    [self fail:((message ? message+" " : "")+"expected:<"+stringValueOf(exprected)+
+        "> but was:<"+stringValueOf(actual)+">")];
 }
 
 - (CPString)description
@@ -484,3 +454,11 @@ AssertionFailedError = "AssertionFailedError";
 
 @end
 
+function stringValueOf(obj) {
+    if(obj && obj.isa)
+        var result = [obj description];
+    else
+        var result = obj;
+        
+    return result;
+}
