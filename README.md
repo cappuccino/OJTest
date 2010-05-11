@@ -26,3 +26,116 @@ Contributors
 * Chandler Kent
 * Saikat Chakrabarti
 * Paul Baumgart
+
+OJSpec
+======
+
+ojspec is a sort of port of RSpec to Objective-J. For the time being, its
+purpose is to port a subset of RSpec's unit specification syntax to Objective-J
+in a way that makes sense in Objective-J. The idea here is to express tests in a
+relatively natural syntax as expectations on what should happen. These same
+tests are grouped together in an overall specification.
+
+Sample
+======
+
+For example, a Room class may need to have name and owner properties that are
+assignable (this being a fairly trivial example). A sample spec for that might
+be:
+
+ [Test for: Room
+       checking: function() {
+
+         [Room should: "allow the setting of the name"
+               by: function() {
+                 var room = [[Room alloc] init];
+                 [room setName: "hi"]
+
+                 [[room name] should: eql("hi")]
+               }]
+
+         [Room should: "allow the setting of the owner"
+               by: function() {
+                 var room = [[Room alloc] init];
+                 [room setOwner: "john"];
+
+                 [[room owner] should: eql("john")]
+               }]
+
+       }]
+
+Once we have that test set up and saved in a RoomSpec.j file, we can run it with
+ojspec:
+
+ $ ojspec RoomSpec.j
+
+The ojspec executable assumes that you have the objj executable installed. It
+then runs each spec and gives you a running result. The current format for these
+results is:
+
+ Room
+  - should allow the setting of the name: success
+  - should allow the setting of the owner: failure
+
+Specs can also include code that runs before and/or after all spec blocks and
+code that runs before and/or after each spec block. For example:
+
+ [Test for: MyClass
+       beforeAll: function() { print("Starting!"); }
+       beforeEach: function() {
+         this.instance = [[MyClass alloc] init];
+       }
+       checking: function() {
+         [MyClass should: "return 5 for reversing"
+                  by: function() {
+                    [[this.instance reverse] should:eql(5)]
+                  }];
+         [MyClass should: "return 4 for reversing"
+                  by: function() {
+                    [[this.instance reverse] should:eql(4)]
+                  }];
+       }
+       afterEach: function() {
+         [this.instance destroy]
+       }
+       afterAll: function() { print("Done!"); }]
+
+Note that the way to store state from beforeAll: and beforeEach: blocks so that
+it is accessible in the checking: and after* blocks is by setting properties on
+the this object. You then access them as properties on the this object inside
+the checking: block.
+
+Autotest
+========
+
+ojspec now runs correctly with autotest, the Ruby-based runner that
+automatically reruns test files when they or the file they are testing are
+changed. This makes for a great tool for continuous development.
+
+autotest support is currently not the most trivial thing in the world to get
+going. You need to copy the autotest directory from the ojspec distribution
+into your program directory and move your source code to a lib/ directory and
+your specs to a spec/ directory. More work will be done on that as I
+familiarize myself more with Objective-J conventions on the filesystem. Also,
+you need to make sure to have your ojspec directory in your PATH so autotest
+can find it.
+
+Worth mentioning is that, when developing on the Mac, I highly recommend the
+autotest-fsevents and autotest-growl gems, which allow you to avoid
+polling-based triggering of the test reruns and announcements of your test
+results via Growl, respectively.
+
+Future
+======
+
+More work to come, including alternate output formatting and easier autotest
+support.
+
+Author
+======
+
+Contributions so far are entirely from me, Antonio Salazar Cardozo. I'm
+currently working at Inquus Corp on OpenStudy, a product designed to help
+students help each other in their studying.
+
+I have a rather sporadically updated blog at http://shadowfiend.posterous.com/
