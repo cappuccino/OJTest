@@ -443,7 +443,7 @@ AssertionFailedError = "AssertionFailedError";
 
 - (void)failNotEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    [self fail:((message ? message+" " : "")+"expected:<"+stringValueOf(exprected)+
+    [self fail:((message ? message+" " : "")+"expected:<"+stringValueOf(expected)+
         "> but was:<"+stringValueOf(actual)+">")];
 }
 
