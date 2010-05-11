@@ -1,8 +1,6 @@
+@import "../OJSpecMatcher.j"
 
-@import "../OSMatcher.j"
-
-
-@implementation OSShouldBeSameAs : OSMatcher
+@implementation OJSpecShouldBeSameAs : OJSpecMatcher
 {
 }
 
@@ -21,13 +19,13 @@
 
 - (void)shouldBeSameAs:(id)expected
 {
-    if(![[[OSShouldBeSameAs alloc] initWithExpected:expected] matches:self])
+    if(![[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self])
         throw SpecFailedException;
 }
 
 - (void)shouldNotBeSameAs:(id)expected
 {
-    if([[[OSShouldBeSameAs alloc] initWithExpected:expected] matches:self])
+    if([[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self])
         throw SpecFailedException;
 }
 

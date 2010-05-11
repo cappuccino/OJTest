@@ -1,8 +1,6 @@
+@import "../OJSpecMatcher.j"
 
-@import "../OSMatcher.j"
-
-
-@implementation OSShouldBeInstanceOf : OSMatcher
+@implementation OJSpecShouldBeInstanceOf : OJSpecMatcher
 {
 }
 
@@ -21,13 +19,13 @@
 
 - (void)shouldBeInstanceOf:(Class)expected
 {
-    if(![[[OSShouldBeInstanceOf alloc] initWithExpected:expected] matches:self])
+    if(![[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self])
         throw SpecFailedException;
 }
 
 - (void)shouldNotBeInstanceOf:(Class)expected
 {
-    if([[[OSShouldBeInstanceOf alloc] initWithExpected:expected] matches:self])
+    if([[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self])
         throw SpecFailedException;
 }
 

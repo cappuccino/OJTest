@@ -1,6 +1,6 @@
 @import <Foundation/CPObject.j>
 
-@implementation OSMatcher : CPObject
+@implementation OJSpecMatcher : CPObject
 {
     id _expected @accessors(property=expected);
     id _actual @accessors(property=actual);

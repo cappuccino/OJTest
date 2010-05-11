@@ -4,7 +4,7 @@ var results,
     tests,
     currentGroup;
 
-@implementation Test :CPObject
+@implementation OJSpecTest : CPObject
 {
 }
 
