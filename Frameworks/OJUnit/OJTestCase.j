@@ -310,7 +310,7 @@ AssertionFailedError = "AssertionFailedError";
  */
 - (void)assertNull:(id)object
 {
-    if(!!object.isa)
+    if(object && object.isa)
         [self assertNull:object message:"expected null but got " + [object description]];
     else
         [self assertNull:object message:"expected null but got " + object];
@@ -434,32 +434,47 @@ AssertionFailedError = "AssertionFailedError";
 
 - (void)failNotSame:(id)expected actual:(id)actual message:(CPString)message
 {
-    if(!!expected.isa && !!actual.isa) {
-        [self fail:((message ? message+" " : "")+"expected same:<"+[expected description]+
-            "> was not:<"+[actual description]+">")];
-    } else {
-        [self fail:((message ? message+" " : "")+"expected same:<"+expected+"> was not:<"+actual+">")];
-    }
+    if(expected && expected.isa)
+        var expectedStr = [expected description];
+    else
+        var expectedStr = expected;
+
+    if(actual && actual.isa)
+        var actualStr = [actual description];
+    else
+        var actualStr = actual;
+
+    [self fail:((message ? message+" " : "")+"expected same:<"+expectedStr+"> was not:<"+actualStr+">")];
 }
 
 - (void)failEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    if(!!expected.isa && !!actual.isa) {
-        [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+[expected description]+
-            "> Got:<"+[actual description]+">")];
-    } else {
-        [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+expected+"> Got:<"+actual+">")];
-    }
+    if(expected && expected.isa)
+        var expectedStr = [expected description];
+    else
+        var expectedStr = expected;
+
+    if(actual && actual.isa)
+        var actualStr = [actual description];
+    else
+        var actualStr = actual;
+
+    [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+expectedStr+"> Got:<"+actualStr+">")];
 }
 
 - (void)failNotEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    if(!!expected.isa && !!actual.isa) {
-        [self fail:((message ? message+" " : "")+"expected:<"+[expected description]+"> but was:<"
-            +[actual description]+">")];
-    } else {
-        [self fail:((message ? message+" " : "")+"expected:<"+expected+"> but was:<"+actual+">")];
-    }
+    if(expected && expected.isa)
+        var expectedStr = [expected description];
+    else
+        var expectedStr = expected;
+
+    if(actual && actual.isa)
+        var actualStr = [actual description];
+    else
+        var actualStr = actual;
+
+    [self fail:((message ? message+" " : "")+"expected:<"+expectedStr+"> but was:<"+actualStr+">")];
 }
 
 - (CPString)description
