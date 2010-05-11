@@ -49,6 +49,12 @@
     [self assertThrows:function(){[target assert:objectOne notEqual:objectTwo]}];
 }
 
+- (void)testThatOJTestCaseAssertsNull
+{
+    var target = [[OJTestCase alloc] init];
+    var objectOne = nil;
 
+    [self assertNoThrow:function(){[target assertNull:objectOne]}];
+}
 
 @end
