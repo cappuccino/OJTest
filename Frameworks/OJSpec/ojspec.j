@@ -3,7 +3,6 @@
 
 @import "CPObject+Specs.j"
 @import "Test.j"
-@import "Mock.j"
 @import "Formatting.j"
 
 args.forEach(function(file) {
