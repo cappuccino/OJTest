@@ -23,7 +23,7 @@ if (! CPStringFromSelector) {
 + (void)registerMatcher:(Class)matcherClass
 {
     var name = class_getName(matcherClass);
-    var selName = name.substr(2, 1).toLowerCase() + name.substr(3) + ":";
+    var selName = name.substr(6, 1).toLowerCase() + name.substr(7) + ":";
     selName = selName.replace(/Matcher/, "");
 
     [self registerMatcher:matcherClass
@@ -69,30 +69,24 @@ if (! CPStringFromSelector) {
 
     try
     {
-        [Mock resetMockTracking]
-
         if (currentPreFn) currentPreFn.call(currentContext);
         specFn.call(currentContext);
         if (currentPostFn) currentPostFn.call(currentContext);
 
-        [Mock freezeMockTracking]
-
-        [self ensureMockExpectationsWereMet]
-
-        [Test addSuccess:specDescription]
+        [OJSpecTest addSuccess:specDescription]
     }
     catch (obj)
     {
           if (obj.specFailure == SpecFailedException)
-              [Test addFailure:specDescription]
+              [OJSpecTest addFailure:specDescription]
           else
-              [Test addFailure:specDescription fromException:obj]
+              [OJSpecTest addFailure:specDescription fromException:obj]
     }
 }
 
 + (void)should:(CPString)specDescription
 {
-    [Test addResult:@"pending" forSpec:specDescription]
+    [OJSpecTest addResult:@"pending" forSpec:specDescription]
 }
 
 + (void)setCurrentPre:(Function)preFn andPost:(Function)postFn
@@ -101,19 +95,10 @@ if (! CPStringFromSelector) {
     currentPostFn = postFn;
 }
 
-/**
- * Throws an exception if the expectations of any mocks set up in the beforeEach
- * block are not met.
- */
-+ (void)ensureMockExpectationsWereMet
-{
-    [Mock ensureTrackedExpectationsWereMet]
-}
-
 @end
 
-@import "Matchers/OSShouldBeInstanceOf.j"
-@import "Matchers/OSShouldBeNil.j"
-@import "Matchers/OSShouldBeSameAs.j"
-@import "Matchers/OSShouldEqual.j"
+@import "Matchers/OJSpecShouldBeInstanceOf.j"
+@import "Matchers/OJSpecShouldBeNil.j"
+@import "Matchers/OJSpecShouldBeSameAs.j"
+@import "Matchers/OJSpecShouldEqual.j"
 

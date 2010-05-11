@@ -1,15 +1,14 @@
-
 @import <Foundation/Foundation.j>
 
 @import "CPObject+Specs.j"
-@import "Test.j"
-@import "Formatting.j"
+@import "OJSpecTest.j"
+@import "OJSpecFormatting.j"
 
 args.forEach(function(file) {
-    [Test resetSpecs];
+    [OJSpecTest resetSpecs];
     
     var results =
-        [Test runSpecsOn:file
+        [OJSpecTest runSpecsOn:file
                 whenDone:function(results) {
                             /*
                                 @todo

@@ -1,3 +1,4 @@
+@import <Foundation/CPObject.j>
 
 @implementation OSMatcher : CPObject
 {

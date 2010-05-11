@@ -1,3 +1,4 @@
+@import <Foundation/CPObject.j>
 
 var results,
     tests,
