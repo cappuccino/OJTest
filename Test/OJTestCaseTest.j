@@ -57,4 +57,50 @@
     [self assertNoThrow:function(){[target assertNull:objectOne]}];
 }
 
+- (void)testThatOJTestCaseFailNotSameHandlesNullInputCorrectly
+{
+    var target = [[OJTestCase alloc] init];
+
+    try
+    {
+        [target failNotSame:null actual:null message:null];
+    }
+    catch (e)
+    {
+        [self assert:@"expected same:<null> was not:<null>" equals:e.message
+             message:@"failNotSame did not handle null input correctly"];
+    }
+}
+
+- (void)testThatOJTestCaseFailEqualHandlesNullInputCorrectly
+{
+    var target = [[OJTestCase alloc] init];
+
+    try
+    {
+        [target failEqual:null actual:null message:null];
+    }
+    catch (e)
+    {
+        [self assert:@"expected inequality. Expected:<null> Got:<null>" equals:e.message
+             message:@"failEqual did not handle null input correctly"];
+    }
+}
+
+- (void)testThatOJTestCaseFailNotEqualHandlesNullInputCorrectly
+{
+    var target = [[OJTestCase alloc] init];
+
+    try
+    {
+        [target failNotEqual:null actual:null message:null];
+    }
+    catch (e)
+    {
+        [self assert:@"expected:<null> but was:<null>" equals:e.message
+             message:@"failNotEqual did not handle null input correctly"];
+    }
+}
+
 @end
+
