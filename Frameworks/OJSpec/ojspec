@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-objj `dirname "$0"`/ojspec_loader.j `dirname "$0"`/ojspec.j $@
