@@ -18,11 +18,13 @@ parser.option("-c", "coverage")
 parser.option("-t", "threshold")
     .def(0.8)
     .set()
-    .help("Set the threshold for test coverage to the specified percentage. Implies -c.");
+    .help("Set the threshold for test coverage to the specified percentage. Implies -c. Default: 0.8");
 
 parser.helpful();
 
 function main(args) {
+    var savedArgs = args.slice(0);
+
     var options = parser.parse(args);
     
     if (options.args.length < 1)
@@ -31,7 +33,7 @@ function main(args) {
         return;
     }
 
-    if (options.coverage || options.threshold)
+    if (options.coverage || savedArgs.indexOf("-t") !== -1)
     {
         var threshold = options.threshold > 1 ? options.threshold / 100 : options.threshold;
 
