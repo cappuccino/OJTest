@@ -28,15 +28,21 @@ SHOULD_APPEND = YES;
     
     class_addMethod = function(aClass, aName, anImplementation, aType) {
         if(aClass != null)
-            [delegate foundMethod:[OJCoverageSelector selectorWithClassName:aClass selector:aName]];
+        {
+            var resolvedClass = objj_getClass(aClass.name);
+            [delegate foundMethod:[OJCoverageSelector selectorWithClassName:resolvedClass selector:aName]];
+        }
         
         og_class_addMethod(aClass, aName, anImplementation, aType);
     }
     
     class_addMethods = function(aClass, methods) {
         if(aClass != null)
+        {
+            var resolvedClass = objj_getClass(aClass.name);
             methods.map(function(method){[delegate foundMethod:[OJCoverageSelector 
-                selectorWithClassName:aClass selector:method.name]];});
+                selectorWithClassName:resolvedClass selector:method.name]];});
+        }
         
         og_class_addMethods.apply(this, arguments);
     }

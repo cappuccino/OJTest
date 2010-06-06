@@ -67,7 +67,8 @@ SYSTEM = require("system");
     if([calledMethods count] > 0)
         print("Methods Called: " + [calledMethods allValues].reduce(function(x, y) { return x + y; }));
 
-    print("Methods Found : " + [foundMethods count]);
+    if ([foundMethods count] > 0)
+        print("Methods Found: " + [foundMethods count]);
 
     [self generateHTML];
 }
@@ -131,10 +132,19 @@ SYSTEM = require("system");
     var cssFile = FILE.join(SYSTEM.prefix, "packages", "OJTest", "Frameworks", "OJCov", "Resources", "style.css");
     FILE.copy(cssFile, FILE.absolute("results/style.css"));
 
-    print([CPString stringWithFormat:"Your current test coverage is %@\%", (totalNumCalled / totalNumFound * 100).toPrecision(4)]);
-    if(totalNumCalled / totalNumFound < threshold) {
-        print("Exiting... Coverage not sufficient");
-        require("os").exit(1);
+    if (totalNumFound === 0)
+    {
+        print("Cannot determine test coverage percentage. No Objective-J methods found.");
+    }
+    else
+    {
+        var coverage = totalNumCalled / totalNumFound * 100;
+
+        print([CPString stringWithFormat:"Your current test coverage is %@%%", coverage.toPrecision(4)]);
+        if(coverage < threshold) {
+            print("Exiting... Coverage not sufficient");
+            require("os").exit(1);
+        }
     }
 }
 

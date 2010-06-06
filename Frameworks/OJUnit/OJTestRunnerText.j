@@ -53,17 +53,23 @@ var stream = require("term").stream;
     }
 
     var matches = testCaseFile.match(/([^\/]+)\.j$/);
-
-    system.stderr.write(matches[1]).flush();
-    var testCaseClass = matches[1];
     
-    [self beforeRequire];
-    require(testCaseFile);
+    if (matches)
+    {
 
-    var suite = [self getTest:testCaseClass];
-    [self run:suite];
-    [self afterRun];
-    system.stderr.write("\n").flush();
+        system.stderr.write(matches[1]).flush();
+        var testCaseClass = matches[1];
+    
+        [self beforeRequire];
+        require(testCaseFile);
+
+        var suite = [self getTest:testCaseClass];
+        [self run:suite];
+        [self afterRun];
+        system.stderr.write("\n").flush();
+    }
+    else
+        system.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n").flush();
     
     // run the next test when this is done
     [self startWithArguments:args];
