@@ -12,6 +12,7 @@ function main(args) {
         var options = readConfigurationFile();
         var autotest = [[OJAutotest alloc] init];
         [autotest setWatchLocations:options.watch];
+        [autotest setFrameworksLocations:options.frameworks];
         [autotest start];
         return 0;
     }
@@ -28,7 +29,7 @@ function readConfigurationFile()
         return options;
     }
     
-    return {"watch": ["Test"]};
+    return {"watch": ["Test"], "frameworks": []};
 }
 
 function readFile(fileName)

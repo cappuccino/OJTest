@@ -68,6 +68,11 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     }
 }
 
+- (void)setFrameworksLocations:(CPArray)locations
+{   
+    OBJJ_INCLUDE_PATHS = (OBJJ_INCLUDE_PATHS || []).concat(locations);
+}
+
 - (void)runDirtyTests:(CPArray)tests
 {
     if(isDirty)
