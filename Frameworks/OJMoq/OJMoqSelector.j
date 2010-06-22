@@ -1,5 +1,6 @@
 @import <Foundation/CPObject.j>
 @import "CPArray+Find.j"
+@import "CPArray+DeepEqual.j"
 
 @implementation OJMoqSelector : CPObject
 {
@@ -55,7 +56,7 @@
 
 - (BOOL)equals:(OJMoqSelector)anotherSelector
 {
-    return [self isEqualToNameOf:anotherSelector] && [arguments isEqualToArray:[anotherSelector arguments]];
+    return [self isEqualToNameOf:anotherSelector] && [arguments deepEqual:[anotherSelector arguments]];
 }
 
 - (BOOL)matchesAllArgs
