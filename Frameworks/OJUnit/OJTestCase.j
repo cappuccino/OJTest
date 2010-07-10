@@ -141,13 +141,4 @@ AssertionFailedError = "AssertionFailedError";
 
 @end
 
-function stringValueOf(obj) {
-    if(obj && obj.isa)
-        var result = [obj description];
-    else
-        var result = obj;
-        
-    return result;
-}
-
 @import "OJTestCase+Assert.j"
