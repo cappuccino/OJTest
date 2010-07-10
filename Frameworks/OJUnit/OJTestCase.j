@@ -194,3 +194,5 @@ function stringValueOf(obj) {
         
     return result;
 }
+
+@import "OJTestCase+Assert.j"
