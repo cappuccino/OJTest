@@ -37,15 +37,7 @@ AssertionFailedError = "AssertionFailedError";
  */
 @implementation OJTestCase : CPObject
 {
-    SEL _selector;
-}
-
-/*!
-   Factory method for creating the OJTestResult
- */
-- (OJTestResult)createResult
-{
-    return [[OJTestResult alloc] init];
+    SEL 		_selector		@accessors(property=selector);
 }
 
 /*!
@@ -53,7 +45,7 @@ AssertionFailedError = "AssertionFailedError";
  */
 - (OJTestResult)run
 {
-    var result = [self createResult];
+    var result = [OJTestResult createResult];
     [self run:result];
     return result;
 }
@@ -107,22 +99,6 @@ AssertionFailedError = "AssertionFailedError";
  */
 - (void)tearDown
 {
-}
-
-/*!
-   The selector for this test
- */
-- (SEL)selector
-{
-    return _selector;
-}
-
-/*!
-   Set the selector for this test
- */
-- (void)setSelector:(SEL)aSelector
-{
-    _selector = aSelector;
 }
 
 /*!

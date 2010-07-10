@@ -11,6 +11,14 @@
     BOOL        _stop;
 }
 
+/*!
+   Factory method for creating the OJTestResult
+ */
++ (OJTestResult)createResult
+{
+    return [[OJTestResult alloc] init];
+}
+
 - (id)init
 {
     if (self = [super init])

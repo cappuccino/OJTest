@@ -42,11 +42,6 @@
 	[OJAssert assertTrue:[target tearDownCalled] message:@"tearDown wasn't called"];
 }
 
-- (void)testThatOJTestCaseDoesCreateResult
-{
-	[OJAssert assertNotNull:[[[OJTestCase alloc] init] createResult]];
-}
-
 - (void)testThatOJTestCaseDoesRun
 {
 	[OJAssert assertNoThrow:function() { [[[OJTestCase alloc] init] run]; }];
