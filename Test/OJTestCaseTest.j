@@ -5,7 +5,7 @@
 
 - (void)testThatOJTestCaseDoesInitialize
 {
-    [OJAssert assertNotNull:[[OJTestCase alloc] init]];
+   [OJAssert assertNotNull:[[OJTestCase alloc] init]];
 }
 
 @end

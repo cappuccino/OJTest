@@ -1,6 +1,7 @@
 @import <Foundation/Foundation.j>
 
 @import "OJTestResult.j"
+@import "OJAssert.j"
 
 AssertionFailedError = "AssertionFailedError";
 
@@ -89,7 +90,7 @@ AssertionFailedError = "AssertionFailedError";
  */
 - (void)runTest
 {
-    [self assertNotNull:_selector];
+    [OJAssert assertNotNull:_selector];
     
     [self performSelector:_selector];
 }
