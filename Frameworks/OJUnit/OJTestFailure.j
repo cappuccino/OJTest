@@ -1,9 +1,28 @@
 @import <Foundation/Foundation.j>
 
+function convertRhinoBacktrace(javaException) {
+    var s = new Packages.java.io.StringWriter();
+    javaException.printStackTrace(new Packages.java.io.PrintWriter(s));
+    return String(s.toString()).split("\n").filter(function(s) { return (/^\s*at script/).test(s); }).join("\n");
+}
+
+function getBacktrace(e) {
+    if (!e) {
+        return "";
+    }
+    else if (e.rhinoException) {
+        return convertRhinoBacktrace(e.rhinoException);
+    }
+    else if (e.javaException) {
+        return convertRhinoBacktrace(e.javaException);
+    }
+    return "";
+}
+
 @implementation OJTestFailure : CPObject
 {
-    OJTest      _failedTest;
-    CPException _thrownException;
+    OJTest      _failedTest			@accessors(readonly, property=failedTest);
+    CPException _thrownException	@accessors(readonly, property=thrownException);
 }
 
 - (id)initWithTest:(OJTest)failedTest exception:(CPException)thrownException
@@ -16,24 +35,14 @@
     return self;
 }
 
-- (OJTest)failedTest
-{
-    return _failedTest;
-}
-
-- (CPException)thrownException
-{
-    return _thrownException;
-}
-
 - (CPString)description
 {
-    return [_failedTest description] + ": " + [_thrownException description];
+    return [_failedTest description] + ": " + [self exceptionMessage];
 }
 
 - (CPString)trace
 {
-    return "Trace not implemented";
+    return getBacktrace(_thrownException) ? getBacktrace(_thrownException) : "Trace not implemented";
 }
 
 - (CPString)exceptionMessage
