@@ -29,8 +29,8 @@
 
 - (void)testThatOJTestResultDoesHaveZeroErrorsAndZeroFailures
 {
-	[OJAssert assert:0 equals:[target failureCount]];
-	[OJAssert assert:0 equals:[target errorCount]];
+	[OJAssert assert:0 equals:[target numberOfFailures]];
+	[OJAssert assert:0 equals:[target numberOfErrors]];
 }
 
 - (void)testThatOJTestResultShouldStop
@@ -46,14 +46,14 @@
 {
 	[target addError:[[CPException alloc] init] forTest:[[OJTestCase alloc] init]];
 	[OJAssert assertFalse:[target wasSuccessful]];
-	[OJAssert assert:1 equals:[target errorCount]];
+	[OJAssert assert:1 equals:[target numberOfErrors]];
 }
 
 - (void)testThatOJTestResultDoesAddFailure
 {
 	[target addFailure:[[CPException alloc] init] forTest:[[OJTestCase alloc] init]];
 	[OJAssert assertFalse:[target wasSuccessful]];
-	[OJAssert assert:1 equals:[target failureCount]];
+	[OJAssert assert:1 equals:[target numberOfFailures]];
 }
 
 - (void)testThatOJTestResultDoesIncreaseRunCount

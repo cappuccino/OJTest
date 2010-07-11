@@ -4,8 +4,8 @@
 
 @implementation OJTestResult : CPObject
 {
-    CPArray     _failures;
-    CPArray     _errors;
+    CPArray     _failures		@accessors(readonly, property=failures);
+    CPArray     _errors			@accessors(readonly, property=errors);
     CPArray     _listeners;
     int         _runTests;
     BOOL        _stop;
@@ -110,29 +110,31 @@
     _stop = YES;
 }
 
-- (int)failureCount
+- (int)numberOfFailures
 {
     return [_failures count];
 }
 
-- (CPArray)failures
+- (int)failureCount
 {
-    return _failures;
+	CPLog.warn("[OJTestResult failureCount] is deprecated. Please use [OJTestResult numberOfFailures].");
+	return [self numberOfFailures];
 }
 
-- (int)errorCount
+- (int)numberOfErrors
 {
     return [_errors count];
 }
 
-- (CPArray)errors
+- (int)errorCount
 {
-    return _errors;
+	CPLog.warn("[OJTestResult errorCount] is deprecated. Please use [OJTestResult numberOfErrors].");
+	return [self numberOfErrors];
 }
 
 - (BOOL)wasSuccessful
 {
-    return [self failureCount] == 0 && [self errorCount] == 0;
+    return [self numberOfFailures] == 0 && [self numberOfErrors] == 0;
 }
 
 @end
