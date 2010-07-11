@@ -295,37 +295,6 @@
     [OJAssert assert:2 equals:called];
 }
 
-- (void)testThatSettingOnlyExpectationsDontOverrideBaseObjectMethods
-{
-    var aString = @"Test",
-        dummyObject = [[DummyObject alloc] init],
-        mockString = moq(aString);
-    
-    [dummyObject setDependency:mockString];
-    [mockString selector:@selector(length) times:1];
-    var finalValue = [dummyObject dummyMethod];
-    [self assert:finalValue equals:14];
-    [mockString verifyThatAllExpectationsHaveBeenMet];
-}
-
-// Adding these because ojtest does not have them. Should eventually
-// do a pull request for these.
-- (void)assert:(id)expected notEqual:(id)actual
-{
-    [OJAssert assert:expected notEqual:actual message:nil];
-}
-
-- (void)assert:(id)expected notEqual:(id)actual message:(CPString)message
-{
-    if (expected === actual || [expected isEqual:actual])
-        [OJAssert failEqual:expected actual:actual message:message];
-}
-
-- (void)failEqual:(id)expected actual:(id)actual message:(CPString)message
-{
-    [OJAssert fail:((message ? message+" " : "")+"expected inequality. Expected:<"+expected+"> Got:<"+actual+">")];
-}
-
 @end
 
 @implementation DummyObject : CPObject
