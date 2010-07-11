@@ -103,7 +103,7 @@
 	var test = [[OJTestCase alloc] init];
 	var failure = [[CPException alloc] init];
 
-	[listener selector:@selector(addFailure:forTest:) times:1 arguments:[failure, test]];
+	[listener selector:@selector(addFailure:) times:1];
 
 	[target addListener:listener]
 	[target addFailure:failure forTest:test];
@@ -117,7 +117,7 @@
 	var test = [[OJTestCase alloc] init];
 	var error = [[CPException alloc] init];
 
-	[listener selector:@selector(addError:forTest:) times:1 arguments:[error, test]];
+	[listener selector:@selector(addError:) times:1];
 
 	[target addListener:listener]
 	[target addError:error forTest:test];

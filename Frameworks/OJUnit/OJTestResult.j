@@ -1,6 +1,7 @@
 @import <Foundation/Foundation.j>
 
 @import "OJTestFailure.j"
+@import "OJTestListenerText.j"
 
 @implementation OJTestResult : CPObject
 {
@@ -34,16 +35,26 @@
 
 - (void)addError:(CPException)error forTest:(OJTest)aTest
 {
-    [_errors addObject:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
-    for (var i = 0; i < _listeners.length; i++)
-        [_listeners[i] addError:error forTest:aTest];
+	[self addError:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
+}
+
+- (void)addError:(OJTestFailure)error
+{
+	[_errors addObject:error];
+	for (var i = 0; i < _listeners.length; i++)
+	    [_listeners[i] addError:error];
 }
 
 - (void)addFailure:(CPException)failure forTest:(OJTest)aTest
 {
-    [_failures addObject:[[OJTestFailure alloc] initWithTest:aTest exception:failure]];
+	[self addFailure:[[OJTestFailure alloc] initWithTest:aTest exception:failure]];
+}
+
+- (void)addFailure:(OJTestFailure)failure
+{
+    [_failures addObject:failure];
     for (var i = 0; i < _listeners.length; i++)
-        [_listeners[i] addFailure:failure forTest:aTest];
+        [_listeners[i] addFailure:failure];
 }
 
 - (void)startTest:(OJTest)aTest
