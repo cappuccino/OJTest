@@ -2,25 +2,6 @@
 
 stream = require("term").stream;
 
-function convertRhinoBacktrace(javaException) {
-    var s = new Packages.java.io.StringWriter();
-    javaException.printStackTrace(new Packages.java.io.PrintWriter(s));
-    return String(s.toString()).split("\n").filter(function(s) { return (/^\s*at script/).test(s); }).join("\n");
-}
-
-function getBacktrace(e) {
-    if (!e) {
-        return "";
-    }
-    else if (e.rhinoException) {
-        return convertRhinoBacktrace(e.rhinoException);
-    }
-    else if (e.javaException) {
-        return convertRhinoBacktrace(e.javaException);
-    }
-    return "";
-}
-
 @implementation OJTestListenerText : CPObject
 {
     CPArray _errors;
