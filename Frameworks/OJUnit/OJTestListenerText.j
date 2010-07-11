@@ -39,14 +39,16 @@ function getBacktrace(e) {
 
 - (void)addError:(CPException)anException forTest:(OJTest)aTest
 {
-    _errors.push(anException);
+	CPLog.warn("[OJTestListenerText addError:forTest:] is deprecated. Please use [OJTestListener addError:].");
+	[self addError:[[OJTestFailure alloc] initWithTest:aTest exception:anException]];
+}
+
+- (void)addError:(OJTestFailure)error
+{
+    _errors.push(error);
     
-    stream.print("\n\0red(addError test="+[aTest description]+" error="+anException+"\0)");
-    var backTrace = getBacktrace(anException);
-    if (backTrace) {
-        CPLog.error(backTrace);
-        stream.print(backTrace);
-    }
+    stream.print("\n\0red(addError test="+[error description]+"\0)");
+    stream.print("\n\0red("+[error trace]+"\0)");
 }
 
 - (CPArray)errors
@@ -56,11 +58,16 @@ function getBacktrace(e) {
 
 - (void)addFailure:(CPException)anException forTest:(OJTest)aTest
 {
-    _failures.push(anException);
-    stream.print("\n\0yellow(addFailure test="+[aTest description]+" failure="+anException+"\0)");
-    var backTrace = getBacktrace(anException);
-    if (backTrace)
-        CPLog.warn(backTrace);
+	CPLog.warn("[OJTestListenerText addFailure:forTest:] is deprecated. Please use [OJTestListener addFailure:].");
+	[self addFailure:[[OJTestFailure alloc] initWithTest:aTest exception:anException]];
+}
+
+- (void)addFailure:(OJTestFailure)failure
+{
+    _failures.push(failure);
+
+    stream.print("\n\0yellow(addFailure test="+[failure description]+"\0)");
+    stream.print("\n\0yellow("+[failure trace]+"\0)");
 }
 
 - (CPArray)failures
