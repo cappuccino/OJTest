@@ -38,8 +38,8 @@
 		name = aName;
 		arguments = someArguments;
 		timesCalled = 0;
-		returnValue = [[CPObject alloc] init];
-		callback = function(){};
+		returnValue = undefined;
+		callback = undefined;
 	}
 	return self;
 }

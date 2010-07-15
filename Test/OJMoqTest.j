@@ -267,6 +267,19 @@
     [self assertTrue:called];
 }
 
+- (void)testThatOJMoqDoesCallSelectorOnSpyWhenMethodDoesntExistOnBaseObject
+{
+    var anObject = @"Test";
+    var aMock = moq(anObject);
+    var called = NO;
+
+    [aMock selector:@selector(someMethod) callback:function(args){called = YES;}];
+
+    [aMock someMethod];
+
+    [self assertTrue:called];
+}
+
 - (void)testThatOJMoqDoesMockSelectorOnSpyTwice
 {
     var anObject = @"Test";
