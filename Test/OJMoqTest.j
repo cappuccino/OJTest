@@ -281,6 +281,19 @@
     [self assert:2 equals:called];
 }
 
+- (void)testThatSettingOnlyExpectationsDontOverrideBaseObjectMethods
+{
+    var aString = @"Test",
+        dummyObject = [[DummyObject alloc] init],
+        mockString = moq(aString);
+    
+    [dummyObject setDependency:mockString];
+    [mockString selector:@selector(length) times:1];
+    var finalValue = [dummyObject dummyMethod];
+    [self assert:finalValue equals:14];
+    [mockString verifyThatAllExpectationsHaveBeenMet];
+}
+
 // Adding these because ojtest does not have them. Should eventually
 // do a pull request for these.
 - (void)assert:(id)expected notEqual:(id)actual
@@ -311,4 +324,21 @@
     [self assertNotNull:exception message:"Should have caught an exception, but got nothing"];
 }
 
+@end
+
+@implementation DummyObject : CPObject
+{
+    CPString aDependency;
+}
+
+- (void)setDependency:(id)anObject
+{
+    aDependency = anObject;
+}
+
+- (unsigned)dummyMethod
+{
+    var x = [aDependency length];
+    return x + 10;
+}
 @end
