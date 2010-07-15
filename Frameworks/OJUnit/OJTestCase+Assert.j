@@ -11,7 +11,6 @@
  */
 - (void)assertTrue:(BOOL)condition
 {
-	deprecationWarning(_cmd);
     [OJAssert assertTrue:condition];
 }
 
@@ -25,7 +24,6 @@
  */
 - (void)assertTrue:(BOOL)condition message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assertTrue:condition message:message];
 }
 
@@ -38,7 +36,6 @@
  */
 - (void)assertFalse:(BOOL)condition
 {
-	deprecationWarning(_cmd);
     [OJAssert assertFalse:condition];
 }
 
@@ -52,7 +49,6 @@
  */
 - (void)assertFalse:(BOOL)condition message:(CPString)message
 {
-	deprecationWarning(_cmd);
     [OJAssert assertFalse:condition message:message];
 }
 
@@ -66,7 +62,6 @@
  */
 - (void)assert:(id)expected equals:(id)actual
 {
-	deprecationWarning(_cmd);
     [OJAssert assert:expected equals:actual];
 }
 
@@ -82,7 +77,6 @@
  */
 - (void)assert:(id)expected equals:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assert:expected equals:actual message:message];
 }
 
@@ -96,7 +90,6 @@
  */
 - (void)assert:(id)expected notEqual:(id)actual
 {
-	deprecationWarning(_cmd);
     [OJAssert assert:expected notEqual:actual];
 }
 
@@ -112,7 +105,6 @@
  */
 - (void)assert:(id)expected notEqual:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assert:expected notEqual:actual message:message];
 }
 
@@ -126,7 +118,6 @@
  */
 - (void)assert:(id)expected same:(id)actual
 {
-	deprecationWarning(_cmd);
     [OJAssert assert:expected same:actual];
 }
 
@@ -142,7 +133,6 @@
  */
 - (void)assert:(id)expected same:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assert:expected same:actual message:message];
 }
 
@@ -156,7 +146,6 @@
  */
 - (void)assert:(id)expected notSame:(id)actual
 {
-	deprecationWarning(_cmd);
     [OJAssert assert:expected notSame:actual];
 }
 
@@ -172,7 +161,6 @@
  */
 - (void)assert:(id)expected notSame:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assert:expected notSame:actual message:message];
 }
 
@@ -185,7 +173,6 @@
  */
 - (void)assertNull:(id)object
 {
-	deprecationWarning(_cmd);
 	[OJAssert assertNull:object];
 }
 
@@ -198,7 +185,6 @@
  */
 - (void)assertNull:(id)object message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assertNull:object message:message];
 }
 
@@ -211,7 +197,6 @@
  */
 - (void)assertNotNull:(id)object
 {
-	deprecationWarning(_cmd);
     [OJAssert assertNotNull:object];
 }
 
@@ -225,7 +210,6 @@
  */
 - (void)assertNotNull:(id)object message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert assertNotNull:object message:message];
 }
 
@@ -242,7 +226,6 @@
  */
 - (void)assertNoThrow:(Function)zeroArgClosure
 {
-	deprecationWarning(_cmd);
 	[OJAssert assertNoThrow:zeroArgClosure];
 }
 
@@ -259,7 +242,6 @@
  */
 - (void)assertThrows:(Function)zeroArgClosure
 {
-	deprecationWarning(_cmd);
 	[OJAssert assertThrows:zeroArgClosure];
 }
 
@@ -273,7 +255,6 @@
  */
 - (void)assert:(CPString)aRegex matches:(CPString)aString
 {
-	deprecationWarning(_cmd);
 	[OJAssert assert:aRegex matches:aString];
 }
 
@@ -296,36 +277,27 @@
  */
 - (void)fail:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert fail:message];
 }
 
 - (void)failSame:(id)expected actual:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert failSame:expected actual:actual message:message];
 }
 
 - (void)failNotSame:(id)expected actual:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert failNotSame:expected actual:actual message:message];
 }
 
 - (void)failEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert failEqual:expected actual:actual message:message];
 }
 
 - (void)failNotEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-	deprecationWarning(_cmd);
 	[OJAssert failNotEqual:expected actual:actual message:message];
 }
 
 @end
-
-function deprecationWarning(message) {
-	CPLog.warn("[OJTestCase " +  message + "] is deprecated. Please use [OJAssert " + message + "]");
-}
