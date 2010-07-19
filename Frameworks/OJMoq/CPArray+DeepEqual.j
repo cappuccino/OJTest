@@ -21,7 +21,12 @@ var assert = require("assert");
         // If both objects are objective-j objects
         if (lhs && lhs.isa && rhs && rhs.isa)
         {
-            if (![lhs isEqual:rhs])
+            if ([lhs respondsToSelector:@selector(deepEqual:)])
+            {
+                if (![lhs deepEqual:rhs]) 
+                    return NO;
+            }
+            else if (![lhs isEqual:rhs])
                return NO;
         }
 
