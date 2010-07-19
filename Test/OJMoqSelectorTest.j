@@ -80,4 +80,26 @@
     
     [OJAssert assert:[sel4] equals:[OJMoqSelector find:sel3 in:array ignoreWildcards:YES]];
 }
+
+- (void)testThatOJMoqSelectorMatchesJSObjectArguments
+{
+    var sel1 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[@"a"]];
+    var sel2 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[{"prop1" : "val1", "prop2" : [1, 2]}, {"prop3" : {"prop4" : 6}}]];
+    var sel3 = [[OJMoqSelector alloc] initWithName:@"c" withArguments:[]];
+    var sel4 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[{"prop1" : "val1", "prop2" : [1, 2]}, {"prop3" : {"prop4" : 6}}]];
+    var array = [sel1, sel2, sel3];
+    
+    [OJAssert assert:[sel2] equals:[OJMoqSelector find:sel4 in:array ignoreWildcards:YES]];
+}
+
+- (void)testThatOJMoqSelectorMatchesJSObjectArgumentsWithinArrays
+{
+    var sel1 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[@"a"]];
+    var sel2 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[[{"prop1" : "val1", "prop2" : [1, 2]}, {"prop3" : {"prop4" : 6}}]]];
+    var sel3 = [[OJMoqSelector alloc] initWithName:@"c" withArguments:[]];
+    var sel4 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[[{"prop1" : "val1", "prop2" : [1, 2]}, {"prop3" : {"prop4" : 6}}]]];
+    var array = [sel1, sel2, sel3];
+    
+    [OJAssert assert:[sel2] equals:[OJMoqSelector find:sel4 in:array ignoreWildcards:YES]];
+}
 @end
