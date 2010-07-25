@@ -8,6 +8,12 @@
 	[OJAssert assertTrue:([self expected] === [self actual])];
 }
 
+- (BOOL)doesNotMatch:(id)actual
+{
+    [self setActual:actual];
+	[OJAssert assertTrue:([self expected] !== [self actual])];
+}
+
 @end
 
 /**
@@ -22,7 +28,7 @@
 
 - (void)shouldNotBeSameAs:(id)expected
 {
-    [[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self];
+    [[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] doesNotMatch:self];
 }
 
 @end

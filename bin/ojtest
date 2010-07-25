@@ -2,6 +2,7 @@
 
 @import <OJUnit/OJTestRunnerText.j>
 @import <OJCov/OJCoverageRunnerText.j>
+@import <OJSpec/OJSpec.j>
 
 var parser = new (require("args").Parser)();
 

@@ -12,49 +12,6 @@ if (! CPStringFromSelector) {
 @implementation CPObject (Specs)
 
 /**
- * Registers a given matcher class. By default, this converts the class name
- * into a selector with one parameter (e.g., OSShouldBeInstanceOf becomes
- * shouldBeInstanceOf:) that invokes the matches: method on a new instance of
- * the given class.
- *
- * If you need more than just one parameter, or if you need no parameters, use
- * registerMatcher:withSelector:.
- */
-+ (void)registerMatcher:(Class)matcherClass
-{
-    var name = class_getName(matcherClass);
-    var selName = name.substr(6, 1).toLowerCase() + name.substr(7) + ":";
-    selName = selName.replace(/Matcher/, "");
-
-    [self registerMatcher:matcherClass
-             withSelector:CPSelectorFromString(selName)];
-}
-
-/**
- * Registers a given matcher class.
- */
-+ (void)registerMatcher:(Class)matcherClass withSelector:(SEL)matcherSelector
-{
-    if (class_getInstanceMethod(matcherClass, matcherSelector))
-    {
-        [CPException raise:OSMethodExistsException
-                    reason:"Registering matcher with selector " + CPStringFromSelector(matcherSelector) +
-                           " but that selector is already registered on class " +
-                           class_getName(matcherClass)]
-    }
-
-    var selString = CPStringFromSelector(matcherSelector),
-        expectsMultipleArgs = (matcherSelector.split(":").length > 2);
-    class_addMethods(CPObject,
-        [new objj_method(matcherSelector,
-                    function(self, _cmd, expected)
-                    {
-                        [[[matcherClass alloc] initWithExpected:expected] matches:self]
-                    },
-                    "")]);
-}
-
-/**
  *
  * @param specDescription A description of what this spec is testing. The
  *   description is automatically prefixed with ``should''.

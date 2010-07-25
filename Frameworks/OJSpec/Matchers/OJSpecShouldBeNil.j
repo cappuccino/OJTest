@@ -17,7 +17,7 @@
 
 - (void)shouldNotBeNil
 {
-    [[[OJSpecShouldBeNil alloc] initWithExpected:nil] matches:self];
+    [[[OJSpecShouldBeNil alloc] initWithExpected:nil] doesNotMatch:self];
 }
 
 @end

@@ -9,6 +9,11 @@
     return [super matches:[actual class]];
 }
 
+- (BOOL)doesNotMatch:(id)actual
+{
+    return [super doesNotMatch:[actual class]];
+}
+
 @end
 
 
@@ -24,7 +29,7 @@
 
 - (void)shouldNotBeInstanceOf:(Class)expected
 {
-    [[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self];
+    [[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] doesNotMatch:self];
 }
 
 @end

@@ -20,6 +20,12 @@
     [OJAssert assert:[self expected] equals:[self actual]];
 }
 
+- (void)doesNotMatch:(id)actual
+{
+	[self setActual:actual];
+	[OJAssert assert:[self expected] notEqual:[self actual]];
+}
+
 - (CPString)failureMessageForShould
 {
     return @"expected " + [self expected] + " but was " + [self actual];
