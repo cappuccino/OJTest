@@ -25,6 +25,11 @@ parser.option("-l", "level")
     .set()
     .help("Set the minimum log level.");
 
+parser.option("-s", "spec")
+	.def(false)
+	.set(true)
+	.help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
+
 parser.helpful();
 
 function main(args) {
@@ -37,6 +42,11 @@ function main(args) {
         parser.printUsage(options);
         return;
     }
+
+	if (options.spec)
+	{
+		@import <OJSpec/OJSpec.j>
+	}
 
     CPLogRegister(CPLogPrint, options.level);
 
