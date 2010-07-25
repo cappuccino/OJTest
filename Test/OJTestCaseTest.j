@@ -1,106 +1,70 @@
 @import "../Frameworks/OJUnit/OJTestCase.j"
+@import "../Frameworks/OJUnit/OJAssert.j"
+@import "../Frameworks/OJMoq/OJMoq.j"
 
 @implementation OJTestCaseTest : OJTestCase
 
 - (void)testThatOJTestCaseDoesInitialize
 {
-    [self assertNotNull:[[OJTestCase alloc] init]];
+   [OJAssert assertNotNull:[[OJTestCase alloc] init]];
 }
 
-- (void)testThatOJTestCaseAssertsTrue
+- (void)testThatOJTestCaseDoesRunResults
 {
-    var target = [[OJTestCase alloc] init];
-    
-    [target assertTrue:YES];
+	var result = moq([[OJTestResult alloc] init]);
+	var target = [[OJTestCase alloc] init];
+	
+	[result selector:@selector(run:) times:1 arguments:[target]];
+	
+	[target run:result];
+	
+	[result verifyThatAllExpectationsHaveBeenMet];
 }
 
-- (void)testThatOJTestCaseFailsOnAssertTrue
+- (void)testThatOJTestCaseDoesCreateDescription
 {
-    var target = [[OJTestCase alloc] init];
-    
-    [self assertThrows:function() {[target assertTrue:NO];}];
+	var target = [[OJTestCase alloc] init];
+	
+	[target setSelector:@selector(test:)];
+	
+	[OJAssert assert:@"[OJTestCase test:]" equals:[target description]];
 }
 
-- (void)testThatOJTestCaseDoesAssertsNotEqual
+- (void)testThatOJTestCaseDoesCallSetupAndTeardownWhenRunBare
 {
-    var target = [[OJTestCase alloc] init];
-    var objectOne = "A";
-    var objectTwo = "B";
-    
-    [target assert:objectOne notEqual:objectTwo];
+	var target = [[OJTestCaseFake alloc] init];
+	
+	[target setSelector:@selector(selector)];
+	
+	[target runBare];
+	
+	[OJAssert assertTrue:[target setUpCalled] message:@"setUp wasn't called"];
+	[OJAssert assertTrue:[target tearDownCalled] message:@"tearDown wasn't called"];
 }
 
-- (void)testThatOJTestCaseDoesAssertsNotEqualWithMessage
+- (void)testThatOJTestCaseDoesRun
 {
-    var target = [[OJTestCase alloc] init];
-    var objectOne = "A";
-    var objectTwo = "B";
-
-    [target assert:objectOne notEqual:objectTwo message:@"Object one should have not equaled object two!"];
-}
-
-
-- (void)testThatOJTestCaseDoesFailOnAssertNotEqualWhenObjectsEqual
-{
-    var target = [[OJTestCase alloc] init];
-    var objectOne = "A";
-    var objectTwo = "A";
-    
-    [self assertThrows:function(){[target assert:objectOne notEqual:objectTwo]}];
-}
-
-- (void)testThatOJTestCaseAssertsNull
-{
-    var target = [[OJTestCase alloc] init];
-    var objectOne = nil;
-
-    [self assertNoThrow:function(){[target assertNull:objectOne]}];
-}
-
-- (void)testThatOJTestCaseFailNotSameHandlesNullInputCorrectly
-{
-    var target = [[OJTestCase alloc] init];
-
-    try
-    {
-        [target failNotSame:null actual:null message:null];
-    }
-    catch (e)
-    {
-        [self assert:@"expected same:<null> was not:<null>" equals:e.message
-             message:@"failNotSame did not handle null input correctly"];
-    }
-}
-
-- (void)testThatOJTestCaseFailEqualHandlesNullInputCorrectly
-{
-    var target = [[OJTestCase alloc] init];
-
-    try
-    {
-        [target failEqual:null actual:null message:null];
-    }
-    catch (e)
-    {
-        [self assert:@"expected inequality. Expected:<null> Got:<null>" equals:e.message
-             message:@"failEqual did not handle null input correctly"];
-    }
-}
-
-- (void)testThatOJTestCaseFailNotEqualHandlesNullInputCorrectly
-{
-    var target = [[OJTestCase alloc] init];
-
-    try
-    {
-        [target failNotEqual:null actual:null message:null];
-    }
-    catch (e)
-    {
-        [self assert:@"expected:<null> but was:<null>" equals:e.message
-             message:@"failNotEqual did not handle null input correctly"];
-    }
+	[OJAssert assertNoThrow:function() { [[[OJTestCase alloc] init] run]; }];
 }
 
 @end
+
+@implementation OJTestCaseFake : OJTestCase
+{
+	BOOL		setUpCalled		@accessors;
+	BOOL		tearDownCalled	@accessors;
+}
+
+- (void)setUp
+{
+	setUpCalled = true;
+}
+
+- (void)tearDown
+{
+	tearDownCalled = true;
+}
+
+@end
+
 

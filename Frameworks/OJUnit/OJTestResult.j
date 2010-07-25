@@ -1,14 +1,23 @@
 @import <Foundation/Foundation.j>
 
 @import "OJTestFailure.j"
+@import "OJTestListenerText.j"
 
 @implementation OJTestResult : CPObject
 {
-    CPArray     _failures;
-    CPArray     _errors;
+    CPArray     _failures		@accessors(readonly, property=failures);
+    CPArray     _errors			@accessors(readonly, property=errors);
     CPArray     _listeners;
     int         _runTests;
     BOOL        _stop;
+}
+
+/*!
+   Factory method for creating the OJTestResult
+ */
++ (OJTestResult)createResult
+{
+    return [[OJTestResult alloc] init];
 }
 
 - (id)init
@@ -26,16 +35,26 @@
 
 - (void)addError:(CPException)error forTest:(OJTest)aTest
 {
-    [_failures addObject:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
-    for (var i = 0; i < _listeners.length; i++)
-        [_listeners[i] addError:error forTest:aTest];
+	[self addError:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
+}
+
+- (void)addError:(OJTestFailure)error
+{
+	[_errors addObject:error];
+	for (var i = 0; i < _listeners.length; i++)
+	    [_listeners[i] addError:error];
 }
 
 - (void)addFailure:(CPException)failure forTest:(OJTest)aTest
 {
-    [_errors addObject:[[OJTestFailure alloc] initWithTest:aTest exception:failure]];
+	[self addFailure:[[OJTestFailure alloc] initWithTest:aTest exception:failure]];
+}
+
+- (void)addFailure:(OJTestFailure)failure
+{
+    [_failures addObject:failure];
     for (var i = 0; i < _listeners.length; i++)
-        [_listeners[i] addFailure:failure forTest:aTest];
+        [_listeners[i] addFailure:failure];
 }
 
 - (void)startTest:(OJTest)aTest
@@ -102,29 +121,31 @@
     _stop = YES;
 }
 
-- (int)failureCount
+- (int)numberOfFailures
 {
     return [_failures count];
 }
 
-- (CPArray)failures
+- (int)failureCount
 {
-    return _failures;
+	CPLog.warn("[OJTestResult failureCount] is deprecated. Please use [OJTestResult numberOfFailures].");
+	return [self numberOfFailures];
 }
 
-- (int)errorCount
+- (int)numberOfErrors
 {
     return [_errors count];
 }
 
-- (CPArray)errors
+- (int)errorCount
 {
-    return _errors;
+	CPLog.warn("[OJTestResult errorCount] is deprecated. Please use [OJTestResult numberOfErrors].");
+	return [self numberOfErrors];
 }
 
 - (BOOL)wasSuccessful
 {
-    return [self failureCount] == 0 && [self errorCount] == 0;
+    return [self numberOfFailures] == 0 && [self numberOfErrors] == 0;
 }
 
 @end

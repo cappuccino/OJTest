@@ -6,32 +6,32 @@
 {
     var sel1 = [[OJMoqSelector alloc] initWithName:@"sel1" withArguments:[CPArray array]];
     var sel2 = [[OJMoqSelector alloc] initWithName:@"sel2" withArguments:[CPArray array]];
-    [self assert:NO equals:[sel1 equals:sel2]];
-    [self assert:NO equals:[sel2 equals:sel1]];
+    [OJAssert assert:NO equals:[sel1 equals:sel2]];
+    [OJAssert assert:NO equals:[sel2 equals:sel1]];
 }
 
 - (void)testThatSelectorsWithSameNamesButDifferentArgumentsDontEquate
 {
     var sel1 = [[OJMoqSelector alloc] initWithName:@"same" withArguments:[CPArray arrayWithObject:@"yes"]];
     var sel2 = [[OJMoqSelector alloc] initWithName:@"same" withArguments:[CPArray arrayWithObject:@"no"]];
-    [self assert:NO equals:[sel1 equals:sel2]];
-    [self assert:NO equals:[sel2 equals:sel1]];
+    [OJAssert assert:NO equals:[sel1 equals:sel2]];
+    [OJAssert assert:NO equals:[sel2 equals:sel1]];
 }
 
 - (void)testThatSelectorsWithSameNamesAndNoArgumentsEquate
 {
     var sel1 = [[OJMoqSelector alloc] initWithName:@"same" withArguments:[CPArray array]];
     var sel2 = [[OJMoqSelector alloc] initWithName:@"same" withArguments:[CPArray array]];
-    [self assert:YES equals:[sel1 equals:sel2]];
-    [self assert:YES equals:[sel2 equals:sel1]];
+    [OJAssert assert:YES equals:[sel1 equals:sel2]];
+    [OJAssert assert:YES equals:[sel2 equals:sel1]];
 }
 
 - (void)testThatSelectorsWithSameNamesAndOneSelectorWithNoArgumentsEquate
 {
     var sel1 = [[OJMoqSelector alloc] initWithName:@"same" withArguments:[CPArray arrayWithObject:@"yes"]];
     var sel2 = [[OJMoqSelector alloc] initWithName:@"same" withArguments:[CPArray array]];
-    [self assert:NO equals:[sel1 equals:sel2]];
-    [self assert:NO equals:[sel2 equals:sel1]];
+    [OJAssert assert:NO equals:[sel1 equals:sel2]];
+    [OJAssert assert:NO equals:[sel2 equals:sel1]];
 }
 
 - (void)testThatOJMoqSelectorDoesFindNameInSelectors
@@ -42,7 +42,7 @@
     
     var array = [sel2, sel3];
     
-    [self assert:[sel3] equals:[OJMoqSelector find:sel1 in:array]];
+    [OJAssert assert:[sel3] equals:[OJMoqSelector find:sel1 in:array]];
 }
 
 - (void)testThatOJMoqSelectorDoesFindAllMatchingSelectors
@@ -54,7 +54,7 @@
     
     var array = [sel2, sel3, sel4];
     
-    [self assert:[sel3, sel4] equals:[OJMoqSelector find:sel1 in:array]];
+    [OJAssert assert:[sel3, sel4] equals:[OJMoqSelector find:sel1 in:array]];
 }
 
 - (void)testThatOJMoqSelectorCanFindMatchingSelectorsWhenPassedInSelectorHasWildcardForArguments
@@ -66,7 +66,7 @@
     
     var array = [sel1, sel2, sel4];
     
-    [self assert:[sel1, sel4] equals:[OJMoqSelector find:sel3 in:array]];
+    [OJAssert assert:[sel1, sel4] equals:[OJMoqSelector find:sel3 in:array]];
 }
 
 - (void)testThatOJMoqSelectorOnlyFindsSelectorMatchingArgumentsWhenIgnoringWildcards
@@ -78,6 +78,6 @@
     
     var array = [sel1, sel2, sel4];
     
-    [self assert:[sel4] equals:[OJMoqSelector find:sel3 in:array ignoreWildcards:YES]];
+    [OJAssert assert:[sel4] equals:[OJMoqSelector find:sel3 in:array ignoreWildcards:YES]];
 }
 @end

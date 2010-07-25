@@ -3,8 +3,6 @@
 @import <OJUnit/OJTestRunnerText.j>
 @import <OJCov/OJCoverageRunnerText.j>
 
-CPLogRegister(CPLogPrint, "warn");
-
 var parser = new (require("args").Parser)();
 
 parser.usage("INPUT_FILE ...");
@@ -20,18 +18,26 @@ parser.option("-t", "threshold")
     .set()
     .help("Set the threshold for test coverage to the specified percentage. Implies -c. Default: 0.8");
 
+parser.option("-l", "level")
+    .def(@"warn")
+    .choices(["fatal", "error", "warn", "info", "debug", "trace"])
+    .set()
+    .help("Set the minimum log level.");
+
 parser.helpful();
 
 function main(args) {
     var savedArgs = args.slice(0);
 
     var options = parser.parse(args);
-    
+
     if (options.args.length < 1)
     {
         parser.printUsage(options);
         return;
     }
+
+    CPLogRegister(CPLogPrint, options.level);
 
     if (options.coverage || savedArgs.indexOf("-t") !== -1)
     {

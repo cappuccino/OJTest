@@ -1,4 +1,5 @@
 @import "../Frameworks/OJMoq/OJMoq.j"
+@import "../Frameworks/OJUnit/OJAssert.j"
 
 @implementation OJMoqTest : OJTestCase
 
@@ -6,28 +7,28 @@
 {
 	// functional way of instantiation
 	var aMock = moq();
-	[self assertNotNull:aMock];
+	[OJAssert assertNotNull:aMock];
 }
 
 - (void)testThatOJMoqDoesInitializeWithBaseObject_functional
 {
 	// functional way of instantiation
 	var aMock = moq(@"Test");
-	[self assertNotNull:aMock];
+	[OJAssert assertNotNull:aMock];
 }
 
 - (void)testThatOJMoqDoesInitializeWithBaseObject_class
 {
 	// object-oriented, class method way of instatiation
 	var aMock = [OJMoq mockBaseObject:@"Test"];
-	[self assertNotNull:aMock];
+	[OJAssert assertNotNull:aMock];
 }
 
 - (void)testThatOJMoqDoesInitializeWithBaseObject_instance
 {
 	// object-oriented, instanced method way of instatiation
 	var aMock = [[OJMoq alloc] initWithBaseObject:@"Test"];
-	[self assertNotNull:aMock];
+	[OJAssert assertNotNull:aMock];
 }
 
 - (void)testThatOJMoqDoesUseDeprecatedMethods
@@ -38,7 +39,7 @@
     [aMock expectSelector:@selector(b:) times:2 arguments:[CPArray array]];
     [aMock selector:@selector(b:) withArguments:[CPArray array] returns:5];
     
-    [self assertTrue:YES];
+    [OJAssert assertTrue:YES];
 }
 
 - (void)testThatOJMoqDoesVerifyAnExpectation
@@ -64,14 +65,14 @@
 	var aMock = moq();
 	[aMock selector:@selector(a) times:2];
 	[aMock a];
-	[self assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
+	[OJAssert assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
 }
 
 - (void)testThatOJMoqDoesInvalidateAnExpectationThatHasNeverBeenCalled
 {
 	var aMock = moq();
 	[aMock selector:@selector(a) times:1];
-	[self assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
+	[OJAssert assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
 }
 
 // AKA Stubbing!
@@ -79,7 +80,7 @@
 {
 	var aMock = moq();
 	var returnValue = [aMock a];
-	[self assertNotNull:returnValue];
+	[OJAssert assertNotNull:returnValue];
 }
 
 - (void)testThatOJMoqDoesReturnSetValue
@@ -87,7 +88,7 @@
 	var aMock = moq();
 	var returnValue = "Return";
 	[aMock selector:@selector(a) returns:returnValue];
-	[self assert:[aMock a] equals:returnValue];
+	[OJAssert assert:[aMock a] equals:returnValue];
 }
 
 - (void)testThatOJMoqDoesDistinguishBetweenArguments
@@ -115,7 +116,7 @@
 	[aMock selector:@selector(a) times:2];
 	[aMock a];
 	[aMock a];
-	[self assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
+	[OJAssert assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
 }
 
 - (void)testThatOJMoqDoesThrowWhenCalledTooLittle
@@ -123,7 +124,7 @@
 	var aMock = moq();
 	[aMock selector:@selector(a) times:2];
 	[aMock a];
-	[self assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
+	[OJAssert assertThrows:function(){[mock verifyThatAllExpectationsHaveBeenMet];}];
 }
 
 - (void)testThatOJMoqDoesDistinguishBetweenArgumentsWhenGettingReturnValue
@@ -131,8 +132,8 @@
 	var aMock = moq();
 	var returnValue = "Value";
 	[aMock selector:@selector(a:) returns:returnValue arguments:[CPArray arrayWithObject:@"Arg1"]];
-	[self assert:[aMock a:@"Arg1"] equals:returnValue];
-        [self assert:[aMock a:@"Arg2"] notEqual:returnValue];
+	[OJAssert assert:[aMock a:@"Arg1"] equals:returnValue];
+    [OJAssert assert:[aMock a:@"Arg2"] notEqual:returnValue];
 }
 
 - (void)testThatOJMoqDoesIgnoreEmptyArgumentsArrayWhenGettingReturnValue
@@ -140,8 +141,8 @@
     var aMock = moq();
     var returnValue = "Value";
     [aMock selector:@selector(a:) returns:returnValue arguments:[CPArray array]];
-    [self assert:returnValue equals:[aMock a:[CPArray array]]];
-    [self assert:returnValue equals:[aMock a:@"Arg1"]];
+    [OJAssert assert:returnValue equals:[aMock a:[CPArray array]]];
+    [OJAssert assert:returnValue equals:[aMock a:@"Arg1"]];
 }
 
 - (void)testSettingMultipleExpectationsOnASelectorWithDifferentArguments
@@ -161,7 +162,7 @@
     [aMock selector:@selector(aSelector:) callback:(function(args) {callbackValue = 1;})];
     [aMock selector:@selector(aSelector:) times:1];
     [aMock aSelector:4];
-    [self assert:callbackValue equals:1];
+    [OJAssert assert:callbackValue equals:1];
     [aMock verifyThatAllExpectationsHaveBeenMet];
 }
 
@@ -170,8 +171,8 @@
     var aMock = moq();
     var returnValue = "Value";
     [aMock selector:@selector(a:) returns:returnValue];
-    [self assert:returnValue equals:[aMock a:[CPArray array]]];
-    [self assert:returnValue equals:[aMock a:@"Arg1"]];
+    [OJAssert assert:returnValue equals:[aMock a:[CPArray array]]];
+    [OJAssert assert:returnValue equals:[aMock a:@"Arg1"]];
 }
 
 - (void)testThatOJMoqDoesRespondToSelectorWhenSelectorIsAdded
@@ -179,8 +180,8 @@
     var aMock = moq();
     
     [aMock selector:@selector(test:) returns:NO];
-    [self assertTrue:[aMock respondsToSelector:@selector(test:)]];
-    [self assertFalse:[aMock respondsToSelector:@selector(verifyThatAllExpectationsHaveBeenMet)]];
+    [OJAssert assertTrue:[aMock respondsToSelector:@selector(test:)]];
+    [OJAssert assertFalse:[aMock respondsToSelector:@selector(verifyThatAllExpectationsHaveBeenMet)]];
 }
 
 - (void)testThatOJMoqDoesRespondToSelectorWhenArgumentsAreUsed
@@ -188,22 +189,22 @@
     var aMock = moq();
     
     [aMock selector:@selector(test:) returns:NO arguments:[5]];
-    [self assertTrue:[aMock respondsToSelector:@selector(test:)]];
-    [self assertFalse:[aMock respondsToSelector:@selector(verifyThatAllExpectationsHaveBeenMet)]];
+    [OJAssert assertTrue:[aMock respondsToSelector:@selector(test:)]];
+    [OJAssert assertFalse:[aMock respondsToSelector:@selector(verifyThatAllExpectationsHaveBeenMet)]];
 }
 
 - (void)testThatOJMoqDoesReturnUnderlyingData
 {
     var aMock = moq(@"Value");
     
-    [self assert:5 equals:[aMock length]];
+    [OJAssert assert:5 equals:[aMock length]];
 }
 
 - (void)testThatOJMoqDoesThrowErrorWhenAttemptingToCallSelectorOnUnderlyingData
 {
     var aMock = moq(@"Value");
     
-    [self assertThrows:function(){[aMock someSelectorThatWillNeverEverExist];}];
+    [OJAssert assertThrows:function(){[aMock someSelectorThatWillNeverEverExist];}];
 }
 
 - (void)testThatOJMoqDoesCallCallbackWhenPassedSelector
@@ -215,7 +216,7 @@
     
     [aMock a];
     
-    [self assertTrue:called];
+    [OJAssert assertTrue:called];
 }
 
 - (void)testThatOJMoqDoesNotCallCallbackWhenPassedAnotherSelector
@@ -227,7 +228,7 @@
     
     [aMock b];
     
-    [self assertFalse:called];
+    [OJAssert assertFalse:called];
 }
 
 - (void)testThatOJMoqDoesCallCallbackWhenPassedSelectorWithArguments
@@ -239,7 +240,7 @@
     
     [aMock a:"BOB"];
     
-    [self assertTrue:called];
+    [OJAssert assertTrue:called];
 }
 
 - (void)testThatOJMoqDoesPassArgumentsToCallback
@@ -251,7 +252,7 @@
     
     [aMock a:"BOB"];
     
-    [self assert:"BOB" equals:result];
+    [OJAssert assert:"BOB" equals:result];
 }
 
 - (void)testThatOJMoqDoesMockSelectorOnSpy
@@ -264,6 +265,19 @@
     
     [aMock isEqualToString:@"BOB"];
     
+    [OJAssert assertTrue:called];
+}
+
+- (void)testThatOJMoqDoesCallSelectorOnSpyWhenMethodDoesntExistOnBaseObject
+{
+    var anObject = @"Test";
+    var aMock = moq(anObject);
+    var called = NO;
+
+    [aMock selector:@selector(someMethod) callback:function(args){called = YES;}];
+
+    [aMock someMethod];
+
     [self assertTrue:called];
 }
 
@@ -278,37 +292,24 @@
     [aMock isEqualToString:@"BOB"];
     [aMock isEqualToString:@"BOB"];
 
-    [self assert:2 equals:called];
+    [OJAssert assert:2 equals:called];
 }
 
-// Adding these because ojtest does not have them. Should eventually
-// do a pull request for these.
-- (void)assert:(id)expected notEqual:(id)actual
+@end
+
+@implementation DummyObject : CPObject
 {
-    [self assert:expected notEqual:actual message:nil];
+    CPString aDependency;
 }
 
-- (void)assert:(id)expected notEqual:(id)actual message:(CPString)message
+- (void)setDependency:(id)anObject
 {
-    if (expected === actual || [expected isEqual:actual])
-        [self failEqual:expected actual:actual message:message];
+    aDependency = anObject;
 }
 
-- (void)failEqual:(id)expected actual:(id)actual message:(CPString)message
+- (unsigned)dummyMethod
 {
-    [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+expected+"> Got:<"+actual+">")];
+    var x = [aDependency length];
+    return x + 10;
 }
-
-// Only necessarily until new release of ojtest.
-// I don't need this (on the 0.8 branch) but leaving it
-// for compatibility reasons. When 0.8 is officially
-// released, I will remove this finally.
-- (void)assertThrows:(Function)zeroArgClosure
-{
-    var exception = nil;
-    try { zeroArgClosure(); }
-    catch (e) { exception = e; }
-    [self assertNotNull:exception message:"Should have caught an exception, but got nothing"];
-}
-
 @end

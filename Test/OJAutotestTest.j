@@ -29,7 +29,7 @@ var oldWatch = FSEVENTS.watch;
 
 - (void)testThatOJAutotestDoesInitialize
 {
-    [self assertNotNull:target];
+    [OJAssert assertNotNull:target];
 }
 
 - (void)testThatOJAutotestDoesStartWithWatchedLocationTest
@@ -43,7 +43,7 @@ var oldWatch = FSEVENTS.watch;
     
     [target start];
     
-    [self assertTrue:watchingTest];
+    [OJAssert assertTrue:watchingTest];
 }
 
 - (void)testThatOJAutotestDoesStartWithWatchedLocationTestAndLib
@@ -58,17 +58,17 @@ var oldWatch = FSEVENTS.watch;
     [target setWatchLocations:["Test", "lib"]];
     [target start];
 
-    [self assertTrue:watchingTest];   
+    [OJAssert assertTrue:watchingTest];   
 }
 
 - (void)testThatOJAutotestDoesIdentifyTests
 {
-    [self assertTrue:[target isTest:@"OneTest.j"]];
+    [OJAssert assertTrue:[target isTest:@"OneTest.j"]];
 }
 
 - (void)testThatOJAutotestDoesIdentifyNonTests
 {
-    [self assertFalse:[target isTest:@"One.j"]];
+    [OJAssert assertFalse:[target isTest:@"One.j"]];
 }
 
 - (void)testThatOJAutotestDoesGetTestFileForFile
@@ -76,14 +76,14 @@ var oldWatch = FSEVENTS.watch;
     var expectedOutput = FILE.absolute("Test/OJAutotestTest.j");
     var input = FILE.absolute("Frameworks/OJAutotest/OJAutotest.j");
     
-    [self assert:expectedOutput equals:[target testForFile:input]];
+    [OJAssert assert:expectedOutput equals:[target testForFile:input]];
 }
 
 - (void)testThatOJAutotestDoesReturnTheTestsOfFiles
 {
     [self createFiles:["Test/OneTest.j", "Two.j", "Test/TwoTest.j"] andRun:function(){
         var output = [target testsForFiles:["Test/OneTest.j", "Two.j"]];
-        [self assert:["Test/OneTest.j", "Test/TwoTest.j"].map(function(str){return FILE.absolute(str);}) equals:output];
+        [OJAssert assert:["Test/OneTest.j", "Test/TwoTest.j"].map(function(str){return FILE.absolute(str);}) equals:output];
     }];
 }
 
@@ -111,7 +111,7 @@ var oldWatch = FSEVENTS.watch;
 {
     if(![array containsObject:anObject])
     {
-        [self fail:@"The array <"+array+"> did not contain the object <"+[anObject description]+">"];
+        [OJAssert fail:@"The array <"+array+"> did not contain the object <"+[anObject description]+">"];
     }
 }
 

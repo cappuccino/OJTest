@@ -100,6 +100,7 @@ var stream = require("term").stream;
     
     return result;
 }
+
 - (OJTestResult)run:(OJTest)suite
 {
     return [self run:suite wait:NO];

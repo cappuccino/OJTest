@@ -235,7 +235,13 @@ function moq(baseObject)
     var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
     __ojmoq_incrementNumberOfCalls(anInvocation, selectors);
 	
-    if(_baseObject !== nil && !theSelector)
+	// We forward to the baseObject when:
+	// 1. A baseObject exists and
+	// 2. No one has added this selector to our selector list or it is a selector the baseobject responds to and no one has tried 
+	//    to override the baseObject's implementation
+    if (_baseObject !== nil &&
+        (!theSelector || ([_baseObject respondsToSelector:CPSelectorFromString([theSelector name])] 
+        && ([theSelector returnValue] === undefined && [theSelector callback] === undefined))))
     {
         return [anInvocation invokeWithTarget:_baseObject];
     }
@@ -325,7 +331,7 @@ function __ojmoq_setReturnValue(anInvocation, selectors)
 function __ojmoq_startCallback(anInvocation, selectors)
 {
     var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
-    if(theSelector)
+    if(theSelector && [theSelector callback] !== undefined)
     {
         [theSelector callback]([anInvocation userArguments]);
     }
