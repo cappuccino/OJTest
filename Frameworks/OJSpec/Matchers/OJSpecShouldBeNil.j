@@ -1,8 +1,6 @@
 @import "../OJSpecMatcher.j"
 
 @implementation OJSpecShouldBeNil : OJSpecMatcher
-{
-}
 
 @end
 
@@ -14,14 +12,12 @@
 
 - (void)shouldBeNil
 {
-    if(![[[OJSpecShouldBeNil alloc] initWithExpected:nil] matches:self])
-        throw SpecFailedException;
+    [[[OJSpecShouldBeNil alloc] initWithExpected:nil] matches:self];
 }
 
 - (void)shouldNotBeNil
 {
-    if([[[OJSpecShouldBeNil alloc] initWithExpected:nil] matches:self])
-        throw SpecFailedException;
+    [[[OJSpecShouldBeNil alloc] initWithExpected:nil] matches:self];
 }
 
 @end

@@ -17,8 +17,7 @@
 - (void)matches:(id)actual
 {
     [self setActual:actual];
-
-    return [self expected] == [self actual];
+    [OJAssert assert:[self expected] equals:[self actual]];
 }
 
 - (CPString)failureMessageForShould

@@ -19,14 +19,12 @@
 
 - (void)shouldBeInstanceOf:(Class)expected
 {
-    if(![[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self])
-        throw SpecFailedException;
+    [[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self];
 }
 
 - (void)shouldNotBeInstanceOf:(Class)expected
 {
-    if([[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self])
-        throw SpecFailedException;
+    [[[OJSpecShouldBeInstanceOf alloc] initWithExpected:expected] matches:self];
 }
 
 @end
