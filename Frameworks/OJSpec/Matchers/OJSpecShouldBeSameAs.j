@@ -1,13 +1,11 @@
 @import "../OJSpecMatcher.j"
 
 @implementation OJSpecShouldBeSameAs : OJSpecMatcher
-{
-}
 
 - (BOOL)matches:(id)actual
 {
     [self setActual:actual];
-    return ([self expected] === [self actual]);
+	[OJAssert assertTrue:([self expected] === [self actual])];
 }
 
 @end
@@ -19,14 +17,12 @@
 
 - (void)shouldBeSameAs:(id)expected
 {
-    if(![[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self])
-        throw SpecFailedException;
+    [[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self];
 }
 
 - (void)shouldNotBeSameAs:(id)expected
 {
-    if([[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self])
-        throw SpecFailedException;
+    [[[OJSpecShouldBeSameAs alloc] initWithExpected:expected] matches:self];
 }
 
 @end
