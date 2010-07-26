@@ -39,5 +39,6 @@ Contributors
 * Martin Hacker
 * Derek Hammer
 * Chandler Kent
+* Klaas Pieter
 * Tom Robinson
 * Jared Santo
