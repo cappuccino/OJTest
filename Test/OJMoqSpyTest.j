@@ -53,4 +53,30 @@
 	[spy verifyThatAllExpectationsHaveBeenMet];
 }
 
+- (void)testThatOJMoqSpyDoesDetectInternalCallsOnObjects
+{
+	var target = [[TestObject alloc] init];
+	var spy = [OJMoqSpy spyOnBaseObject:target];
+	
+	[spy selector:@selector(internalMethod) times:1];
+	
+	[target externalMethod];
+	
+	[spy verifyThatAllExpectationsHaveBeenMet];
+}
+
+@end
+
+@implementation TestObject : OJTestCase
+
+- (void)externalMethod
+{
+	[self internalMethod];
+}
+
+- (void)internalMethod
+{
+	// do nothing
+}
+
 @end

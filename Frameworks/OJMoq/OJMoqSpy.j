@@ -2,6 +2,10 @@
 @import "OJMoqSelector.j"
 @import "OJMoqAssert.j"
 
+spy = function(obj) {
+	return [OJMoqSpy spyOnBaseObject:obj];
+}
+
 @implementation OJMoqSpy : CPObject
 {
 	CPObject		_baseObject		@accessors(property=baseObject);
