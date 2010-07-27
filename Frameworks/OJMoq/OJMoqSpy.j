@@ -2,7 +2,8 @@
 @import "OJMoqSelector.j"
 @import "OJMoqAssert.j"
 
-spy = function(obj) {
+function spy(obj) 
+{
 	return [OJMoqSpy spyOnBaseObject:obj];
 }
 
@@ -52,7 +53,6 @@ spy = function(obj) {
 - (void)verifyThatAllExpectationsHaveBeenMet
 {
 	expectations.forEach(function(expectation){
-		require("system").print();
 		expectation();
 	});
 }
