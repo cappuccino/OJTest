@@ -11,7 +11,7 @@
 {
 	var target = mock(@"TEST");
 	
-	[target selector:@selector(capitalize) times:1];
+	[target selector:@selector(capitalizedString) times:1];
 	
 	[OJAssert assertThrows:function(){[target verifyThatAllExpectationsHaveBeenMet]}];
 }
@@ -20,9 +20,9 @@
 {
 	var target = mock(@"TEST");
 	
-	[target selector:@selector(capitalize) times:1];
+	[target selector:@selector(capitalizedString) times:1];
 	
-	[target capitalize];
+	[target capitalizedString];
 	
 	[target verifyThatAllExpectationsHaveBeenMet];
 }
@@ -31,9 +31,9 @@
 {
 	var target = mock(@"TEST");
 	
-	[target selector:@selector(capitalize) times:2];
+	[target selector:@selector(capitalizedString) times:2];
 	
-	[target capitalize];
+	[target capitalizedString];
 	
 	[OJAssert assertThrows:function(){[target verifyThatAllExpectationsHaveBeenMet]}];
 }
@@ -42,10 +42,10 @@
 {
 	var target = mock(@"TEST");
 
-	[target selector:@selector(capitalize) times:2];
+	[target selector:@selector(capitalizedString) times:2];
 
-	[target capitalize];
-	[target capitalize];
+	[target capitalizedString];
+	[target capitalizedString];
 
 	[target verifyThatAllExpectationsHaveBeenMet];
 }
@@ -70,6 +70,13 @@
 	[target isEqualToString:@"TEST2"];
 	
 	[OJAssert assertThrows:function(){[target verifyThatAllExpectationsHaveBeenMet]}];
+}
+
+- (void)testThatOJMoqMockDoesThrowExceptionWhenUnderlyingObjectHasNoSuchSelector
+{
+	var target = mock(@"TEST");
+	
+	[OJAssert assertThrows:function(){[target asdfasdga];}];
 }
 
 @end

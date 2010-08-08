@@ -52,6 +52,9 @@ function mock(obj) {
 /* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
 {
+	if (![self respondsToSelector:[anInvocation selector]])
+		[CPException raise:"InvalidArgumentException" reason:"The selector " + [anInvocation selector] + " could not be found."];
+	
 	var foundSelectors = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
 																	withArguments:[anInvocation userArguments]] 
 	                                    in:selectors ignoreWildcards:NO],
@@ -66,7 +69,7 @@ function mock(obj) {
 */
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-    return YES;
+    return [baseObject respondsToSelector:aSelector];
 }
 
 @end
