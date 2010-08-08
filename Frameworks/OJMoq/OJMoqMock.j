@@ -33,14 +33,42 @@ function mock(obj) {
 
 - (void)selector:(SEL)aSelector times:(CPNumber)times arguments:(CPArray)arguments
 {
-	var selector = [[OJMoqSelector alloc] initWithName:aSelector withArguments:arguments];
+	var selector = [self findOrCreateSelector:aSelector withArguments:arguments];
 	[expectations addObject:function(){[OJMoqAssert selector:selector hasBeenCalled:times];}];
-	[selectors addObject:selector];
+}
+
+- (void)selector:(SEL)aSelector returns:(id)returnValue
+{
+	[self selector:aSelector returns:returnValue arguments:[CPArray array]];
+}
+
+- (void)selector:(SEL)aSelector returns:(id)returnValue arguments:(CPArray)arguments
+{
+	[[self findOrCreateSelector:aSelector withArguments:arguments] setReturnValue:returnValue];
 }
 
 - (void)verifyThatAllExpectationsHaveBeenMet
 {
 	expectations.forEach(function(expectation){expectation();});
+}
+
+- (OJMoqSelector)findOrCreateSelector:(SEL)aSelector withArguments:(CPArray)arguments
+{
+	var foundSelectors = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName(aSelector) 
+																	withArguments:arguments] 
+	                                    in:selectors ignoreWildcards:NO],
+	    selector = nil;
+	
+    if ([foundSelectors count] > 1)
+        [CPException raise:CPInternalInconsistencyException reason:"Multiple selectors found with the exact same name and arguments"];
+    else if ([foundSelectors count] === 1)
+        selector = foundSelectors[0];
+    else {
+        selector = [[OJMoqSelector alloc] initWithName:aSelector withArguments:arguments];
+		[selectors addObject:selector];
+	}
+
+	return selector;
 }
 
 /* @ignore */
@@ -60,8 +88,10 @@ function mock(obj) {
 	                                    in:selectors ignoreWildcards:NO],
     	count = [foundSelectors count];
 
-	while (count--)
+	while (count--) {
     	[foundSelectors[count] call];
+		[anInvocation setReturnValue:[[foundSelectors objectAtIndex:count] returnValue]];
+	}
 }
 
 /*!

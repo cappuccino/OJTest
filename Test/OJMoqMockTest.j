@@ -79,4 +79,54 @@
 	[OJAssert assertThrows:function(){[target asdfasdga];}];
 }
 
+- (void)testThatOJMoqMockDoesSetReturnValueAndReturnIt
+{
+	var target = mock(@"TEST");
+	
+	[target selector:@selector(isEqualToString:) times:1];
+	[target selector:@selector(isEqualToString:) returns:YES];
+	
+	[OJAssert assert:YES equals:[target isEqualToString:@"BOB"]];
+}
+
+- (void)testThatOJMoqMockDoesSetReturnValueAndReturnItButReturnsNegativeValue
+{
+	var target = mock(@"TEST");
+	
+	[target selector:@selector(isEqualToString:) times:1];
+	[target selector:@selector(isEqualToString:) returns:NO];
+	
+	[OJAssert assertThrows:function(){[OJAssert assert:YES equals:[target isEqualToString:@"BOB"]]}];
+}
+
+- (void)testThatOJMoqMockDoesSetReturnValueForSelectorWithArguments
+{
+	var target = mock(@"TEST");
+	
+	[target selector:@selector(isEqualToString:) returns:NO arguments:[@"BOB"]];
+	
+	[OJAssert assert:NO equals:[target isEqualToString:@"BOB"]];
+}
+
+- (void)testThatOJMoqMockDoesSetReturnValueForSelectorsWithArgumentsAndWhenNotCalledWithArgumentsReturnsNull
+{
+	var target = mock(@"TEST");
+
+	[target selector:@selector(isEqualToString:) returns:NO arguments:[@"BOB"]];
+
+	[OJAssert assertNull:[target isEqualToString:@"JOE"]];
+}
+
+- (void)testThatOJMoqMockDoesHaveReturnValueAndExpectationsWorkTogether
+{
+	var target = mock(@"TEST");
+	
+	[target selector:@selector(isEqualToString:) returns:NO arguments:[@"BOB"]];
+	[target selector:@selector(isEqualToString:) times:1 arguments:[@"BOB"]];
+	
+	[OJAssert assertFalse:[target isEqualToString:@"BOB"]];
+	
+	[target verifyThatAllExpectationsHaveBeenMet];
+}
+
 @end
