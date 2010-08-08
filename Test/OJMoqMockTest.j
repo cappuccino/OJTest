@@ -50,4 +50,26 @@
 	[target verifyThatAllExpectationsHaveBeenMet];
 }
 
+- (void)testThatOJMoqMockDoesValidateExpectationsWithArguments
+{
+	var target = mock(@"TEST");
+	
+	[target selector:@selector(isEqualToString:) times:1 arguments:[@"TEST2"]];
+	
+	[target isEqualToString:@"TEST2"];
+	
+	[target verifyThatAllExpectationsHaveBeenMet];
+}
+
+- (void)testThatOJMoqMockDoesInvalidateExpectationsWithArguments
+{	
+	var target = mock(@"TEST");
+	
+	[target selector:@selector(isEqualToString:) times:1 arguments:[@"TEST3"]];
+	
+	[target isEqualToString:@"TEST2"];
+	
+	[OJAssert assertThrows:function(){[target verifyThatAllExpectationsHaveBeenMet]}];
+}
+
 @end

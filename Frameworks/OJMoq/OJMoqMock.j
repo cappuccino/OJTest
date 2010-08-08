@@ -28,7 +28,12 @@ function mock(obj) {
 
 - (void)selector:(SEL)aSelector times:(CPNumber)times
 {
-	var selector = [[OJMoqSelector alloc] initWithName:aSelector withArguments:[CPArray array]];
+	[self selector:aSelector times:times arguments:[CPArray array]];
+}
+
+- (void)selector:(SEL)aSelector times:(CPNumber)times arguments:(CPArray)arguments
+{
+	var selector = [[OJMoqSelector alloc] initWithName:aSelector withArguments:arguments];
 	[expectations addObject:function(){[OJMoqAssert selector:selector hasBeenCalled:times];}];
 	[selectors addObject:selector];
 }
