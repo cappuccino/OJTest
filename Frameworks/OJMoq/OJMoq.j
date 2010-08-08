@@ -3,6 +3,11 @@
 @import "CPInvocation+Arguments.j"
 @import "OJMoqAssert.j"
 
+// New stuff
+@import "OJMoqMock.j"
+@import "OJMoqSpy.j"
+@import "OJMoqStub.j"
+
 var DEPRECATED_METHOD = "%@ is deprecated and will be removed in a future release. Please use %@. Thanks!";
 
 // Create a mock object based on a given object.
