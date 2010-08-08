@@ -47,6 +47,16 @@ function mock(obj) {
 	[[self findOrCreateSelector:aSelector withArguments:arguments] setReturnValue:returnValue];
 }
 
+- (void)selector:(SEL)aSelector callback:(Function)callback
+{
+	[self selector:aSelector callback:callback arguments:[CPArray array]];
+}
+
+- (void)selector:(SEL)aSelector callback:(Function)callback arguments:(CPArray)arguments
+{
+	[[self findOrCreateSelector:aSelector withArguments:arguments] setCallback:callback];
+}
+
 - (void)verifyThatAllExpectationsHaveBeenMet
 {
 	expectations.forEach(function(expectation){expectation();});
@@ -89,8 +99,13 @@ function mock(obj) {
     	count = [foundSelectors count];
 
 	while (count--) {
-    	[foundSelectors[count] call];
-		[anInvocation setReturnValue:[[foundSelectors objectAtIndex:count] returnValue]];
+		var selector = foundSelectors[count],
+			returnValue = [selector returnValue],
+			callback = [selector callback];
+			
+    	[selector call];
+		[anInvocation setReturnValue:returnValue];
+		if(callback) callback([anInvocation userArguments]);
 	}
 }
 

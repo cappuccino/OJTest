@@ -129,4 +129,40 @@
 	[target verifyThatAllExpectationsHaveBeenMet];
 }
 
+- (void)testThatOJMoqMockDoesAllowSettingCallbacks
+{
+	var target = mock(@"TEST");
+	var called = false;
+	
+	[target selector:@selector(isEqualToString:) callback:function(args){called = true;}];
+	
+	[target isEqualToString:@"TEST"];
+	
+	[OJAssert assertTrue:called];
+}
+
+- (void)testThatOJMoqMockDoesAllowSettingCallbacksWithArguments
+{
+	var target = mock(@"TEST");
+	var called = false;
+	
+	[target selector:@selector(isEqualToString:) callback:function(args){called = true;} arguments:[@"TEST"]];
+	
+	[target isEqualToString:@"TEST"];
+	
+	[OJAssert assertTrue:called];
+}
+
+- (void)testThatOJMoqMockDoesAllowSettingCallbacksThatDontCallWithInvalidArguments
+{
+	var target = mock(@"TEST");
+	var called = false;
+
+	[target selector:@selector(isEqualToString:) callback:function(args){called = true;} arguments:[@"TEST2"]];
+
+	[target isEqualToString:@"TEST"];
+
+	[OJAssert assertFalse:called];
+}
+
 @end
