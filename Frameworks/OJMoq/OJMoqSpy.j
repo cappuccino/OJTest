@@ -73,8 +73,10 @@ function spy(obj)
 	class_replaceMethod([_baseObject class],
 		selector,
 		function(object, _cmd) {
-			var userArguments = Array.prototype.slice.call(arguments).splice(2, arguments.length);
-			[self incrementNumberOfCallsForMethod:selector arguments:userArguments];
+			if(object === _baseObject) {
+				var userArguments = Array.prototype.slice.call(arguments).splice(2, arguments.length);
+				[self incrementNumberOfCallsForMethod:selector arguments:userArguments];
+			}
 			aFunction.apply(this, arguments);
 		});
 }
