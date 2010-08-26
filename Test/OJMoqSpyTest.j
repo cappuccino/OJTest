@@ -56,7 +56,7 @@
 - (void)testThatOJMoqSpyDoesDetectInternalCallsOnObjects
 {
 	var target = [[TestObject alloc] init];
-	require("system").print(spy);
+
 	var targetSpy = spy(target);
 	
 	[targetSpy selector:@selector(internalMethod) times:1];
@@ -64,6 +64,17 @@
 	[target externalMethod];
 	
 	[targetSpy verifyThatAllExpectationsHaveBeenMet];
+}
+
+- (void)testThatOJMoqSpyDoesNotBlockReturnValues
+{
+    var target = @"TEST";
+    var spy = [OJMoqSpy spyOnBaseObject:target];
+
+    [spy selector:@selector(characterAtIndex:) times:1 arguments:[1]];
+    var charAtIndex = [target characterAtIndex:1];
+    [spy verifyThatAllExpectationsHaveBeenMet];
+    [OJAssert assert:charAtIndex equals:"E"];
 }
 
 @end

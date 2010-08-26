@@ -77,7 +77,7 @@ function spy(obj)
 				var userArguments = Array.prototype.slice.call(arguments).splice(2, arguments.length);
 				[self incrementNumberOfCallsForMethod:selector arguments:userArguments];
 			}
-			aFunction.apply(this, arguments);
+			return aFunction.apply(this, arguments);
 		});
 }
 
