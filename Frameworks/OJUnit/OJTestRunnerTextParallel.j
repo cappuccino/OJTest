@@ -42,14 +42,14 @@
     
             if (matches)
             {
+                system.stderr.write(matches[1]).flush();
+                var testCaseClass = matches[1];
+
+                [self beforeRequire];
+                require(testCaseFile);
+                var suite = [self getTest:testCaseClass];
+            
                 var runTestFunction = function() {
-                    system.stderr.write(matches[1]).flush();
-                    var testCaseClass = matches[1];
-    
-                    [self beforeRequire];
-                    require(testCaseFile);
-    
-                    var suite = [self getTest:testCaseClass];
                     [self run:suite];
                 };
                 
@@ -101,7 +101,7 @@
     var startTime = new Date();
     while(![self threadsDone])
     {
-        if ([self hasWaited:15 since:startTime]) {
+        if ([self hasWaited:60 since:startTime]) {
             system.print("Test timed out!");
             break;
         }
