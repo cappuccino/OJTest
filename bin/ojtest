@@ -27,14 +27,14 @@ parser.option("-l", "level")
     .help("Set the minimum log level.");
 
 parser.option("-s", "spec")
-	.def(false)
-	.set(true)
-	.help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
-	
+    .def(false)
+    .set(true)
+    .help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
+    
 parser.option("-p", "parallel")
-	.def(false)
-	.set(true)
-	.help("Run with Rhino-enabled parallel test running on 10 threads.");
+    .def(false)
+    .set(true)
+    .help("Run with Rhino-enabled parallel test running on 10 threads.");
 
 parser.helpful();
 
@@ -49,10 +49,10 @@ function main(args) {
         return;
     }
 
-	if (options.spec)
-	{
-		@import <OJSpec/OJSpec.j>
-	}
+    if (options.spec)
+    {
+        @import <OJSpec/OJSpec.j>
+    }
 
     CPLogRegister(CPLogPrint, options.level);
 
@@ -62,10 +62,10 @@ function main(args) {
 
         var runner = [[OJCoverageRunnerText alloc] initWithThreshold:threshold];
     }
-	else if (options.parallel)
-	{
-		var runner = [[OJTestRunnerTextParallel alloc] init];
-	}
+    else if (options.parallel)
+    {
+        var runner = [[OJTestRunnerTextParallel alloc] init];
+    }
     else
     {
         var runner = [[OJTestRunnerText alloc] init];
