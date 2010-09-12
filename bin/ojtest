@@ -1,6 +1,7 @@
 #!/usr/bin/env objj
 
 @import <OJUnit/OJTestRunnerText.j>
+@import <OJUnit/OJTestRunnerTextParallel.j>
 @import <OJCov/OJCoverageRunnerText.j>
 @import <OJSpec/OJSpec.j>
 
@@ -29,6 +30,11 @@ parser.option("-s", "spec")
 	.def(false)
 	.set(true)
 	.help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
+	
+parser.option("-p", "parallel")
+	.def(false)
+	.set(true)
+	.help("Run with Rhino-enabled parallel test running on 10 threads.");
 
 parser.helpful();
 
@@ -56,6 +62,10 @@ function main(args) {
 
         var runner = [[OJCoverageRunnerText alloc] initWithThreshold:threshold];
     }
+	else if (options.parallel)
+	{
+		var runner = [[OJTestRunnerTextParallel alloc] init];
+	}
     else
     {
         var runner = [[OJTestRunnerText alloc] init];
