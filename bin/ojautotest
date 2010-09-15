@@ -27,6 +27,7 @@ function readConfigurationFile()
     
     if (File.isFile(OPTIONS_FILENAME))
     {
+        require("system").print("The .autotest configuration file is deprecated. Please use the new .ojtest file!");
         options = JSON.parse(readFile(OPTIONS_FILENAME));
     }
     
