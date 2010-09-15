@@ -5,6 +5,8 @@
 @import <OJCov/OJCoverageRunnerText.j>
 @import <OJSpec/OJSpec.j>
 
+var LOCAL_OPTIONS_FILE = ".ojtest";
+
 var parser = new (require("args").Parser)();
 
 parser.usage("INPUT_FILE ...");
@@ -32,17 +34,24 @@ parser.option("-s", "spec")
     .help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
     
 parser.option("-p", "parallel")
-    .def(false)
     .set(true)
     .help("Run with Rhino-enabled parallel test running on 10 threads.");
 
 parser.helpful();
 
 function main(args) {
-    var savedArgs = args.slice(0);
-
-    var options = parser.parse(args);
-
+    var savedArgs = args.slice(0),
+        options = parser.parse(args),
+        SYS = require("system"),
+        FILE = require("file");
+    
+    if(FILE.exists(LOCAL_OPTIONS_FILE)) 
+    {
+        var fileOptions = JSON.parse(FILE.read(LOCAL_OPTIONS_FILE));
+        for(var x in fileOptions)
+            options[x] = fileOptions[x];
+    }
+    
     if (options.args.length < 1)
     {
         parser.printUsage(options);
