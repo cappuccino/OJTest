@@ -29,9 +29,11 @@ If narwhal is not installed, you can install it by running:
     
 After that, you can just do
 
-    sudo tusk install http://github.com/280north/OJTest/zipball/master
+    sudo tusk install http://github.com/280north/OJTest/zipball/latest
     
 And the libraries will be installed. OJAutotest has some other external dependencies that you need to install separately. You can find [installing instructions on the wiki](http://wiki.github.com/280north/OJTest/ojautotest).
+
+Please keep in mind that the master branch is an actively developed branch and that you should most likely be pulling from stable branches. Latest is a tag that will keep you up to date with the latest stable branch.
 
 Contributors
 ============
