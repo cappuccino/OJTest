@@ -23,13 +23,21 @@ function main(args) {
 
 function readConfigurationFile()
 {
+    var options = {"watch": ["Test"], "frameworks": []};
+    
     if (File.isFile(OPTIONS_FILENAME))
     {
-        var options = JSON.parse(readFile(OPTIONS_FILENAME));
-        return options;
+        options = JSON.parse(readFile(OPTIONS_FILENAME));
     }
     
-    return {"watch": ["Test"], "frameworks": []};
+    if (File.isFile(OJTEST_OPTIONS_FILENAME))
+    {
+        var ojTestOptions = JSON.parse(readFile(OJTEST_OPTIONS_FILENAME)).autotest;
+        for(var x in ojTestOptions)
+            options[x] = ojTestOptions[x];
+    }
+    
+    return options;
 }
 
 function readFile(fileName)
