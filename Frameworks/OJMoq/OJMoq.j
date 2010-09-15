@@ -65,30 +65,6 @@ function moq(baseObject)
 }
 
 /*!
-   **DEPRECATED**
-   @param selector The selector which should be called
-   @param times The number of times that selector should be called
- */
-- (OJMoq)expectSelector:(SEL)selector times:(int)times
-{
-    CPLog.warn([[CPString alloc] initWithFormat:DEPRECATED_METHOD, @"expectSelector:times:", @"selector:times:"]);
-    return [self selector:selector times:times arguments:[CPArray array]];
-}
-
-/*!
-   **DEPRECATED**
-   @param selector The selector which should be called
-   @param times The number of times that selector should be called
-   @param arguments Arguments for the selector. If an empty array of arguments is passed in, 
-        then the selector matches all arguments.
- */
-- (OJMoq)expectSelector:(SEL)selector times:(int)times arguments:(CPArray)arguments
-{
-    CPLog.warn([[CPString alloc] initWithFormat:DEPRECATED_METHOD, @"expectSelector:times:arguments:", @"selector:times:arguments:"]);
-    [self selector:selector times:times arguments:[CPArray array]];
-}
-
-/*!
    Expect that selector is called times on the base object. The selector here will match all
      arguments.
    @param selector The selector which should be called
@@ -135,18 +111,6 @@ function moq(baseObject)
 - (OJMoq)selector:(SEL)aSelector returns:(CPObject)value
 {
     [self selector:aSelector returns:value arguments:[CPArray array]];
-}
-
-/*!
-   DEPRECATED
-   @param aSelector The selector on the base object that will be called
-   @param arguments The arguments that must be passed to selector for this to work
-   @param value The value that the selector should return
- */
-- (OJMoq)selector:(SEL)aSelector withArguments:(CPArray)arguments returns:(CPObject)value
-{
-    CPLog.warn([[CPString alloc] initWithFormat:DEPRECATED_METHOD, @"selector:withArguments:returns:", @"selector:returns:arguments:"]);
-    [self selector:aSelector returns:value arguments:arguments];
 }
 
 /*!

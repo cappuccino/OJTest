@@ -31,17 +31,6 @@
 	[OJAssert assertNotNull:aMock];
 }
 
-- (void)testThatOJMoqDoesUseDeprecatedMethods
-{
-    var aMock = moq();
-    
-    [aMock expectSelector:@selector(a:) times:1];
-    [aMock expectSelector:@selector(b:) times:2 arguments:[CPArray array]];
-    [aMock selector:@selector(b:) withArguments:[CPArray array] returns:5];
-    
-    [OJAssert assertTrue:YES];
-}
-
 - (void)testThatOJMoqDoesVerifyAnExpectation
 {
 	var aMock = moq();
