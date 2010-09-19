@@ -6,6 +6,7 @@ var File = require("file");
 CPLogRegister(CPLogPrint, "warn");
 
 var OPTIONS_FILENAME = ".ojautotest";
+var OJTEST_OPTIONS_FILENAME = ".ojtest";
 
 function main(args) {
     if (isSystemSupported()) {
