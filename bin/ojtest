@@ -73,6 +73,7 @@ function main(args) {
     }
     else if (options.parallel)
     {
+        require("narwhal").ensureEngine("rhino");
         var runner = [[OJTestRunnerTextParallel alloc] init];
     }
     else
