@@ -40,7 +40,10 @@
                 [self addTestMethod:methods[i].name names:names class:aClass]
             }
             
-            var autotestObject = objj_msgSend(aClass, "autotest");
+            var autotestObject;
+            if([aClass respondsToSelector:@selector(autotest)])
+                autotestObject = objj_msgSend(aClass, "autotest");
+                
             if(autotestObject && ![_testClassesRan containsObject:aClass])
             {
                 [self createAccessorAutotests:class_copyIvarList([autotestObject class]) inClass:aClass forObject:autotestObject];
