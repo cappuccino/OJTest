@@ -2,8 +2,9 @@
 
 @implementation OJTestSuite : CPObject
 {
-    CPArray     _tests;
-    CPString    _name;
+    CPArray         _tests;
+    CPString        _name;
+    CPArray         _testClassesRan;
 }
 
 - (id)init
@@ -11,6 +12,7 @@
     if (self = [super init])
     {
         _tests = [];
+        _testClassesRan = [];
     }
     return self;
 }
@@ -37,6 +39,13 @@
             {
                 [self addTestMethod:methods[i].name names:names class:aClass]
             }
+            
+            var autotestObject = objj_msgSend(aClass, "autotest");
+            if(autotestObject && ![_testClassesRan containsObject:aClass])
+            {
+                [self createAccessorAutotests:class_copyIvarList([autotestObject class]) inClass:aClass forObject:autotestObject];
+                [_testClassesRan addObject:aClass];
+            }
         
             superClass = superClass.super_class;
         }
@@ -46,6 +55,41 @@
     }
         
     return self;
+}
+
+- (void)createAccessorAutotests:(CPArray)ivars inClass:(Class)aClass forObject:(id)autotestObject
+{
+    for (var i = 0; i < ivars.length; i++)
+    {
+        if(ivars[i].accessors)
+        {
+            var getAccessorName = ivars[i].accessors.get;
+            var ivarName = ivars[i].name;
+            var newMethodName = "testThat__"+ivars[i].accessors.get+"__WorksIn"+[autotestObject class];
+            class_addMethod(aClass, newMethodName, function(){
+                var target = [aClass autotest];
+                var expected = @"";
+                target[ivarName] = expected;
+                var actual = objj_msgSend(target, getAccessorName);
+                [OJAssert assert:expected equals:actual];
+            });
+            [self addTestMethod:newMethodName names:[] class:aClass];
+        
+            if(ivars[i].accessors.set)
+            {
+                var setAccessorName = ivars[i].accessors.set;
+                var newMethodName = "testThat__"+ivars[i].accessors.set+"__WorksIn"+[autotestObject class];
+                class_addMethod(aClass, newMethodName, function(){
+                    var target = [aClass autotest];
+                    var expected = @"";
+                    objj_msgSend(target, setAccessorName, expected);
+                    var actual = objj_msgSend(target, getAccessorName);
+                    [OJAssert assert:expected equals:actual];
+                });
+                [self addTestMethod:newMethodName names:[] class:aClass];
+            }
+        }
+    }
 }
 
 - (id)initWithClass:(Class)aClass name:(CPString)aName
