@@ -6,7 +6,7 @@
 @import <OJCov/OJCoverageListener.j>
 @import <OJCov/OJCoverageReporter.j>
 
-var stream = require("term").stream;
+var stream = require("narwhal/term").stream;
 
 @implementation OJTestRunnerText : CPObject
 {

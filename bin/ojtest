@@ -7,7 +7,7 @@
 
 var LOCAL_OPTIONS_FILE = ".ojtest";
 
-var parser = new (require("args").Parser)();
+var parser = new (require("narwhal/args").Parser)();
 
 parser.usage("INPUT_FILE ...");
 parser.help("Runs the given suite of tests.");

@@ -2,7 +2,7 @@
 
 var SYSTEM = require("system");
 var FILE = require("file");
-var STREAM = require("term").stream;
+var STREAM = require("narwhal/term").stream;
 var GROWL = require("growl-js");
 GROWL.options["name"] = "OJAutotest";
 

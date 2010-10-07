@@ -1,6 +1,6 @@
 @import <Foundation/Foundation.j>
 
-stream = require("term").stream;
+stream = require("narwhal/term").stream;
 
 @implementation OJTestListenerText : CPObject
 {
