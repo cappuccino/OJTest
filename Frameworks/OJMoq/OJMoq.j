@@ -273,7 +273,7 @@ function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
         [foundSelectors[count] call];
 
     // Make sure we didn't just find the wildcard selector and increment only that.  
-    // Taking this out for now - it causes this bug: http://github.com/280north/OJTest/issues#issue/3
+    // Taking this out for now - it causes this bug: https://github.com/280north/OJTest/issues#issue/3
 //     var uniqueSelector = __ojmoq_findUniqueSelector([anInvocation selector], [anInvocation userArguments], selectors);
 //     if (!uniqueSelector)
 //     {
