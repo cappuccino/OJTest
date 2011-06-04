@@ -6,6 +6,7 @@
 @import <OJCov/OJCoverageListener.j>
 @import <OJCov/OJCoverageReporter.j>
 
+var OS = require("os");
 var stream = require("narwhal/term").stream;
 
 @implementation OJTestRunnerText : CPObject
@@ -121,21 +122,14 @@ var stream = require("narwhal/term").stream;
 {
     var totalErrors = [[_listener errors] count] + [[_listener failures] count];
 
-    if (!totalErrors) {
+    if (totalErrors === 0) {
         stream.print("\0green(All tests passed in the test suite.\0)");
-        return CPLog.info("End of all tests.");
+        OS.exit(0);
+    } else {
+        stream.print("Test suite failed with \0red(" + [[_listener errors] count] + 
+            " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
+        OS.exit(1);
     }
-
-    stream.print("Test suite failed with \0red(" + [[_listener errors] count] + 
-        " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
-    CPLog.info("Test suite failed with "+[[_listener errors] count]+" errors and "+[[_listener failures] count]+" failures.");
-    
-    [self exit];
-}
-
-- (void)exit
-{
-    require("os").exit(1);
 }
 
 @end
