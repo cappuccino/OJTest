@@ -221,9 +221,11 @@
 }
 
 /*!
-   Assert that the given Regular Expression matches the given string
+   Assert that the given Regular Expression matches the given string.
+   The regular expression should be passed as a double escaped string.
+   For example, testing one or more digits is [OJAssert assert:"\\d+" equals:"123"];
 
-   @param aRegex A string that represents a regular expression (e.g. @"^(.*)$")
+   @param aRegex A string that represents a regular expression (e.g. @"^(\\.*)$")
    @param aString The string to test the regular expression against
  */
 + (void)assert:(CPString)aRegex matches:(CPString)aString
