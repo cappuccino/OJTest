@@ -4,7 +4,7 @@
 
 /*!
    Assert that the given condition is true
-   
+
    @param condition The condition to verify
  */
 + (void)assertTrue:(BOOL)condition
@@ -14,7 +14,7 @@
 
 /*!
    Assert that the given condition is true and if it is not report the given message
-   
+
    @param condition The condition to verify
    @param message The failure message
  */
@@ -26,7 +26,7 @@
 
 /*!
    Assert that the given condition is false
-   
+
    @param condition The condition to verify
  */
 + (void)assertFalse:(BOOL)condition
@@ -36,7 +36,7 @@
 
 /*!
    Assert that the given condition is false and if not false then report the given message
-   
+
    @param condition The condition to verify
    @param message The failure message
  */
@@ -47,7 +47,7 @@
 
 /*!
    Assert that the expected value is equal to the actual value
-   
+
    @param expected The expected value
    @param actual The actual value
  */
@@ -59,7 +59,7 @@
 /*!
    Assert that the expected value is equal to the actual value and not equal then report
    the given message
-   
+
    @param expected The expected value
    @param actual The actual value
    @param message The failure message
@@ -72,7 +72,7 @@
 
 /*!
    Assert that the expected value is not equal to the actual value
-   
+
    @param expected The expected value
    @param actual The actual value
  */
@@ -84,7 +84,7 @@
 /*!
    Assert that the expected value is not equal to the actual value and if equal then report
    the given message
-   
+
    @param expected The expected value
    @param actual The actual value
    @param message The failure message
@@ -97,7 +97,7 @@
 
 /*!
    Assert that the expected object and the actual object are the same object.
-   
+
    @param expected The expected value
    @param actual The actual value
  */
@@ -109,7 +109,7 @@
 /*!
    Assert that the expected object and the actual object are the same object. If they are
    different, then report the given message.
-   
+
    @param expected The expected value
    @param actual The actual value
    @param message The failure message
@@ -122,7 +122,7 @@
 
 /*!
    Assert that the expected object and the actual object are not the same object.
-   
+
    @param expected The expected value
    @param actual The actual value
  */
@@ -134,7 +134,7 @@
 /*!
    Assert that the expected object and the actual object are not the same object. If they
    are the same, then report the given message.
-   
+
    @param expected The expected value
    @param actual The actual value
    @param message The failure message
@@ -147,7 +147,7 @@
 
 /*!
    Assert that the given object is null
-   
+
    @param object The given object
  */
 + (void)assertNull:(id)object
@@ -157,7 +157,7 @@
 
 /*!
    Assert that the given object is null. If it is not null, report the given message.
-   
+
    @param a parameter
  */
 + (void)assertNull:(id)object message:(CPString)message
@@ -167,7 +167,7 @@
 
 /*!
    Assert that the given object is not null.
-   
+
    @param object The given object
  */
 + (void)assertNotNull:(id)object
@@ -177,7 +177,7 @@
 
 /*!
    Assert that the given object is not null. If it is null, report the given message.
-   
+
    @param object The given object
    @param message The failure message
  */
@@ -188,11 +188,11 @@
 
 /*!
    Assert that the zero argument closure that is given does not throw an exception.
-   
+
    @param zeroArgClosure The zero argument closure that will be run.
-   
+
         Example:
-            
+
             [self assertNoThrow:function(){[myObject myMessage:myArgument];}];
  */
 + (void)assertNoThrow:(Function)zeroArgClosure
@@ -222,7 +222,7 @@
 
 /*!
    Assert that the given Regular Expression matches the given string
-   
+
    @param aRegex A string that represents a regular expression (e.g. @"^(.*)$")
    @param aString The string to test the regular expression against
  */
@@ -232,7 +232,7 @@
         message:"string '" + aString + "' should be matched by regex /" + aRegex + "/"];
 }
 
-/*!  
+/*!
    Fails the test case.
  */
 + (void)fail

@@ -80,4 +80,22 @@
     }
 }
 
+- (void)testThatOJTestCaseMatchedRegex
+{
+  var longStringWithComlicatedInput = "abc123ABC";
+
+  [OJAssert assertNoThrow:function () {
+    [OJAssert assert:"d+AB" matches:longStringWithComlicatedInput];
+  }];
+}
+
+- (void)testThatOJTestCaseDoesNotMatchRegex
+{
+  var longStringWithComlicatedInput = "abc123ABC";
+
+  [OJAssert assertThrows:function () {
+    [OJAssert assert:"d+ABc" matches:longStringWithComlicatedInput];
+  }];
+}
+
 @end
