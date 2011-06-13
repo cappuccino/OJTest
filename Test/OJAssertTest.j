@@ -85,7 +85,7 @@
   var longStringWithComlicatedInput = "abc123ABC";
 
   [OJAssert assertNoThrow:function () {
-    [OJAssert assert:"d+AB" matches:longStringWithComlicatedInput];
+    [OJAssert assert:"\\d+AB" matches:longStringWithComlicatedInput];
   }];
 }
 
@@ -94,7 +94,7 @@
   var longStringWithComlicatedInput = "abc123ABC";
 
   [OJAssert assertThrows:function () {
-    [OJAssert assert:"d+ABc" matches:longStringWithComlicatedInput];
+    [OJAssert assert:"\d+ABc" matches:longStringWithComlicatedInput];
   }];
 }
 
