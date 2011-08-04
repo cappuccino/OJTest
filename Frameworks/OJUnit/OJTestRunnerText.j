@@ -86,9 +86,9 @@ var stream = require("narwhal/term").stream;
     // do nothing. This is for subclassing purposes.
 }
 
-- (CPString)nextTest:(CPArray)arguments
+- (CPString)nextTest:(CPArray)args
 {
-    return require("file").absolute(arguments.shift());
+    return require("file").absolute(args.shift());
 }
 
 - (OJTestResult)run:(OJTest)suite wait:(BOOL)wait
