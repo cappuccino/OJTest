@@ -40,11 +40,11 @@ function spy(obj)
 	[self selector:selector times:times arguments:[]];
 }
 
-- (void)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)arguments
+- (void)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)args
 {
 	[self replaceMethod:selector];
 
-   	var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:arguments];
+   	var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:args];
    	var expectationFunction = function(){[OJMoqAssert selector:aSelector hasBeenCalled:times];};
     [expectations addObject:expectationFunction];
    	[selectors addObject:aSelector];
