@@ -109,9 +109,9 @@ function moq(baseObject)
      @param arguments Arguments for the selector. If an empty array of arguments is passed in, 
           then the selector matches all arguments.
  */
-- (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)arguments   
+- (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)args   
 {
-    theSelector = __ojmoq_findUniqueSelector(selector, arguments, selectors);
+    theSelector = __ojmoq_findUniqueSelector(selector, args, selectors);
     if(theSelector)
     {
     	var expectationFunction = function(){[OJMoqAssert selector:theSelector hasBeenCalled:times];};
@@ -119,7 +119,7 @@ function moq(baseObject)
     }
     else
     {
-    	var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:arguments];
+    	var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:args];
     	var expectationFunction = function(){[OJMoqAssert selector:aSelector hasBeenCalled:times];};
         [expectations addObject:expectationFunction];
     	[selectors addObject:aSelector];
@@ -157,16 +157,16 @@ function moq(baseObject)
      @param arguments The arguments that must be passed to selector for this to work
      @param value The value that the selector should return
  */
-- (OJMoq)selector:(SEL)aSelector returns:(CPObject)value arguments:(CPArray)arguments
+- (OJMoq)selector:(SEL)aSelector returns:(CPObject)value arguments:(CPArray)args
 {
-    var theSelector = __ojmoq_findUniqueSelector(aSelector, arguments, selectors);
+    var theSelector = __ojmoq_findUniqueSelector(aSelector, args, selectors);
     if(theSelector)
     {
         [theSelector setReturnValue:value];
     }
     else
     {
-        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName(aSelector) withArguments:arguments];
+        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName(aSelector) withArguments:args];
         [aNewSelector setReturnValue:value];
         [selectors addObject:aNewSelector];
     }
@@ -192,9 +192,9 @@ function moq(baseObject)
       @param aCallback A single-argument function that is passed the array of arguments
       @param arguments The arguments that the selector must match
  */
-- (OJMoq)selector:(SEL)aSelector callback:(Function)aCallback arguments:(CPArray)arguments
+- (OJMoq)selector:(SEL)aSelector callback:(Function)aCallback arguments:(CPArray)args
 {
-    var theSelector = __ojmoq_findUniqueSelector(aSelector, arguments, selectors);
+    var theSelector = __ojmoq_findUniqueSelector(aSelector, args, selectors);
     
     if(theSelector)
     {
@@ -202,7 +202,7 @@ function moq(baseObject)
     }
     else
     {
-        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName(aSelector) withArguments:arguments];
+        var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName(aSelector) withArguments:args];
         [aNewSelector setCallback:aCallback];
         [selectors addObject:aNewSelector];
     }

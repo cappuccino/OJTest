@@ -7,7 +7,7 @@
 	CPString    name            @accessors(readonly);
 	CPNumber    timesCalled     @accessors(readonly);
 	id          returnValue     @accessors;
-	CPArray     arguments       @accessors;
+	CPArray     args       @accessors;
 	Function    callback        @accessors;
 }
 
@@ -36,7 +36,7 @@
 	if(self = [super init])
 	{
 		name = aName;
-		arguments = someArguments;
+		args = someArguments;
 		timesCalled = 0;
 		returnValue = undefined;
 		callback = undefined;
@@ -56,12 +56,12 @@
 
 - (BOOL)equals:(OJMoqSelector)anotherSelector
 {
-    return [self isEqualToNameOf:anotherSelector] && [arguments deepEqual:[anotherSelector arguments]];
+    return [self isEqualToNameOf:anotherSelector] && [args deepEqual:[anotherSelector args]];
 }
 
 - (BOOL)matchesAllArgs
 {
-    return [arguments count] === 0;
+    return [args count] === 0;
 }
 
 - (CPComparisonResult)compareTimesCalled:(CPNumber)anotherNumber

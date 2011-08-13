@@ -19,10 +19,10 @@ var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "su
     BOOL        isDirty;
 }
 
-- (void)startWithArguments:arguments withDirty:(BOOL)shouldSetDirty
+- (void)startWithArguments:args withDirty:(BOOL)shouldSetDirty
 {
     isDirty = shouldSetDirty;
-    [self startWithArguments:arguments];
+    [self startWithArguments:args];
 }
 
 - (void)report
