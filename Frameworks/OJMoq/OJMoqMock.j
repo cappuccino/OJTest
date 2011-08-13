@@ -31,9 +31,9 @@ function mock(obj) {
 	[self selector:aSelector times:times arguments:[CPArray array]];
 }
 
-- (void)selector:(SEL)aSelector times:(CPNumber)times arguments:(CPArray)arguments
+- (void)selector:(SEL)aSelector times:(CPNumber)times arguments:(CPArray)args
 {
-	var selector = [self findOrCreateSelector:aSelector withArguments:arguments];
+	var selector = [self findOrCreateSelector:aSelector withArguments:args];
 	[expectations addObject:function(){[OJMoqAssert selector:selector hasBeenCalled:times];}];
 }
 
@@ -42,9 +42,9 @@ function mock(obj) {
 	[self selector:aSelector returns:returnValue arguments:[CPArray array]];
 }
 
-- (void)selector:(SEL)aSelector returns:(id)returnValue arguments:(CPArray)arguments
+- (void)selector:(SEL)aSelector returns:(id)returnValue arguments:(CPArray)args
 {
-	[[self findOrCreateSelector:aSelector withArguments:arguments] setReturnValue:returnValue];
+	[[self findOrCreateSelector:aSelector withArguments:args] setReturnValue:returnValue];
 }
 
 - (void)selector:(SEL)aSelector callback:(Function)callback
@@ -52,9 +52,9 @@ function mock(obj) {
 	[self selector:aSelector callback:callback arguments:[CPArray array]];
 }
 
-- (void)selector:(SEL)aSelector callback:(Function)callback arguments:(CPArray)arguments
+- (void)selector:(SEL)aSelector callback:(Function)callback arguments:(CPArray)args
 {
-	[[self findOrCreateSelector:aSelector withArguments:arguments] setCallback:callback];
+	[[self findOrCreateSelector:aSelector withArguments:args] setCallback:callback];
 }
 
 - (void)verifyThatAllExpectationsHaveBeenMet
@@ -62,10 +62,10 @@ function mock(obj) {
 	expectations.forEach(function(expectation){expectation();});
 }
 
-- (OJMoqSelector)findOrCreateSelector:(SEL)aSelector withArguments:(CPArray)arguments
+- (OJMoqSelector)findOrCreateSelector:(SEL)aSelector withArguments:(CPArray)args
 {
 	var foundSelectors = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName(aSelector) 
-																	withArguments:arguments] 
+																	withArguments:args] 
 	                                    in:selectors ignoreWildcards:NO],
 	    selector = nil;
 	
@@ -74,7 +74,7 @@ function mock(obj) {
     else if ([foundSelectors count] === 1)
         selector = foundSelectors[0];
     else {
-        selector = [[OJMoqSelector alloc] initWithName:aSelector withArguments:arguments];
+        selector = [[OJMoqSelector alloc] initWithName:aSelector withArguments:args];
 		[selectors addObject:selector];
 	}
 
