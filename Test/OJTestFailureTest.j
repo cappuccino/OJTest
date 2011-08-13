@@ -12,6 +12,7 @@
 {
 	test = [[OJTestCase alloc] init];
 	failure = [[CPException alloc] init];
+  failure.message = @"Unknown error";
 	target = [[OJTestFailure alloc] initWithTest:test exception:failure];
 }
 
