@@ -1,5 +1,6 @@
 @import <Foundation/Foundation.j>
 @import "OJTestCase.j"
+@import "OJTestCase+Assert.j"
 @import "OJTestSuite.j"
 @import "OJTestResult.j"
 @import "OJTestListenerText.j"

@@ -1,4 +1,5 @@
 @import "OJAssert.j"
+@import "OJTestCase.j"
 
 @implementation OJTestCase (OJAssert)
 
