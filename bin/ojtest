@@ -44,7 +44,10 @@ function main(args) {
         options = parser.parse(args),
         SYS = require("system"),
         FILE = require("file");
-    
+
+    // Use new compiler
+    require("objective-j").ObjJCompiler.setCurrentUsedVersion("objj_compiler2");
+
     if(FILE.exists(LOCAL_OPTIONS_FILE)) 
     {
         var fileOptions = JSON.parse(FILE.read(LOCAL_OPTIONS_FILE));
