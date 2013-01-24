@@ -244,7 +244,7 @@
 
 /*!
    Fails the test case and reports the given message.
-   
+
    @param message The failure message
  */
 + (void)fail:(CPString)message
@@ -254,34 +254,34 @@
 
 + (void)failSame:(id)expected actual:(id)actual message:(CPString)message
 {
-    [self fail:((message ? message+" " : "")+"expected not same")];
+    [self fail:((message ? message + " " : "") + "expected not same")];
 }
 
 + (void)failNotSame:(id)expected actual:(id)actual message:(CPString)message
 {
-    [self fail:((message ? message+" " : "")+"expected same:<"+stringValueOf(expected)+
-        "> was not:<"+stringValueOf(actual)+">")];
+    [self fail:((message ? message + " " : "") + "expected same:<" + stringValueOf(expected)+
+        "> was not:<" + stringValueOf(actual) + ">")];
 }
 
 + (void)failEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    [self fail:((message ? message+" " : "")+"expected inequality. Expected:<"+stringValueOf(expected)+
-        "> Got:<"+stringValueOf(actual)+">")];
+    [self fail:((message ? message + " " : "") + "expected inequality. Expected:<" + stringValueOf(expected) +
+        "> Got:<" + stringValueOf(actual) + ">")];
 }
 
 + (void)failNotEqual:(id)expected actual:(id)actual message:(CPString)message
 {
-    [self fail:((message ? message+" " : "")+"expected:<"+stringValueOf(expected)+
-        "> but was:<"+stringValueOf(actual)+">")];
+    [self fail:((message ? message + " " : "") + "expected:<" + stringValueOf(expected) +
+        "> but was:<" + stringValueOf(actual) + ">")];
 }
 
 @end
 
 function stringValueOf(obj) {
-    if(obj && obj.isa)
+    if (obj && obj.isa)
         var result = [obj description];
     else
         var result = obj;
-        
+
     return result;
 }

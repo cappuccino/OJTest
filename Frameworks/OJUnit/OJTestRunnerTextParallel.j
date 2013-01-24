@@ -8,7 +8,7 @@
 - (id)init
 {
     self = [super init];
-    if(self)
+    if (self)
     {
         threadPool = [
             [[OJThread alloc] initWithDelegate:self],
@@ -28,18 +28,20 @@
 
 - (void)startWithArguments:(CPArray)args
 {
-    while(args.length !== 0)
+    while (args.length !== 0)
     {
-        while([self threadsAvailable])
+        while ([self threadsAvailable])
         {
-            if (args.length === 0) break;
-            
+            if (args.length === 0)
+                break;
+
             var testCaseFile = [self nextTest:args];
-    
-            if(!testCaseFile || testCaseFile == "") break;
-    
+
+            if (!testCaseFile || testCaseFile == "")
+                break;
+
             var matches = testCaseFile.match(/([^\/]+)\.j$/);
-    
+
             if (matches)
             {
                 system.stderr.write(matches[1]).flush();
@@ -48,11 +50,11 @@
                 [self beforeRequire];
                 require(testCaseFile);
                 var suite = [self getTest:testCaseClass];
-            
+
                 var runTestFunction = function() {
                     [self run:suite];
                 };
-                
+
                 var thread = [self firstAvailableThread];
                 [thread setStartFunction:runTestFunction];
                 [thread start];
@@ -61,25 +63,25 @@
                 system.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n").flush();
         }
     }
-        
+
     [self report];
 }
 
 - (BOOL)threadsAvailable
 {
-    for(var i = 0, n = threadPool.length; i < n; i++)
+    for (var i = 0, n = threadPool.length; i < n; i++)
         if (![threadPool[i] isRunning])
             return YES;
-            
+
     return NO;
 }
 
 - (OJThread)firstAvailableThread
 {
-    for(var i = 0, n = threadPool.length; i < n; i++)
+    for (var i = 0, n = threadPool.length; i < n; i++)
         if (![threadPool[i] isRunning])
             return threadPool[i];
-            
+
     return nil;
 }
 
@@ -89,24 +91,25 @@
 
 - (BOOL)threadsDone
 {
-    for(var i = 0, n = threadPool.length; i < n; i++)
+    for (var i = 0, n = threadPool.length; i < n; i++)
         if ([threadPool[i] isRunning])
             return NO;
-            
+
     return YES;
 }
 
 - (void)report
 {
     var startTime = new Date();
-    while(![self threadsDone])
+    while (![self threadsDone])
     {
-        if ([self hasWaited:60 since:startTime]) {
+        if ([self hasWaited:60 since:startTime])
+        {
             system.print("Test timed out!");
             break;
         }
     }
-    
+
     [super report];
 }
 
@@ -127,7 +130,7 @@
 - (id)initWithDelegate:(id)aDelegate
 {
     self = [super init];
-    if(self)
+    if (self)
     {
         isRunning = NO;
         startFunction = function(){};
@@ -139,13 +142,13 @@
 - (void)start
 {
     isRunning = true;
-    var ojThread = self;
-    var thread = new java.lang.Thread(function()
-    {
-        startFunction();
-        [delegate threadFinished:ojThread];
-        isRunning = false;
-    });
+    var ojThread = self,
+        thread = new java.lang.Thread(function()
+            {
+                startFunction();
+                [delegate threadFinished:ojThread];
+                isRunning = false;
+            });
     thread.start();
 }
 

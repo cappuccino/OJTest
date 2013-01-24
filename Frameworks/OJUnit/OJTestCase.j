@@ -9,27 +9,27 @@ AssertionFailedError = "AssertionFailedError";
     A single test case. This is an abstract superclass that each of your test cases (which are
     usually in their own separate files and of which each tests one and only one class) should
     subclass. Each of these test cases have the ability to run seperately.
-   
+
     Example:
-   
+
         @implementation OJMoqTest : OJTestCase
-        
+
         ... // tests and other files
-        
+
         @end
-        
+
     In order to increase readability, there is a conventional way of writing tests. Each test
     should be prepended by the word "test" and non-tests should not be prepended by the word
     "test".
-    
+
     Example:
-    
+
         - (void)testThatOJMoqDoesInitialize {} // a test
         - (OJMoq)createStandardOJMoqInstance {return nil;} // a non-test
-        
+
     Before each test, the message "setUp" will be passed to your test. By default, this does
     nothing but you can override the "setUp" method to do something for your test.
-    
+
     After each test, the message "tearDown" will be passed to your test. By default, this
     does nothing but you can override the "tearDown" method to do something for your test.
 
@@ -37,7 +37,7 @@ AssertionFailedError = "AssertionFailedError";
  */
 @implementation OJTestCase : CPObject
 {
-    SEL 		_selector		@accessors(property=selector);
+    SEL _selector       @accessors(property=selector);
 }
 
 /*!
@@ -60,7 +60,7 @@ AssertionFailedError = "AssertionFailedError";
 }
 
 /*!
-   Runs the setup, test and teardown for the 
+   Runs the setup, test and teardown for the
    @param a parameter
  */
 - (void)runBare
@@ -77,13 +77,13 @@ AssertionFailedError = "AssertionFailedError";
 }
 
 /*!
-   If the selector is not null, 
+   If the selector is not null,
    @param a parameter
  */
 - (void)runTest
 {
     [OJAssert assertNotNull:_selector];
-    
+
     [self performSelector:_selector];
 }
 

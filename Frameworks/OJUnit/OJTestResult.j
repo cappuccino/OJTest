@@ -5,8 +5,8 @@
 
 @implementation OJTestResult : CPObject
 {
-    CPArray     _failures		@accessors(readonly, property=failures);
-    CPArray     _errors			@accessors(readonly, property=errors);
+    CPArray     _failures       @accessors(readonly, property=failures);
+    CPArray     _errors         @accessors(readonly, property=errors);
     CPArray     _listeners;
     int         _runTests;
     BOOL        _stop;
@@ -35,19 +35,19 @@
 
 - (void)addError:(CPException)error forTest:(OJTest)aTest
 {
-	[self addError:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
+    [self addError:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
 }
 
 - (void)addError:(OJTestFailure)error
 {
-	[_errors addObject:error];
-	for (var i = 0; i < _listeners.length; i++)
-	    [_listeners[i] addError:error];
+    [_errors addObject:error];
+    for (var i = 0; i < _listeners.length; i++)
+        [_listeners[i] addError:error];
 }
 
 - (void)addFailure:(CPException)failure forTest:(OJTest)aTest
 {
-	[self addFailure:[[OJTestFailure alloc] initWithTest:aTest exception:failure]];
+    [self addFailure:[[OJTestFailure alloc] initWithTest:aTest exception:failure]];
 }
 
 - (void)addFailure:(OJTestFailure)failure
@@ -66,7 +66,6 @@
 
 - (void)endTest:(OJTest)aTest
 {
-    
     for (var i = 0; i < _listeners.length; i++)
         [_listeners[i] endTest:aTest];
 }
@@ -82,7 +81,8 @@
     catch (e)
     {
         // if not objj object, toll-free bridge to CPException
-        if (!e.isa) {
+        if (!e.isa)
+        {
             CPLog.warn("toll-free bridging e="+e+" to CPException")
             e.isa = CPException;
         }
@@ -128,8 +128,8 @@
 
 - (int)failureCount
 {
-	CPLog.warn("[OJTestResult failureCount] is deprecated. Please use [OJTestResult numberOfFailures].");
-	return [self numberOfFailures];
+    CPLog.warn("[OJTestResult failureCount] is deprecated. Please use [OJTestResult numberOfFailures].");
+    return [self numberOfFailures];
 }
 
 - (int)numberOfErrors
@@ -139,8 +139,8 @@
 
 - (int)errorCount
 {
-	CPLog.warn("[OJTestResult errorCount] is deprecated. Please use [OJTestResult numberOfErrors].");
-	return [self numberOfErrors];
+    CPLog.warn("[OJTestResult errorCount] is deprecated. Please use [OJTestResult numberOfErrors].");
+    return [self numberOfErrors];
 }
 
 - (BOOL)wasSuccessful
