@@ -75,8 +75,8 @@ SYSTEM = require("system");
 
 - (void)generateHTML
 {
-    FILE = require("file");
-    var totalNumCalled = 0,
+    var FILE = require("file"),
+        totalNumCalled = 0,
         totalNumFound = 0;
 
     if (FILE.exists(FILE.absolute("results")))
