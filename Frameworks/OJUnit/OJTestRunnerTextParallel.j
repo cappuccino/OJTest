@@ -120,6 +120,8 @@
 
 @end
 
+@global java;
+
 @implementation OJThread : CPObject
 {
     BOOL        isRunning       @accessors(readonly);
