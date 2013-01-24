@@ -3,8 +3,6 @@
 @import "OJTestResult.j"
 @import "OJAssert.j"
 
-AssertionFailedError = "AssertionFailedError";
-
 /*!
     A single test case. This is an abstract superclass that each of your test cases (which are
     usually in their own separate files and of which each tests one and only one class) should

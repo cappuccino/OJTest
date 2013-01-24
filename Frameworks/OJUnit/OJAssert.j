@@ -1,5 +1,7 @@
 @import <Foundation/CPObject.j>
 
+AssertionFailedError = @"AssertionFailedError";
+
 @implementation OJAssert : CPObject
 
 /*!

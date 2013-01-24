@@ -1,5 +1,7 @@
 @import <Foundation/Foundation.j>
 
+@import "OJAssert.j"
+
 function convertRhinoBacktrace(javaException) {
     var s = new Packages.java.io.StringWriter();
     javaException.printStackTrace(new Packages.java.io.PrintWriter(s));
