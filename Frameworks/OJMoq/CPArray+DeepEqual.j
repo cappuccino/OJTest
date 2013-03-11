@@ -7,7 +7,7 @@ var assert = require("assert");
     if (self === anArray)
         return YES;
 
-    if (length != anArray.length)
+    if (self.length != anArray.length)
         return NO;
 
     var index = 0,
