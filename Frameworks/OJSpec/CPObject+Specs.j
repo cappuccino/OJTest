@@ -2,12 +2,12 @@
 
 + (void)should:(CPString)specDescription by:(Function)specFn
 {
-	specFn(self);
+    specFn(self);
 }
 
 + (void)should:(CPString)specDescription
 {
-	[OJAssert fail:@"pending"];
+    [OJAssert fail:@"pending"];
 }
 
 @end
@@ -16,4 +16,3 @@
 @import "Matchers/OJSpecShouldBeNil.j"
 @import "Matchers/OJSpecShouldBeSameAs.j"
 @import "Matchers/OJSpecShouldEqual.j"
-

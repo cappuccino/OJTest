@@ -4,7 +4,6 @@
 
 @end
 
-
 /**
  * Checks if an object is nil.
  */

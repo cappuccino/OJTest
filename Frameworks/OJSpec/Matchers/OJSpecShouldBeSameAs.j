@@ -5,13 +5,13 @@
 - (BOOL)matches:(id)actual
 {
     [self setActual:actual];
-	[OJAssert assertTrue:([self expected] === [self actual])];
+    [OJAssert assertTrue:([self expected] === [self actual])];
 }
 
 - (BOOL)doesNotMatch:(id)actual
 {
     [self setActual:actual];
-	[OJAssert assertTrue:([self expected] !== [self actual])];
+    [OJAssert assertTrue:([self expected] !== [self actual])];
 }
 
 @end

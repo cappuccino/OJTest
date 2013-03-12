@@ -39,9 +39,9 @@
     var sel1 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray arrayWithObject:@"a"]];
     var sel2 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[CPArray array]];
     var sel3 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray array]];
-    
+
     var array = [sel2, sel3];
-    
+
     [OJAssert assert:[sel3] equals:[OJMoqSelector find:sel1 in:array]];
 }
 
@@ -51,9 +51,9 @@
     var sel2 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[CPArray array]];
     var sel3 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray array]];
     var sel4 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray arrayWithObject:@"a"]];
-    
+
     var array = [sel2, sel3, sel4];
-    
+
     [OJAssert assert:[sel3, sel4] equals:[OJMoqSelector find:sel1 in:array]];
 }
 
@@ -63,9 +63,9 @@
     var sel2 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[CPArray array]];
     var sel3 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray array]];
     var sel4 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray array]];
-    
+
     var array = [sel1, sel2, sel4];
-    
+
     [OJAssert assert:[sel1, sel4] equals:[OJMoqSelector find:sel3 in:array]];
 }
 
@@ -75,9 +75,9 @@
     var sel2 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[CPArray array]];
     var sel3 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray array]];
     var sel4 = [[OJMoqSelector alloc] initWithName:@"a" withArguments:[CPArray array]];
-    
+
     var array = [sel1, sel2, sel4];
-    
+
     [OJAssert assert:[sel4] equals:[OJMoqSelector find:sel3 in:array ignoreWildcards:YES]];
 }
 
@@ -88,7 +88,7 @@
     var sel3 = [[OJMoqSelector alloc] initWithName:@"c" withArguments:[]];
     var sel4 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[{"prop1" : "val1", "prop2" : [1, 2]}, {"prop3" : {"prop4" : 6}}]];
     var array = [sel1, sel2, sel3];
-    
+
     [OJAssert assert:[sel2] equals:[OJMoqSelector find:sel4 in:array ignoreWildcards:YES]];
 }
 
@@ -99,7 +99,7 @@
     var sel3 = [[OJMoqSelector alloc] initWithName:@"c" withArguments:[]];
     var sel4 = [[OJMoqSelector alloc] initWithName:@"b" withArguments:[[{"prop1" : "val1", "prop2" : [1, 2]}, {"prop3" : {"prop4" : 6}}]]];
     var array = [sel1, sel2, sel3];
-    
+
     [OJAssert assert:[sel2] equals:[OJMoqSelector find:sel4 in:array ignoreWildcards:YES]];
 }
 @end

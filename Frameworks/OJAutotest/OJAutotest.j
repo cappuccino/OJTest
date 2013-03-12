@@ -40,17 +40,17 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
         var modifiedFilePaths = modifiedFiles.map(function(modifiedFile) {
             return modifiedFile.path;
         });
-        
+
         [self runTests:[self testsForFiles:modifiedFilePaths]];
 
         print("---------- WAITING FOR CHANGES ----------");
     };
-    
+
     var callback = function(modifiedFiles) {
         print("----------  CHANGES  DETECTED  ----------");
         runTests(modifiedFiles);
     };
-    
+
     runTests([]);
     FSEVENTS.watch(watchLocations, callback);
 }
@@ -69,7 +69,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 }
 
 - (void)setFrameworksLocations:(CPArray)locations
-{   
+{
     OBJJ_INCLUDE_PATHS = (OBJJ_INCLUDE_PATHS || []).concat(locations);
 }
 
@@ -79,7 +79,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     {
         isDirty = NO;
         var allTestRun = OS.system([OJAUTOTEST_RUNNER, isDirty].concat(tests));
-        
+
         if(allTestRun !== 0)
         {
             isDirty = YES;
@@ -97,7 +97,7 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
         {
             [tests addObject:testForFile];
         }
-        
+
     }
     return tests;
 }
@@ -114,10 +114,10 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
     var fileName = [filePath lastPathComponent];
     var fileNameWithoutExtension = [fileName stringByReplacingOccurrencesOfString:(@"." + [filePath pathExtension]) withString:@""];
     var testName = "Test/"+fileNameWithoutExtension+"Test.j";
-    
+
     // this is due to an error in v0.8.1. I'm leaving this here so that we
     // can add it back in when v0.8.1 is fixed.
-    
+
     //var testName = [CPString stringWithFormat:@"%s/%s%s", @"Test", fileNameWithoutExtension, @"Test.j"];
     return FILE.absolute(testName);
 }

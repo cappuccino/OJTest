@@ -4,26 +4,26 @@
 
 - (void)testThatOJMoqStubDoesInitialize
 {
-	[OJAssert assertNotNull:stub()];
+    [OJAssert assertNotNull:stub()];
 }
 
 - (void)testThatOJMoqStubDoesAcceptAnything
 {
-	var target = stub();
-	
-	[target doSomething];
-	[target doSomethingElse:@"Bob"];
-	
-	[OJAssert assertTrue:YES];
+    var target = stub();
+
+    [target doSomething];
+    [target doSomethingElse:@"Bob"];
+
+    [OJAssert assertTrue:YES];
 }
 
 - (void)testThatOJMoqStubDoesReturnVoid
 {
-	var target = stub();
-	
-	var result = [target doSomething];
-	
-	[OJAssert assertNull:result];
+    var target = stub();
+
+    var result = [target doSomething];
+
+    [OJAssert assertNull:result];
 }
 
 @end

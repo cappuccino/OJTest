@@ -1,7 +1,7 @@
 @import <Foundation/CPObject.j>
 
 function stub() {
-	return [[OJMoqStub alloc] init];
+    return [[OJMoqStub alloc] init];
 }
 
 @implementation OJMoqStub : CPObject
@@ -15,7 +15,7 @@ function stub() {
 /* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
 {
-	// We are going to do nothing.		
+    // We are going to do nothing.      
 }
 
 /*!

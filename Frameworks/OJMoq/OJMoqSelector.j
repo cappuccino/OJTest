@@ -4,11 +4,11 @@
 
 @implementation OJMoqSelector : CPObject
 {
-	CPString    name            @accessors(readonly);
-	CPNumber    timesCalled     @accessors(readonly);
-	id          returnValue     @accessors;
-	CPArray     args       @accessors;
-	Function    callback        @accessors;
+    CPString    name            @accessors(readonly);
+    CPNumber    timesCalled     @accessors(readonly);
+    id          returnValue     @accessors;
+    CPArray     args       @accessors;
+    Function    callback        @accessors;
 }
 
 + (CPArray)find:(OJMoqSelector)aSelector in:(CPArray)selectors ignoreWildcards:(BOOL)shouldIgnoreWildcards
@@ -33,15 +33,15 @@
 
 - (id)initWithName:(CPString)aName withArguments:(CPArray)someArguments
 {
-	if(self = [super init])
-	{
-		name = aName;
-		args = someArguments;
-		timesCalled = 0;
-		returnValue = undefined;
-		callback = undefined;
-	}
-	return self;
+    if(self = [super init])
+    {
+        name = aName;
+        args = someArguments;
+        timesCalled = 0;
+        returnValue = undefined;
+        callback = undefined;
+    }
+    return self;
 }
 
 - (void)call

@@ -10,7 +10,7 @@
 {
     if (self = [super init])
         _expected = expected;
-    
+
     return self;
 }
 
@@ -22,8 +22,8 @@
 
 - (void)doesNotMatch:(id)actual
 {
-	[self setActual:actual];
-	[OJAssert assert:[self expected] notEqual:[self actual]];
+    [self setActual:actual];
+    [OJAssert assert:[self expected] notEqual:[self actual]];
 }
 
 - (CPString)failureMessageForShould

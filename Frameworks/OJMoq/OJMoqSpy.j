@@ -2,83 +2,83 @@
 @import "OJMoqSelector.j"
 @import "OJMoqAssert.j"
 
-function spy(obj) 
+function spy(obj)
 {
-	return [OJMoqSpy spyOnBaseObject:obj];
+    return [OJMoqSpy spyOnBaseObject:obj];
 }
 
 @implementation OJMoqSpy : CPObject
 {
-	CPObject		_baseObject		@accessors(property=baseObject);
-	CPArray			expectations;
-	CPArray			selectors;
+    CPObject        _baseObject     @accessors(property=baseObject);
+    CPArray         expectations;
+    CPArray         selectors;
 }
 
 + (OJMoqSpy)spyOnBaseObject:(id)baseObject
 {
-	return [[OJMoqSpy alloc] initWithBaseObject:baseObject];
+    return [[OJMoqSpy alloc] initWithBaseObject:baseObject];
 }
 
 - (id)init
 {
-	return [[OJMoqSpy alloc] initWithBaseObject:nil];
+    return [[OJMoqSpy alloc] initWithBaseObject:nil];
 }
 
 - (id)initWithBaseObject:(CPObject)baseObject
 {
-	if(self = [super init]) {
-		_baseObject = baseObject;
-		
-		expectations = [];
-		selectors = [];
-	}
-	return self;
+    if(self = [super init]) {
+        _baseObject = baseObject;
+
+        expectations = [];
+        selectors = [];
+    }
+    return self;
 }
 
 - (void)selector:(SEL)selector times:(CPNumber)times
 {
-	[self selector:selector times:times arguments:[]];
+    [self selector:selector times:times arguments:[]];
 }
 
 - (void)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)args
 {
-	[self replaceMethod:selector];
+    [self replaceMethod:selector];
 
-   	var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:args];
-   	var expectationFunction = function(){[OJMoqAssert selector:aSelector hasBeenCalled:times];};
+    var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:args];
+    var expectationFunction = function(){[OJMoqAssert selector:aSelector hasBeenCalled:times];};
     [expectations addObject:expectationFunction];
-   	[selectors addObject:aSelector];
+    [selectors addObject:aSelector];
 }
 
 - (void)verifyThatAllExpectationsHaveBeenMet
 {
-	expectations.forEach(function(expectation){
-		expectation();
-	});
+    expectations.forEach(function(expectation){
+        expectation();
+    });
 }
 
 - (void)incrementNumberOfCallsForMethod:(SEL)selector arguments:(CPArray)userArguments
 {
-	var foundSelectors = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName(selector)
+    var foundSelectors = [OJMoqSelector find:[[OJMoqSelector alloc] initWithName:sel_getName(selector)
                                         withArguments:userArguments] in:selectors ignoreWildcards:NO],
-    	count = [foundSelectors count];
+        count = [foundSelectors count];
 
-	while (count--)
-    	[foundSelectors[count] call];
+    while (count--)
+        [foundSelectors[count] call];
 }
 
 - (void)replaceMethod:(SEL)selector
 {
-	var aFunction = class_getMethodImplementation([_baseObject class], selector);
-	class_replaceMethod([_baseObject class],
-		selector,
-		function(object, _cmd) {
-			if(object === _baseObject) {
-				var userArguments = Array.prototype.slice.call(arguments).splice(2, arguments.length);
-				[self incrementNumberOfCallsForMethod:selector arguments:userArguments];
-			}
-			return aFunction.apply(this, arguments);
-		});
+    var aFunction = class_getMethodImplementation([_baseObject class], selector);
+    class_replaceMethod([_baseObject class],
+        selector,
+        function(object, _cmd) {
+            if(object === _baseObject) {
+                var userArguments = Array.prototype.slice.call(arguments).splice(2, arguments.length);
+                [self incrementNumberOfCallsForMethod:selector arguments:userArguments];
+            }
+            return aFunction.apply(this, arguments);
+        });
 }
 
 @end

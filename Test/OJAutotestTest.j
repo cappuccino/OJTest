@@ -40,9 +40,9 @@ var oldWatch = FSEVENTS.watch;
             watchingTest = YES;
         }
     };
-    
+
     [target start];
-    
+
     [OJAssert assertTrue:watchingTest];
 }
 
@@ -58,7 +58,7 @@ var oldWatch = FSEVENTS.watch;
     [target setWatchLocations:["Test", "lib"]];
     [target start];
 
-    [OJAssert assertTrue:watchingTest];   
+    [OJAssert assertTrue:watchingTest];
 }
 
 - (void)testThatOJAutotestDoesIdentifyTests
@@ -75,7 +75,7 @@ var oldWatch = FSEVENTS.watch;
 {
     var expectedOutput = FILE.absolute("Test/OJAutotestTest.j");
     var input = FILE.absolute("Frameworks/OJAutotest/OJAutotest.j");
-    
+
     [OJAssert assert:expectedOutput equals:[target testForFile:input]];
 }
 
@@ -93,7 +93,7 @@ var oldWatch = FSEVENTS.watch;
     {
         FILE.write(fileList[i], "");
     }
-    
+
     try
     {
         someFunction();
@@ -103,7 +103,7 @@ var oldWatch = FSEVENTS.watch;
         for(var i = 0; i < [fileList count]; i++)
         {
             FILE.remove(fileList[i]);
-        }   
+        }
     }
 }
 

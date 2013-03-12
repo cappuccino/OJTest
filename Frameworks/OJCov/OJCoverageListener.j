@@ -22,28 +22,28 @@ SHOULD_APPEND = YES;
             og_objj_msgSend(delegate, "calledMethod:", [OJCoverageSelector selectorWithObject:aReceiver selector:aSelector]);
             SHOULD_APPEND = YES;
         }
-        
+
         return og_objj_msgSend.apply(this, arguments);
     }
-    
+
     class_addMethod = function(aClass, aName, anImplementation, aType) {
         if(aClass != null)
         {
             var resolvedClass = objj_getClass(aClass.name);
             [delegate foundMethod:[OJCoverageSelector selectorWithClassName:resolvedClass selector:aName]];
         }
-        
+
         og_class_addMethod(aClass, aName, anImplementation, aType);
     }
-    
+
     class_addMethods = function(aClass, methods) {
         if(aClass != null)
         {
             var resolvedClass = objj_getClass(aClass.name);
-            methods.map(function(method){[delegate foundMethod:[OJCoverageSelector 
+            methods.map(function(method){[delegate foundMethod:[OJCoverageSelector
                 selectorWithClassName:resolvedClass selector:method.name]];});
         }
-        
+
         og_class_addMethods.apply(this, arguments);
     }
 }

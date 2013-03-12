@@ -5,65 +5,65 @@
 
 - (void)testThatOJMoqSpyDoesInitialize
 {
-	[[OJMoqSpy spyOnBaseObject:@"TEST"] shouldNotBeNil];
+    [[OJMoqSpy spyOnBaseObject:@"TEST"] shouldNotBeNil];
 }
 
 - (void)testThatOJMoqSpyDoesFailWhenSelectorNotCalled
 {
-	var spy = [OJMoqSpy spyOnBaseObject:@"TEST"];
-	
-	[spy selector:@selector(capitalizedString) times:1];
-	
-	[OJAssert assertThrows:function(){[spy verifyThatAllExpectationsHaveBeenMet]}];
+    var spy = [OJMoqSpy spyOnBaseObject:@"TEST"];
+
+    [spy selector:@selector(capitalizedString) times:1];
+
+    [OJAssert assertThrows:function(){[spy verifyThatAllExpectationsHaveBeenMet]}];
 }
 
 - (void)testThatOJMoqSpyDoesDetectCallsOnObjects
 {
-	var target = @"TEST";
-	var spy = [OJMoqSpy spyOnBaseObject:target];
-	
-	[spy selector:@selector(capitalizedString) times:1];
-	
-	[target capitalizedString];
-	
-	[spy verifyThatAllExpectationsHaveBeenMet];
+    var target = @"TEST";
+    var spy = [OJMoqSpy spyOnBaseObject:target];
+
+    [spy selector:@selector(capitalizedString) times:1];
+
+    [target capitalizedString];
+
+    [spy verifyThatAllExpectationsHaveBeenMet];
 }
 
 - (void)testThatOJMoqSpyDoesDetectCallsOnObjectsWithArgumentMatching
 {
-	var target = @"TEST";
-	var spy = [OJMoqSpy spyOnBaseObject:target];
-	
-	[spy selector:@selector(substringFromIndex:) times:1 arguments:[1]];
-	
-	[target substringFromIndex:1];
-	
-	[spy verifyThatAllExpectationsHaveBeenMet];
+    var target = @"TEST";
+    var spy = [OJMoqSpy spyOnBaseObject:target];
+
+    [spy selector:@selector(substringFromIndex:) times:1 arguments:[1]];
+
+    [target substringFromIndex:1];
+
+    [spy verifyThatAllExpectationsHaveBeenMet];
 }
 
 - (void)testThatOJMoqSpyDoesDetectCallsOnObjectsWithArgumentMatching
 {
-	var target = @"TEST";
-	var spy = [OJMoqSpy spyOnBaseObject:target];
-	
-	[spy selector:@selector(substringFromIndex:) times:0 arguments:[1]];
-	
-	[target substringFromIndex:2];
-	
-	[spy verifyThatAllExpectationsHaveBeenMet];
+    var target = @"TEST";
+    var spy = [OJMoqSpy spyOnBaseObject:target];
+
+    [spy selector:@selector(substringFromIndex:) times:0 arguments:[1]];
+
+    [target substringFromIndex:2];
+
+    [spy verifyThatAllExpectationsHaveBeenMet];
 }
 
 - (void)testThatOJMoqSpyDoesDetectInternalCallsOnObjects
 {
-	var target = [[TestObject alloc] init];
+    var target = [[TestObject alloc] init];
 
-	var targetSpy = spy(target);
-	
-	[targetSpy selector:@selector(internalMethod) times:1];
-	
-	[target externalMethod];
-	
-	[targetSpy verifyThatAllExpectationsHaveBeenMet];
+    var targetSpy = spy(target);
+
+    [targetSpy selector:@selector(internalMethod) times:1];
+
+    [target externalMethod];
+
+    [targetSpy verifyThatAllExpectationsHaveBeenMet];
 }
 
 - (void)testThatOJMoqSpyDoesNotBlockReturnValues
@@ -83,12 +83,12 @@
 
 - (void)externalMethod
 {
-	[self internalMethod];
+    [self internalMethod];
 }
 
 - (void)internalMethod
 {
-	// do nothing
+    // do nothing
 }
 
 @end

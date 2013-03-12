@@ -16,7 +16,6 @@
 
 @end
 
-
 /**
  * Checks if an object is an instance of the expected class
  */

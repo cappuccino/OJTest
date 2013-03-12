@@ -17,7 +17,7 @@ function moq(baseObject)
     {
         baseObject = nil;
     }
-       
+
     return [OJMoq mockBaseObject:baseObject];
 }
 
@@ -26,16 +26,16 @@ function moq(baseObject)
  */
 @implementation OJMoq : CPObject
 {
-    CPObject	_baseObject		@accessors(readonly);
-    CPArray	selectors;
-    CPArray	expectations;
+    CPObject    _baseObject     @accessors(readonly);
+    CPArray selectors;
+    CPArray expectations;
 }
 
 /*!
     Creates an OJMoq object based on the base object. If the base object is nil, then a benign
     stub is created. If the base object is non-nil, it creates a spy mock that allows all of
     the messages to go through to the base object.
-    
+
     \param aBaseObject A nil or non-nil base object that will be wrapped by OJMoq
     \returns An instance of OJMoq that wraps the given base object
  */
@@ -44,12 +44,11 @@ function moq(baseObject)
     return [[OJMoq alloc] initWithBaseObject:aBaseObject];
 }
 
-
 /*!
    Creates an OJMoq object based on the base object. If the base object is nil, then a benign
    stub is created. If the base object is non-nil, it creates a spy mock that allows all of
    the messages to go through to the base object.
-   
+
    \param aBaseObject A nil or non-nil base object that will be wrapped by OJMoq
    \returns An instance of OJMoq that wraps the given base object
  */
@@ -74,7 +73,7 @@ function moq(baseObject)
 {
     [self selector:selector times:times arguments:[CPArray array]];
 }
- 
+
 /*!
    Expect that selector is called times with arguments on the base object. The selector here
      will match the arguments that you pass it. If an empty array is passed then the selector
@@ -82,23 +81,23 @@ function moq(baseObject)
 
      @param selector The selector which should be called
      @param times The number of times that selector should be called
-     @param arguments Arguments for the selector. If an empty array of arguments is passed in, 
+     @param arguments Arguments for the selector. If an empty array of arguments is passed in,
           then the selector matches all arguments.
  */
-- (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)args   
+- (OJMoq)selector:(SEL)selector times:(CPNumber)times arguments:(CPArray)args
 {
     var theSelector = __ojmoq_findUniqueSelector(selector, args, selectors);
     if(theSelector)
     {
-    	var expectationFunction = function(){[OJMoqAssert selector:theSelector hasBeenCalled:times];};
+        var expectationFunction = function(){[OJMoqAssert selector:theSelector hasBeenCalled:times];};
         [expectations addObject:expectationFunction];
     }
     else
     {
-    	var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:args];
-    	var expectationFunction = function(){[OJMoqAssert selector:aSelector hasBeenCalled:times];};
+        var aSelector = [[OJMoqSelector alloc] initWithName:sel_getName(selector) withArguments:args];
+        var expectationFunction = function(){[OJMoqAssert selector:aSelector hasBeenCalled:times];};
         [expectations addObject:expectationFunction];
-    	[selectors addObject:aSelector];
+        [selectors addObject:aSelector];
     }
     return self;
 }
@@ -116,7 +115,7 @@ function moq(baseObject)
 /*!
    Ensure that the selector, when called with the specified arguments, will return the given
      value. If you pass an empty array of arguments, then the selector will match all calls.
-     
+
      @param aSelector The selector on the base object that will be called
      @param arguments The arguments that must be passed to selector for this to work
      @param value The value that the selector should return
@@ -139,7 +138,7 @@ function moq(baseObject)
 
 /*!
    Provides a callback with the parameters that were passed in to the specified selector
-   
+
    @param aSelector The selector on the base object that will be called
    @param aCallback A single-argument function that is passed the array of arguments
  */
@@ -159,7 +158,7 @@ function moq(baseObject)
 - (OJMoq)selector:(SEL)aSelector callback:(Function)aCallback arguments:(CPArray)args
 {
     var theSelector = __ojmoq_findUniqueSelector(aSelector, args, selectors);
-    
+
     if(theSelector)
     {
         [theSelector setCallback:aCallback];
@@ -182,12 +181,12 @@ function moq(baseObject)
     {
         expectations[i]();
     }
-	
+
     return self;
 }
 
-// Ignore the following interface unless you know what you are doing! 
-// These are here to intercept calls to the underlying object and 
+// Ignore the following interface unless you know what you are doing!
+// These are here to intercept calls to the underlying object and
 // should be handled automatically.
 
 /*!
@@ -200,16 +199,16 @@ function moq(baseObject)
 
 /* @ignore */
 - (void)forwardInvocation:(CPInvocation)anInvocation
-{		
+{
     var theSelector = __ojmoq_findSelectorFromInvocation(anInvocation, selectors);
     __ojmoq_incrementNumberOfCalls(anInvocation, selectors);
-	
-	// We forward to the baseObject when:
-	// 1. A baseObject exists and
-	// 2. No one has added this selector to our selector list or it is a selector the baseobject responds to and no one has tried 
-	//    to override the baseObject's implementation
+
+    // We forward to the baseObject when:
+    // 1. A baseObject exists and
+    // 2. No one has added this selector to our selector list or it is a selector the baseobject responds to and no one has tried
+    //    to override the baseObject's implementation
     if (_baseObject !== nil &&
-        (!theSelector || ([_baseObject respondsToSelector:CPSelectorFromString([theSelector name])] 
+        (!theSelector || ([_baseObject respondsToSelector:CPSelectorFromString([theSelector name])]
         && ([theSelector returnValue] === undefined && [theSelector callback] === undefined))))
     {
         return [anInvocation invokeWithTarget:_baseObject];
@@ -257,7 +256,7 @@ function __ojmoq_findSelectorFromInvocation(anInvocation, selectors)
         return foundSelectors[0];
     else if ([foundSelectors count] === 0)
         return nil;
-    // More than one selector found - for example, if you did [mock selector:@selector(aSelector:) returns:5] and 
+    // More than one selector found - for example, if you did [mock selector:@selector(aSelector:) returns:5] and
     // [mock selector:@selector(aSelector:) returns:6 arguments:[5]] and then call [mock aSelector:5];, should only
     // call the selector that was set up with args.
     else
@@ -268,16 +267,16 @@ function __ojmoq_incrementNumberOfCalls(anInvocation, selectors)
 {
     var foundSelectors = __ojmoq_findSelectors([anInvocation selector], [anInvocation userArguments], selectors, NO),
         count = [foundSelectors count];
-	
+
     while (count--)
         [foundSelectors[count] call];
 
-    // Make sure we didn't just find the wildcard selector and increment only that.  
+    // Make sure we didn't just find the wildcard selector and increment only that.
     // Taking this out for now - it causes this bug: https://github.com/280north/OJTest/issues#issue/3
 //     var uniqueSelector = __ojmoq_findUniqueSelector([anInvocation selector], [anInvocation userArguments], selectors);
 //     if (!uniqueSelector)
 //     {
-//         var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector]) 
+//         var aNewSelector = [[OJMoqSelector alloc] initWithName:sel_getName([anInvocation selector])
 //                                                  withArguments:[anInvocation userArguments]];
 //         [aNewSelector call];
 //         [selectors addObject:aNewSelector];
@@ -305,4 +304,3 @@ function __ojmoq_startCallback(anInvocation, selectors)
         [theSelector callback]([anInvocation userArguments]);
     }
 }
-

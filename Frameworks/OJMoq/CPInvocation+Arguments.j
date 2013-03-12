@@ -2,12 +2,12 @@
 
 - (CPArray)arguments
 {
-	return _arguments;
+    return _arguments;
 }
 
 - (CPArray)userArguments
 {
-	return _arguments.slice(2,_arguments.length);
+    return _arguments.slice(2,_arguments.length);
 }
 
 @end
