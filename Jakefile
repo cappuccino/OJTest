@@ -24,8 +24,9 @@ JAKE.task ("documentation", function()
 
 JAKE.task("test", function(){
     var tests = new FileList('Test/*Test.j');
-    var cmd = ["ojtest"].concat(tests.items());
+    var cmd = ["bin/ojtest"].concat(tests.items());
     var cmdString = cmd.map(OS.enquote).join(" ");
+    var cmdString = "env OBJJ_INCLUDE_PATHS='./Frameworks' " + cmdString;
 
     var code = OS.system(cmdString);
     if (code !== 0)
