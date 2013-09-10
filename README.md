@@ -23,13 +23,11 @@ First, you need to have narwhal installed. You can check that it is installed by
 
     js --version
 
-If narwhal is not installed, you can install it by running:
-
-    $(which wget || echo "curl -O") https://github.com/280north/cappuccino/raw/master/bootstrap.sh && sudo bash bootstrap.sh
+If narwhal is not installed, you can install it by following the instructions on [http://github.com/280north/narwhal](http://github.com/280north/narwhal).
     
 After that, you can just do
 
-    sudo tusk install https://github.com/280north/OJTest/zipball/latest
+    tusk install https://github.com/cappuccino/OJTest/archive/master.zip
     
 And the libraries will be installed. OJAutotest has some other external dependencies that you need to install separately. You can find [installing instructions on the wiki](https://wiki.github.com/280north/OJTest/ojautotest).
 
