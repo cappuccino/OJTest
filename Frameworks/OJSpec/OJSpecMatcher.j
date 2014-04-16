@@ -14,13 +14,13 @@
     return self;
 }
 
-- (void)matches:(id)actual
+- (BOOL)matches:(id)actual
 {
     [self setActual:actual];
     [OJAssert assert:[self expected] equals:[self actual]];
 }
 
-- (void)doesNotMatch:(id)actual
+- (BOOL)doesNotMatch:(id)actual
 {
     [self setActual:actual];
     [OJAssert assert:[self expected] notEqual:[self actual]];
