@@ -12,7 +12,8 @@ var OS = require("os"),
 
 @implementation OJTestRunnerText : CPObject
 {
-    OJTestListener _listener;
+    BOOL            _usesRegex @accessors(property=usesRegex);
+    OJTestListener  _listener;
 }
 
 - (id)init
@@ -21,21 +22,28 @@ var OS = require("os"),
     {
         _listener = [[OJTestListenerText alloc] init];
     }
+
     return self;
 }
 
 - (OJTest)getTest:(CPString)suiteClassName
 {
-    return [self getTest:suiteClassName singleTestName:nil];
+    return [self getTest:suiteClassName testNameRegex:nil];
 }
 
-- (OJTest)getTest:(CPString)suiteClassName singleTestName:(CPString)singleTestName
+- (OJTest)getTest:(CPString)suiteClassName testNameRegex:(CPString)testNameRegex
 {
     var testClass = objj_lookUpClass(suiteClassName);
 
     if (testClass)
     {
-        var suite = [[OJTestSuite alloc] initWithClass:testClass singleTestName:singleTestName];
+        var suite;
+
+        if (!testNameRegex)
+            suite = [[OJTestSuite alloc] initWithClass:testClass];
+        else
+            suite = [[OJTestSuite alloc] initWithClass:testClass testNameRegex:testNameRegex usesRegex:_usesRegex];
+
         return suite;
     }
 
@@ -66,12 +74,12 @@ var OS = require("os"),
         system.stderr.write(matches[1]).flush();
 
         var testCaseClass = matches[1],
-            singleTestName = matches[2];
+            testNameRegex = matches[2];
 
         [self beforeRequire];
         require(testCaseFile.split(":")[0]);
 
-        var suite = [self getTest:testCaseClass singleTestName:singleTestName];
+        var suite = [self getTest:testCaseClass testNameRegex:testNameRegex];
         [self run:suite];
         [self afterRun];
         system.stderr.write("\n").flush();

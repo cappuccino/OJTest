@@ -12,6 +12,11 @@ var parser = new (require("narwhal/args").Parser)();
 parser.usage("INPUT_FILE ...");
 parser.help("Runs the given suite of tests.\nUsage: ojtest [OPTIONS] INPUT_FILE:NAME_OF_THE_TEST\nRuns only the given test of the given file");
 
+parser.option("-E", "regex")
+    .def(false)
+    .set(true)
+    .help("If NAME_OF_THE_TEST is defined, this one will be interpred like a regex");
+
 parser.option("-c", "coverage")
     .def(false)
     .set(true)
@@ -80,6 +85,9 @@ function main(args) {
     {
         var runner = [[OJTestRunnerText alloc] init];
     }
+
+    if (options.regex)
+        [runner setUsesRegex:YES];
 
     [runner startWithArguments:options.args];
 }
