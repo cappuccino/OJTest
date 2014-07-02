@@ -10,7 +10,7 @@ var LOCAL_OPTIONS_FILE = ".ojtest";
 var parser = new (require("narwhal/args").Parser)();
 
 parser.usage("INPUT_FILE ...");
-parser.help("Runs the given suite of tests.");
+parser.help("Runs the given suite of tests.\nUsage: ojtest [OPTIONS] INPUT_FILE:NAME_OF_THE_TEST\nRuns only the given test of the given file");
 
 parser.option("-c", "coverage")
     .def(false)
@@ -32,7 +32,7 @@ parser.option("-s", "spec")
     .def(false)
     .set(true)
     .help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
-    
+
 parser.option("-p", "parallel")
     .set(true)
     .help("Run with Rhino-enabled parallel test running on 10 threads.");
@@ -45,13 +45,13 @@ function main(args) {
         SYS = require("system"),
         FILE = require("file");
 
-    if(FILE.exists(LOCAL_OPTIONS_FILE)) 
+    if(FILE.exists(LOCAL_OPTIONS_FILE))
     {
         var fileOptions = JSON.parse(FILE.read(LOCAL_OPTIONS_FILE));
         for(var x in fileOptions)
             options[x] = fileOptions[x];
     }
-    
+
     if (options.args.length < 1)
     {
         parser.printUsage(options);
@@ -80,6 +80,6 @@ function main(args) {
     {
         var runner = [[OJTestRunnerText alloc] init];
     }
-    
+
     [runner startWithArguments:options.args];
 }
