@@ -2,9 +2,10 @@
 
 @implementation OJTestSuite : CPObject
 {
+    CPArray         _testClassesRan;
     CPArray         _tests;
     CPString        _name;
-    CPArray         _testClassesRan;
+    CPString        _singleTestName;
 }
 
 - (id)init
@@ -28,19 +29,29 @@
 
 - (id)initWithClass:(Class)aClass
 {
+    return [self initWithClass:aClass testName:nil];
+}
+
+- (id)initWithClass:(Class)aClass singleTestName:(CPString)singleTestName;
+{
     if (self = [self init])
     {
         var superClass = aClass,
             names = [];
+
+        _singleTestName = singleTestName;
+
         while (superClass)
         {
             var methods = class_copyMethodList(superClass);
+
             for (var i = 0; i < methods.length; i++)
             {
                 [self addTestMethod:methods[i].name names:names class:aClass]
             }
 
             var autotestObject;
+
             if ([aClass respondsToSelector:@selector(autotest)])
                 autotestObject = objj_msgSend(aClass, "autotest");
 
@@ -69,6 +80,7 @@
             var getAccessorName = ivars[i].accessors.get,
                 ivarName = ivars[i].name,
                 newMethodName = "testThat__" + ivars[i].accessors.get + "__WorksIn" + [autotestObject class];
+
             class_addMethod(aClass, newMethodName, function(){
                 var target = [aClass autotest],
                     expected = @"";
@@ -76,12 +88,14 @@
                 var actual = objj_msgSend(target, getAccessorName);
                 [OJAssert assert:expected equals:actual];
             });
+
             [self addTestMethod:newMethodName names:[] class:aClass];
 
             if (ivars[i].accessors.set)
             {
                 var setAccessorName = ivars[i].accessors.set,
                     newMethodName = "testThat__" + ivars[i].accessors.set + "__WorksIn" + [autotestObject class];
+
                 class_addMethod(aClass, newMethodName, function(){
                     var target = [aClass autotest],
                         expected = @"";
@@ -89,6 +103,7 @@
                     var actual = objj_msgSend(target, getAccessorName);
                     [OJAssert assert:expected equals:actual];
                 });
+
                 [self addTestMethod:newMethodName names:[] class:aClass];
             }
         }
@@ -113,7 +128,9 @@
 
 - (void)addTestMethod:(SEL)selector names:(CPArray)names class:(Class)aClass
 {
-    if ([names containsObject:selector] || ![self isTestMethod:selector])
+    if ([names containsObject:selector]
+        || ![self isTestMethod:selector]
+        || ![self isSingleTestName:selector])
         return;
 
     [names addObject:selector];
@@ -139,9 +156,14 @@
     return test;
 }
 
-- (void)isTestMethod:(SEL)selector
+- (BOOL)isTestMethod:(SEL)selector
 {
     return selector.substring(0,4) == "test" && selector.indexOf(":") == -1;
+}
+
+- (BOOL)isSingleTestName:(SEL)selector
+{
+    return _singleTestName ? selector == _singleTestName : YES;
 }
 
 - (SEL)getTestConstructor:(Class)aClass
@@ -173,8 +195,10 @@
 - (int)countTestCases
 {
     var count = 0;
+
     for (var i = 0; i < _tests.length; i++)
         [_tests[i] countTestCases];
+
     return count;
 }
 

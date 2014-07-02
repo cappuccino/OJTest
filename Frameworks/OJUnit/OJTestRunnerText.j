@@ -26,11 +26,16 @@ var OS = require("os"),
 
 - (OJTest)getTest:(CPString)suiteClassName
 {
+    return [self getTest:suiteClassName singleTestName:nil];
+}
+
+- (OJTest)getTest:(CPString)suiteClassName singleTestName:(CPString)singleTestName
+{
     var testClass = objj_lookUpClass(suiteClassName);
 
     if (testClass)
     {
-        var suite = [[OJTestSuite alloc] initWithClass:testClass];
+        var suite = [[OJTestSuite alloc] initWithClass:testClass singleTestName:singleTestName];
         return suite;
     }
 
@@ -54,18 +59,19 @@ var OS = require("os"),
         return;
     }
 
-    var matches = testCaseFile.match(/([^\/]+)\.j$/);
+    var matches = testCaseFile.match(/([^\/]+)\.j\:?([^\/]+)?$/);
 
     if (matches)
     {
-
         system.stderr.write(matches[1]).flush();
-        var testCaseClass = matches[1];
+
+        var testCaseClass = matches[1],
+            singleTestName = matches[2];
 
         [self beforeRequire];
-        require(testCaseFile);
+        require(testCaseFile.split(":")[0]);
 
-        var suite = [self getTest:testCaseClass];
+        var suite = [self getTest:testCaseClass singleTestName:singleTestName];
         [self run:suite];
         [self afterRun];
         system.stderr.write("\n").flush();
