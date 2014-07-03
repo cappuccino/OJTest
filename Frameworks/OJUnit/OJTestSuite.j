@@ -1,11 +1,13 @@
 @import <Foundation/Foundation.j>
 
+var DEFAULT_REGEX = @".*";
+
 @implementation OJTestSuite : CPObject
 {
     CPArray         _testClassesRan;
     CPArray         _tests;
     CPString        _name;
-    CPString        _singleTestName;
+    CPString        _selectorRegex;
 }
 
 - (id)init
@@ -14,6 +16,7 @@
     {
         _tests = [];
         _testClassesRan = [];
+        _selectorRegex = DEFAULT_REGEX;
     }
     return self;
 }
@@ -29,17 +32,17 @@
 
 - (id)initWithClass:(Class)aClass
 {
-    return [self initWithClass:aClass testName:nil];
+    return [self initWithClass:aClass selectorRegex:DEFAULT_REGEX];
 }
 
-- (id)initWithClass:(Class)aClass singleTestName:(CPString)singleTestName;
+- (id)initWithClass:(Class)aClass selectorRegex:(CPString)selectorRegex;
 {
     if (self = [self init])
     {
         var superClass = aClass,
             names = [];
 
-        _singleTestName = singleTestName;
+        _selectorRegex = selectorRegex;
 
         while (superClass)
         {
@@ -130,7 +133,7 @@
 {
     if ([names containsObject:selector]
         || ![self isTestMethod:selector]
-        || ![self isSingleTestName:selector])
+        || ![self selectorMatchesTestPattern:selector])
         return;
 
     [names addObject:selector];
@@ -161,9 +164,9 @@
     return selector.substring(0,4) == "test" && selector.indexOf(":") == -1;
 }
 
-- (BOOL)isSingleTestName:(SEL)selector
+- (BOOL)selectorMatchesTestPattern:(SEL)selector
 {
-    return _singleTestName ? selector == _singleTestName : YES;
+    return [selector.match(_selectorRegex) count];
 }
 
 - (SEL)getTestConstructor:(Class)aClass
