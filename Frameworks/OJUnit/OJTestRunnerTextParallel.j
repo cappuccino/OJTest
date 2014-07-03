@@ -47,12 +47,12 @@
                 system.stderr.write(matches[1]).flush();
 
                 var testCaseClass = matches[1],
-                    testNameRegex = matches[2];
+                    singleTestName = matches[2];
 
                 [self beforeRequire];
                 require(testCaseFile.split(":")[0]);
 
-                var suite = [self getTest:testCaseClass testNameRegex:testNameRegex];
+                var suite = [self getTest:testCaseClass singleTestName:singleTestName];
 
                 var runTestFunction = function() {
                     [self run:suite];

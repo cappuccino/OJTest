@@ -1,14 +1,11 @@
 @import <Foundation/Foundation.j>
 
-var DEFAULT_REGEX = @".*";
-
 @implementation OJTestSuite : CPObject
 {
-    BOOL            _usesRegex;
     CPArray         _testClassesRan;
     CPArray         _tests;
     CPString        _name;
-    CPString        _testNameRegex;
+    CPString        _singleTestName;
 }
 
 - (id)init
@@ -17,7 +14,6 @@ var DEFAULT_REGEX = @".*";
     {
         _tests = [];
         _testClassesRan = [];
-        _testNameRegex = DEFAULT_REGEX;
     }
     return self;
 }
@@ -28,24 +24,22 @@ var DEFAULT_REGEX = @".*";
     {
         [self setName:aName];
     }
-
     return self;
 }
 
 - (id)initWithClass:(Class)aClass
 {
-    return [self initWithClass:aClass testNameRegex:DEFAULT_REGEX usesRegex:YES];
+    return [self initWithClass:aClass testName:nil];
 }
 
-- (id)initWithClass:(Class)aClass testNameRegex:(CPString)aTestNameRegex usesRegex:(BOOL)usesRegex
+- (id)initWithClass:(Class)aClass singleTestName:(CPString)singleTestName;
 {
     if (self = [self init])
     {
         var superClass = aClass,
             names = [];
 
-        _testNameRegex = aTestNameRegex;
-        _usesRegex = usesRegex;
+        _singleTestName = singleTestName;
 
         while (superClass)
         {
@@ -136,7 +130,7 @@ var DEFAULT_REGEX = @".*";
 {
     if ([names containsObject:selector]
         || ![self isTestMethod:selector]
-        || ![self selectorMatchesTestPattern:selector])
+        || ![self isSingleTestName:selector])
         return;
 
     [names addObject:selector];
@@ -151,7 +145,6 @@ var DEFAULT_REGEX = @".*";
     if (selector.indexOf(":") < 0)
     {
         test = [[aClass alloc] performSelector:initSelector];
-
         if ([test isKindOfClass:[OJTestCase class]])
             [test setSelector:selector];
     }
@@ -168,12 +161,9 @@ var DEFAULT_REGEX = @".*";
     return selector.substring(0,4) == "test" && selector.indexOf(":") == -1;
 }
 
-- (BOOL)selectorMatchesTestPattern:(SEL)selector
+- (BOOL)isSingleTestName:(SEL)selector
 {
-    if (_usesRegex)
-        return [selector.match(_testNameRegex) count];
-    else
-        return selector == _testNameRegex;
+    return _singleTestName ? selector == _singleTestName : YES;
 }
 
 - (SEL)getTestConstructor:(Class)aClass
