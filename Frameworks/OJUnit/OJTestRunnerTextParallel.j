@@ -40,16 +40,22 @@
             if (!testCaseFile || testCaseFile == "")
                 break;
 
-            var matches = testCaseFile.match(/([^\/]+)\.j$/);
+            var matches = testCaseFile.match(/([^\/]+)\.j\:?([^\/]+)?$/);
 
             if (matches)
             {
                 system.stderr.write(matches[1]).flush();
-                var testCaseClass = matches[1];
+
+                var testCaseClass = matches[1],
+                    selectorRegex = matches[2];
 
                 [self beforeRequire];
-                require(testCaseFile);
-                var suite = [self getTest:testCaseClass];
+                require(testCaseFile.split(":")[0]);
+
+                if (selectorRegex)
+                    selectorRegex = @"^"+selectorRegex+"$";
+
+                var suite = [self getTest:testCaseClass selectorRegex:selectorRegex];
 
                 var runTestFunction = function() {
                     [self run:suite];
