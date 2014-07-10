@@ -75,6 +75,22 @@
 }
 
 /*!
+    Called the setUpClass
+*/
+- (void)setUpClass
+{
+    [[self class] setUp]
+}
+
+/*!
+    Called the tearDownClass
+*/
+- (void)tearDownClass
+{
+    [[self class] tearDown]
+}
+
+/*!
    If the selector is not null,
    @param a parameter
  */
@@ -96,6 +112,20 @@
    TearDown method that is called after each run.
  */
 - (void)tearDown
+{
+}
+
+/*!
+   SetUp method that is called once before launching the test
+ */
++ (void)setUp
+{
+}
+
+/*!
+   TearDown method that is called once after launching the test
+ */
++ (void)tearDown
 {
 }
 

@@ -178,10 +178,16 @@ var DEFAULT_REGEX = @".*";
 {
     for (var i = 0; i < _tests.length; i++)
     {
+        if (i == 0)
+            [_tests[i] setUpClass];
+
         if ([result shouldStop])
             break;
 
         [_tests[i] run:result];
+
+        if (i == (_tests.length - 1))
+            [_tests[i] tearDownClass];
     }
 }
 
