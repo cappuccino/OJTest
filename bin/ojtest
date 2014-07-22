@@ -45,10 +45,10 @@ function main(args) {
         SYS = require("system"),
         FILE = require("file");
 
-    if(FILE.exists(LOCAL_OPTIONS_FILE))
+    if (FILE.exists(LOCAL_OPTIONS_FILE))
     {
         var fileOptions = JSON.parse(FILE.read(LOCAL_OPTIONS_FILE));
-        for(var x in fileOptions)
+        for (var x in fileOptions)
             options[x] = fileOptions[x];
     }
 
@@ -67,9 +67,8 @@ function main(args) {
 
     if (options.coverage || savedArgs.indexOf("-t") !== -1)
     {
-        var threshold = options.threshold > 1 ? options.threshold / 100 : options.threshold;
-
-        var runner = [[OJCoverageRunnerText alloc] initWithThreshold:threshold];
+        var threshold = options.threshold > 1 ? options.threshold / 100 : options.threshold,
+            runner = [[OJCoverageRunnerText alloc] initWithThreshold:threshold];
     }
     else if (options.parallel)
     {

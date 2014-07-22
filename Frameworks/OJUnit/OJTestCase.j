@@ -49,8 +49,8 @@
 }
 
 /*!
-   Informs the OJTestResult to run the tests
-   @param result The OJTestResult that will run the tests
+    Run the tests using the given OJTestResult handler.
+    @param result the OJTestResult to run the tests
  */
 - (void)run:(OJTestResult)result
 {
@@ -58,8 +58,7 @@
 }
 
 /*!
-   Runs the setup, test and teardown for the
-   @param a parameter
+   Runs the setup, test and teardown for the current test selector.
  */
 - (void)runBare
 {
@@ -75,24 +74,23 @@
 }
 
 /*!
-    Called the setUpClass
+    Send the test class the setUp message.
 */
 - (void)setUpClass
 {
-    [[self class] setUp]
+    [[self class] setUp];
 }
 
 /*!
-    Called the tearDownClass
+    Send the test class the tearDown message.
 */
 - (void)tearDownClass
 {
-    [[self class] tearDown]
+    [[self class] tearDown];
 }
 
 /*!
-   If the selector is not null,
-   @param a parameter
+    Run the test(s) for the current selector.
  */
 - (void)runTest
 {
