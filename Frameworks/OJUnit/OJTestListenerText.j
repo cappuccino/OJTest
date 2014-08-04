@@ -58,12 +58,6 @@ stream = require("narwhal/term").stream;
     return _failures;
 }
 
-- (void)addFailure:(CPException)anException forTest:(OJTest)aTest
-{
-    CPLog.warn("[OJTestListenerText addFailure:forTest:] is deprecated. Please use [OJTestListener addFailure:].");
-    [self addFailure:[[OJTestFailure alloc] initWithTest:aTest exception:anException]];
-}
-
 - (void)addSuccesTest:(OJTest)aTest
 {
     _successes.push(aTest);
