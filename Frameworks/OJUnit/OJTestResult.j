@@ -33,6 +33,12 @@
     return self;
 }
 
+- (void)addSuccessTest:(OJTest)aTest
+{
+    for (var i = 0; i < _listeners.length; i++)
+        [_listeners[i] addSuccesTest:aTest];
+}
+
 - (void)addError:(CPException)error forTest:(OJTest)aTest
 {
     [self addError:[[OJTestFailure alloc] initWithTest:aTest exception:error]];
@@ -77,6 +83,7 @@
     try
     {
         [aTest runBare];
+        [self addSuccessTest:aTest];
     }
     catch (e)
     {
