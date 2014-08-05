@@ -136,17 +136,20 @@ var OS = require("os"),
 
 - (void)report
 {
-    var totalErrors = [[_listener errors] count] + [[_listener failures] count];
+    var totalTests = [[_listener errors] count] + [[_listener failures] count] + [[_listener successes] count],
+        totalErrors = [[_listener errors] count] + [[_listener failures] count];
 
     if (totalErrors === 0)
     {
-        stream.print("\0green(All tests passed in the test suite.\0)");
+        stream.print("\0green(All tests passed in the test suite.\0)\nTotal tests: " + totalTests);
         OS.exit(0);
     }
     else
     {
         stream.print("Test suite failed with \0red(" + [[_listener errors] count] +
-            " errors\0) and \0red(" + [[_listener failures] count] + " failures\0).");
+            " errors\0) and \0red(" + [[_listener failures] count] +
+            " failures\0) and \0green(" + [[_listener successes] count] +
+            " successes\0)\nTotal tests : " + totalTests);
         OS.exit(1);
     }
 }

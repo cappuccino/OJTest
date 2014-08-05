@@ -6,6 +6,7 @@ stream = require("narwhal/term").stream;
 {
     CPArray _errors;
     CPArray _failures;
+    CPArray _successes;
 }
 
 - (id)init
@@ -14,6 +15,7 @@ stream = require("narwhal/term").stream;
 
     _errors = [];
     _failures = [];
+    _successes = [];
 
     return self;
 }
@@ -54,6 +56,16 @@ stream = require("narwhal/term").stream;
 - (CPArray)failures
 {
     return _failures;
+}
+
+- (void)addSuccesTest:(OJTest)aTest
+{
+    _successes.push(aTest);
+}
+
+- (CPArray)successes
+{
+    return _successes;
 }
 
 - (void)startTest:(OJTest)aTest
