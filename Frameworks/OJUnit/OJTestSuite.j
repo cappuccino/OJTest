@@ -35,7 +35,7 @@ var DEFAULT_REGEX = @".*";
     return [self initWithClass:aClass selectorRegex:DEFAULT_REGEX];
 }
 
-- (id)initWithClass:(Class)aClass selectorRegex:(CPString)selectorRegex;
+- (id)initWithClass:(Class)aClass selectorRegex:(CPString)selectorRegex
 {
     if (self = [self init])
     {
