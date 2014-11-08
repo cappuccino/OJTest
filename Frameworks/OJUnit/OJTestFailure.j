@@ -1,6 +1,7 @@
 @import <Foundation/Foundation.j>
 
 @import "OJAssert.j"
+@class OJTestCase
 
 function convertRhinoBacktrace(javaException) {
     var s = new Packages.java.io.StringWriter();
@@ -26,7 +27,7 @@ function getBacktrace(e) {
 
 @implementation OJTestFailure : CPObject
 {
-    OJTest      _failedTest         @accessors(readonly, property=failedTest);
+    OJTestCase  _failedTest         @accessors(readonly, property=failedTest);
     CPException _thrownException    @accessors(readonly, property=thrownException);
 }
 

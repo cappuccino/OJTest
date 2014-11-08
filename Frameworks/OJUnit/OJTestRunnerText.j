@@ -12,7 +12,7 @@ var OS = require("os"),
 
 @implementation OJTestRunnerText : CPObject
 {
-    OJTestListener _listener;
+    OJTestListenerText _listener;
 }
 
 - (id)init
