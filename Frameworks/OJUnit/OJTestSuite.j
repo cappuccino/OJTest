@@ -131,10 +131,18 @@ var DEFAULT_REGEX = @".*";
 
 - (void)addTestMethod:(SEL)selector names:(CPArray)names class:(Class)aClass
 {
-    if ([names containsObject:selector]
-        || ![self isTestMethod:selector]
+    var isTestMethod = [self isTestMethod:selector],
+        testNameAlreadyDeclared = [names containsObject:selector];
+
+    if (testNameAlreadyDeclared
+        || !isTestMethod
         || ![self selectorMatchesTestPattern:selector])
+    {
+        if (isTestMethod && testNameAlreadyDeclared)
+            CPLog.warn("It looks like you have declared the test `"+ selector +"` in the file "+ [aClass className] +".j several times !")
+
         return;
+    }
 
     [names addObject:selector];
     [self addTest:[self createTestWithSelector:selector class:aClass]];
