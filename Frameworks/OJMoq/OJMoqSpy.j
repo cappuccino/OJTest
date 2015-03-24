@@ -2,8 +2,6 @@
 @import "OJMoqSelector.j"
 @import "OJMoqAssert.j"
 
-var observedMethods = [];
-
 function spy(obj)
 {
     return [OJMoqSpy spyOnBaseObject:obj];
@@ -14,6 +12,7 @@ function spy(obj)
     CPObject        _baseObject     @accessors(property=baseObject);
     CPArray         expectations;
     CPArray         selectors;
+    CPArray observedMethods;
 }
 
 + (OJMoqSpy)spyOnBaseObject:(id)baseObject
@@ -33,6 +32,7 @@ function spy(obj)
 
         expectations = [];
         selectors = [];
+        observedMethods = [];
     }
     return self;
 }
