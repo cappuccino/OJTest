@@ -2,6 +2,8 @@
 @import "OJMoqSelector.j"
 @import "OJMoqAssert.j"
 
+var methodsObservered = [];
+
 function spy(obj)
 {
     return [OJMoqSpy spyOnBaseObject:obj];
@@ -33,6 +35,12 @@ function spy(obj)
         selectors = [];
     }
     return self;
+}
+
+- (void)reset
+{
+    expectations = [];
+    selectors = [];
 }
 
 - (void)selector:(SEL)selector times:(CPNumber)times
@@ -69,6 +77,9 @@ function spy(obj)
 
 - (void)replaceMethod:(SEL)selector
 {
+    if ([methodsObservered containsObject:selector])
+        return;
+
     var aFunction = class_getMethodImplementation([_baseObject class], selector);
     class_replaceMethod([_baseObject class],
         selector,
@@ -79,6 +90,8 @@ function spy(obj)
             }
             return aFunction.apply(this, arguments);
         });
+
+    [methodsObservered addObject:selector];
 }
 
 @end
