@@ -2,7 +2,7 @@
 @import "OJMoqSelector.j"
 @import "OJMoqAssert.j"
 
-var methodsObservered = [];
+var observedMethods = [];
 
 function spy(obj)
 {
@@ -77,7 +77,7 @@ function spy(obj)
 
 - (void)replaceMethod:(SEL)selector
 {
-    if ([methodsObservered containsObject:selector])
+    if ([observedMethods containsObject:selector])
         return;
 
     var aFunction = class_getMethodImplementation([_baseObject class], selector);
@@ -91,7 +91,7 @@ function spy(obj)
             return aFunction.apply(this, arguments);
         });
 
-    [methodsObservered addObject:selector];
+    [observedMethods addObject:selector];
 }
 
 @end
