@@ -4,11 +4,12 @@
 
 @implementation OJMoqSelector : CPObject
 {
-    CPString    name            @accessors(readonly);
-    CPNumber    timesCalled     @accessors(readonly);
-    id          returnValue     @accessors;
-    CPArray     args       @accessors;
-    Function    callback        @accessors;
+    CPArray     args                    @accessors;
+    CPNumber    expectedTimesCalled     @accessors;
+    CPNumber    timesCalled             @accessors(readonly);
+    CPString    name                    @accessors(readonly);
+    Function    callback                @accessors;
+    id          returnValue             @accessors;
 }
 
 + (CPArray)find:(OJMoqSelector)aSelector in:(CPArray)selectors ignoreWildcards:(BOOL)shouldIgnoreWildcards
@@ -16,13 +17,9 @@
     return [selectors findBy:function(anotherSelector)
     {
         if(!shouldIgnoreWildcards && ([anotherSelector matchesAllArgs] || [aSelector matchesAllArgs]))
-        {
             return [aSelector isEqualToNameOf:anotherSelector]
-        }
         else
-        {
             return [aSelector equals:anotherSelector];
-        }
     }];
 }
 
@@ -33,14 +30,21 @@
 
 - (id)initWithName:(CPString)aName withArguments:(CPArray)someArguments
 {
-    if(self = [super init])
+    return [self initWithName:aName withArguments:someArguments expectedTimesCalled:0];
+}
+
+- (id)initWithName:(CPString)aName withArguments:(CPArray)someArguments expectedTimesCalled:(CPNumber)anExpectedTimesCalled
+{
+    if (self = [super init])
     {
-        name = aName;
-        args = someArguments;
-        timesCalled = 0;
-        returnValue = undefined;
-        callback = undefined;
+        args                = someArguments;
+        callback            = undefined;
+        expectedTimesCalled = anExpectedTimesCalled;
+        name                = aName;
+        returnValue         = undefined;
+        timesCalled         = 0;
     }
+
     return self;
 }
 
@@ -57,6 +61,11 @@
 - (BOOL)equals:(OJMoqSelector)anotherSelector
 {
     return [self isEqualToNameOf:anotherSelector] && [args deepEqual:[anotherSelector args]];
+}
+
+- (BOOL)isEqual:(OJMoqSelector)anotherSelector
+{
+    return [self equals:anotherSelector];
 }
 
 - (BOOL)matchesAllArgs
