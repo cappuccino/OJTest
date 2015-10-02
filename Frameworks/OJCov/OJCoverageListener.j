@@ -90,7 +90,7 @@ SHOULD_APPEND = YES;
     class_addMethod = function(aClass, aName, anImplementation, aType) {
         if(aClass != null)
         {
-            var resolvedClass = objj_getClass(aClass.name);
+            var resolvedClass = objj_getClass(class_getName(aClass));
             [delegate foundMethod:[OJCoverageSelector selectorWithClassName:resolvedClass selector:aName]];
         }
 
@@ -100,9 +100,9 @@ SHOULD_APPEND = YES;
     class_addMethods = function(aClass, methods) {
         if(aClass != null)
         {
-            var resolvedClass = objj_getClass(aClass.name);
+            var resolvedClass = objj_getClass(class_getName(aClass));
             methods.map(function(method){[delegate foundMethod:[OJCoverageSelector
-                selectorWithClassName:resolvedClass selector:method.name]];});
+                selectorWithClassName:resolvedClass selector:method_getName(method)]];});
         }
 
         og_class_addMethods.apply(this, arguments);
