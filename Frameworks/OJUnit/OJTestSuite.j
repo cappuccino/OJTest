@@ -56,7 +56,7 @@ var DEFAULT_REGEX = @".*";
             var autotestObject;
 
             if ([aClass respondsToSelector:@selector(autotest)])
-                autotestObject = objj_msgSend(aClass, "autotest");
+                autotestObject = [aClass autotest];
 
             if (autotestObject && ![_testClassesRan containsObject:aClass])
             {
