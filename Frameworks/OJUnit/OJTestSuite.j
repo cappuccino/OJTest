@@ -50,13 +50,13 @@ var DEFAULT_REGEX = @".*";
 
             for (var i = 0; i < methods.length; i++)
             {
-                [self addTestMethod:methods[i].name names:names class:aClass]
+                [self addTestMethod:method_getName(methods[i]) names:names class:aClass]
             }
 
             var autotestObject;
 
             if ([aClass respondsToSelector:@selector(autotest)])
-                autotestObject = objj_msgSend(aClass, "autotest");
+                autotestObject = [aClass autotest];
 
             if (autotestObject && ![_testClassesRan containsObject:aClass])
             {
@@ -81,7 +81,7 @@ var DEFAULT_REGEX = @".*";
         if (ivars[i].accessors)
         {
             var getAccessorName = ivars[i].accessors.get,
-                ivarName = ivars[i].name,
+                ivarName = ivar_getName(ivars[i]),
                 newMethodName = "testThat__" + ivars[i].accessors.get + "__WorksIn" + [autotestObject class];
 
             class_addMethod(aClass, newMethodName, function(){
