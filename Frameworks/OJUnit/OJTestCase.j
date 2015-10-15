@@ -69,6 +69,7 @@
     }
     finally
     {
+        [[CPRunLoop currentRunLoop] limitDateForMode:CPDefaultRunLoopMode];
         [self tearDown];
     }
 }
