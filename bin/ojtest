@@ -12,6 +12,11 @@ var parser = new (require("narwhal/args").Parser)();
 parser.usage("INPUT_FILE ...");
 parser.help("Runs the given suite of tests.\nUsage: ojtest [OPTIONS] INPUT_FILE:NAME_OF_THE_TEST\nRuns only the given test of the given file");
 
+parser.option("-x", "stop")
+    .def(false)
+    .set(true)
+    .help("Stop running tests after the first error or failure")
+
 parser.option("-c", "coverage")
     .def(false)
     .set(true)
@@ -40,10 +45,12 @@ parser.option("-p", "parallel")
 parser.helpful();
 
 function main(args) {
+
     var savedArgs = args.slice(0),
         options = parser.parse(args),
         SYS = require("system"),
-        FILE = require("file");
+        FILE = require("file"),
+        shouldStopAtFirstFailure = false;
 
     if (FILE.exists(LOCAL_OPTIONS_FILE))
     {
@@ -59,9 +66,10 @@ function main(args) {
     }
 
     if (options.spec)
-    {
         @import <OJSpec/OJSpec.j>
-    }
+
+    if (options.stop || savedArgs.indexOf("-x") !== -1)
+        shouldStopAtFirstFailure = true;
 
     CPLogRegister(CPLogPrint, options.level);
 
@@ -80,5 +88,6 @@ function main(args) {
         var runner = [[OJTestRunnerText alloc] init];
     }
 
+    [runner setShouldStopAtFirstFailureOrError:shouldStopAtFirstFailure];
     [runner startWithArguments:options.args];
 }

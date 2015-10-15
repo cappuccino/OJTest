@@ -4,6 +4,8 @@ var DEFAULT_REGEX = @".*";
 
 @implementation OJTestSuite : CPObject
 {
+    BOOL            _shouldStopAtFirstFailureOrError @accessors(property=shouldStopAtFirstFailureOrError);
+
     CPArray         _testClassesRan;
     CPArray         _tests;
     CPString        _name;
@@ -196,6 +198,9 @@ var DEFAULT_REGEX = @".*";
 
         if (i == (_tests.length - 1))
             [_tests[i] tearDownClass];
+
+        if (_shouldStopAtFirstFailureOrError && ([result numberOfFailures] || [result numberOfErrors]))
+            break;
     }
 }
 

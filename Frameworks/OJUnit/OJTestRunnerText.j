@@ -12,6 +12,8 @@ var OS = require("os"),
 
 @implementation OJTestRunnerText : CPObject
 {
+    BOOL               _shouldStopAtFirstFailureOrError @accessors(property=shouldStopAtFirstFailureOrError);
+
     OJTestListenerText _listener;
 }
 
@@ -21,6 +23,7 @@ var OS = require("os"),
     {
         _listener = [[OJTestListenerText alloc] init];
     }
+
     return self;
 }
 
@@ -42,6 +45,8 @@ var OS = require("os"),
         else
             suite = [[OJTestSuite alloc] initWithClass:testClass];
 
+        [suite setShouldStopAtFirstFailureOrError:_shouldStopAtFirstFailureOrError];
+
         return suite;
     }
 
@@ -51,7 +56,7 @@ var OS = require("os"),
 
 - (void)startWithArguments:(CPArray)args
 {
-    if (args.length === 0)
+    if (args.length === 0 || [self shouldStop])
     {
         [self report];
         return;
@@ -84,6 +89,12 @@ var OS = require("os"),
         [self run:suite];
         [self afterRun];
         system.stderr.write("\n").flush();
+
+        if ([self shouldStop])
+        {
+            [self report];
+            return;
+        }
     }
     else
         system.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n").flush();
@@ -132,6 +143,14 @@ var OS = require("os"),
 + (void)runClass:(Class)aClass
 {
     [self runTest:[[OJTestSuite alloc] initWithClass:aClass]];
+}
+
+- (void)shouldStop
+{
+    if (!_shouldStopAtFirstFailureOrError)
+        return NO;
+
+    return [[_listener errors] count] || [[_listener failures] count];
 }
 
 - (void)report
