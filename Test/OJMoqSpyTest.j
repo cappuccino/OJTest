@@ -41,7 +41,7 @@
     [spy verifyThatAllExpectationsHaveBeenMet];
 }
 
-- (void)testThatOJMoqSpyDoesDetectCallsOnObjectsWithArgumentMatching
+- (void)testThatOJMoqSpyDoesNotDetectCallsOnObjectsWithArgumentNotMatching
 {
     var target = @"TEST";
     var spy = [OJMoqSpy spyOnBaseObject:target];
