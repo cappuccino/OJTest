@@ -40,3 +40,15 @@ executableExists = function(/*String*/ aFileName)
         return FILE.exists(FILE.join(aPath, aFileName));
     });
 }
+
+JAKE.task ("clean", function()
+{
+    OS.system(["rm", "-rf", SYSTEM.prefix + "/packages/OJTest/"])
+});
+
+JAKE.task ("install", ["clean"], function()
+{
+    OS.system(["mkdir", "-p", SYSTEM.prefix + "/packages/OJTest/"])
+    OS.system(["cp", "-r", ".", SYSTEM.prefix + "/packages/OJTest"])
+    print("OJTest installation done! Have fun in testing now :)")
+});
