@@ -7,8 +7,9 @@
 @import <OJCov/OJCoverageListener.j>
 @import <OJCov/OJCoverageReporter.j>
 
-var OS = require("os"),
-    stream = require("narwhal/term").stream;
+@global require
+
+var stream = require("objj-runtime").term.stream;
 
 @implementation OJTestRunnerText : CPObject
 {
@@ -34,6 +35,7 @@ var OS = require("os"),
 
 - (OJTest)getTest:(CPString)suiteClassName selectorRegex:(CPString)selectorRegex
 {
+    debugger;
     var testClass = objj_lookUpClass(suiteClassName);
 
     if (testClass)
@@ -74,33 +76,38 @@ var OS = require("os"),
 
     if (matches)
     {
-        system.stderr.write(matches[1]).flush();
+        process.stderr.write(matches[1]);
 
         var testCaseClass = matches[1],
             selectorRegex = matches[2];
 
         [self beforeRequire];
-        require(testCaseFile.split(":")[0]);
+        objj_importFile(testCaseFile.split(":")[0], YES, function() {
+            if (selectorRegex)
+                selectorRegex = @"^"+selectorRegex+"$";
 
-        if (selectorRegex)
-            selectorRegex = @"^"+selectorRegex+"$";
+            var suite = [self getTest:testCaseClass selectorRegex:selectorRegex];
+            [self run:suite];
+            [self afterRun];
+            process.stderr.write("\n");
 
-        var suite = [self getTest:testCaseClass selectorRegex:selectorRegex];
-        [self run:suite];
-        [self afterRun];
-        system.stderr.write("\n").flush();
+            if ([self shouldStop])
+            {
+                [self report];
+                return;
+            }
 
-        if ([self shouldStop])
-        {
-            [self report];
-            return;
-        }
+            // run the next test when this is done
+            [self startWithArguments:args];
+        });
     }
     else
-        system.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n").flush();
+    {
+        process.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n");
 
-    // run the next test when this is done
-    [self startWithArguments:args];
+        // run the next test when this is done
+        [self startWithArguments:args];
+    }
 }
 
 - (void)beforeRequire
@@ -115,7 +122,7 @@ var OS = require("os"),
 
 - (CPString)nextTest:(CPArray)args
 {
-    return require("file").absolute(args.shift());
+    return require("path").resolve(process.cwd(), args.shift());
 }
 
 - (OJTestResult)run:(OJTest)suite wait:(BOOL)wait
@@ -161,7 +168,7 @@ var OS = require("os"),
     if (totalErrors === 0)
     {
         stream.print("\0green(All tests passed in the test suite.\0)\nTotal tests: " + totalTests);
-        OS.exit(0);
+        process.exit(0);
     }
     else
     {
@@ -169,7 +176,7 @@ var OS = require("os"),
             " errors\0) and \0red(" + [[_listener failures] count] +
             " failures\0) and \0green(" + [[_listener successes] count] +
             " successes\0)\nTotal tests : " + totalTests);
-        OS.exit(1);
+        process.exit(1);
     }
 }
 

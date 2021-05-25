@@ -1,6 +1,6 @@
 @import <Foundation/Foundation.j>
 
-stream = require("narwhal/term").stream;
+stream = require("objj-runtime").term.stream;
 
 @implementation OJTestListenerText : CPObject
 {
@@ -70,7 +70,7 @@ stream = require("narwhal/term").stream;
 
 - (void)startTest:(OJTest)aTest
 {
-    system.stderr.write(".").flush();
+    process.stderr.write(".");
     CPLog.info("startTest  test=" + [aTest description]);
 }
 

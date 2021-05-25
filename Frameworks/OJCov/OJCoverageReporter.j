@@ -1,6 +1,8 @@
 @import <Foundation/CPObject.j>
 
-SYSTEM = require("system");
+@global require
+
+//SYSTEM = require("system");
 
 @implementation OJCoverageReporter : CPObject
 {
@@ -62,13 +64,13 @@ SYSTEM = require("system");
 
 - (void)report
 {
-    print("Calculating report...");
+    console.log("Calculating report...");
 
     if ([calledMethods count] > 0)
-        print("Methods Called: " + [calledMethods allValues].reduce(function(x, y) { return x + y; }));
+        console.log("Methods Called: " + [calledMethods allValues].reduce(function(x, y) { return x + y; }));
 
     if ([foundMethods count] > 0)
-        print("Methods Found: " + [foundMethods count]);
+        console.log("Methods Found: " + [foundMethods count]);
 
     [self generateHTML];
 }
@@ -133,22 +135,22 @@ SYSTEM = require("system");
             ul(index)
             )));
 
-    var cssFile = FILE.join(SYSTEM.prefix, "packages", "OJTest", "Frameworks", "OJCov", "Resources", "style.css");
+    var cssFile = FILE.join(OBJJ_HOME, "packages", "OJTest", "Frameworks", "OJCov", "Resources", "style.css");
     FILE.copy(cssFile, FILE.absolute("results/style.css"));
 
     if (totalNumFound === 0)
     {
-        print("Cannot determine test coverage percentage. No Objective-J methods found.");
+        console.log("Cannot determine test coverage percentage. No Objective-J methods found.");
     }
     else
     {
         var coverage = totalNumCalled / totalNumFound * 100;
 
-        print([CPString stringWithFormat:"Your current test coverage is %@%%", coverage.toPrecision(4)]);
+        console.log([CPString stringWithFormat:"Your current test coverage is %@%%", coverage.toPrecision(4)]);
         if (coverage < threshold)
         {
-            print("Exiting... Coverage not sufficient");
-            require("os").exit(1);
+            console.log("Exiting... Coverage not sufficient");
+            process.exit(1);
         }
     }
 }

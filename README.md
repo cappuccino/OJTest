@@ -3,6 +3,19 @@ OJTest
 
 OJTest is a collection of Frameworks and Tools that aim to provide a comprehensive testing solution for Cappuccino applications.
 
+Node
+====
+
+This is a first version that is adjusted to run on NodeJS. There are many things that are not working yet.
+
+Install it with
+```npm objj-ojtest
+```
+
+Run a test case with
+```npx ojtest Test/OJAssertTest.j
+```
+
 Frameworks
 ==========
 
@@ -16,8 +29,8 @@ Tools
 * OJAutotest - a tool to automatically test your Cappuccino application when you make changes
 * OJCov - a coverage tool to help you identify code not covered by tests
 
-Installation
-============
+Old Installation
+================
 
 Clone this repository and do a jake install
 
@@ -40,3 +53,4 @@ Contributors
 * Tom Robinson
 * Jared Santo
 * Alexandre Wilhelm
+* Martin Carlberg

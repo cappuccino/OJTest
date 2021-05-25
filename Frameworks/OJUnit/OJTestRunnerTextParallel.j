@@ -1,5 +1,7 @@
 @import "OJTestRunnerText.j"
 
+@global require
+
 @implementation OJTestRunnerTextParallel : OJTestRunnerText
 {
     CPArray         threadPool;
@@ -44,7 +46,7 @@
 
             if (matches)
             {
-                system.stderr.write(matches[1]).flush();
+                process.stderr.write(matches[1]);
 
                 var testCaseClass = matches[1],
                     selectorRegex = matches[2];
@@ -66,7 +68,7 @@
                 [thread start];
             }
             else
-                system.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n").flush();
+                process.stderr.write("Skipping " + testCaseFile + ": not an Objective-J source file.\n");
         }
     }
 
@@ -111,7 +113,7 @@
     {
         if ([self hasWaited:60 since:startTime])
         {
-            system.print("Test timed out!");
+            console.log("Test timed out!");
             break;
         }
     }

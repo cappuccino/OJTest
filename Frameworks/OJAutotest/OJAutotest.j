@@ -29,8 +29,8 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
 - (void)start
 {
-    print("---------- STARTING LOOP ----------");
-    print("In order to stop the tests, do Control-C twice in quick succession.");
+    console.log("---------- STARTING LOOP ----------");
+    console.log("In order to stop the tests, do Control-C twice in quick succession.");
     [self loop];
 }
 
@@ -43,11 +43,11 @@ var OJAUTOTEST_RUNNER = "ojautotest-run";
 
         [self runTests:[self testsForFiles:modifiedFilePaths]];
 
-        print("---------- WAITING FOR CHANGES ----------");
+        console.log("---------- WAITING FOR CHANGES ----------");
     };
 
     var callback = function(modifiedFiles) {
-        print("----------  CHANGES  DETECTED  ----------");
+        console.log("----------  CHANGES  DETECTED  ----------");
         runTests(modifiedFiles);
     };
 

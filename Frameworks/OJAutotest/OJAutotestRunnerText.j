@@ -1,13 +1,15 @@
 @import <OJUnit/OJTestRunnerText.j>
 
 var SYSTEM = require("system");
-var FILE = require("file");
-var STREAM = require("narwhal/term").stream;
+var PATH = require("path");
+var STREAM = require("objj-runtime").term.stream;
+var STREAM = {print: console.log};
+
 var GROWL = require("growl-js");
 GROWL.options["name"] = "OJAutotest";
 
-var ERROR_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "error.png");
-var SUCCESS_IMAGE = FILE.join(SYSTEM.prefix, "packages", "ojtest", "images", "success.png");
+var ERROR_IMAGE = PATH.join(SYSTEM.prefix, "packages", "ojtest", "images", "error.png");
+var SUCCESS_IMAGE = PATH.join(SYSTEM.prefix, "packages", "ojtest", "images", "success.png");
 
 /*!
    This is a subclass of OJTestRunnerText that provides growl functionality along with some

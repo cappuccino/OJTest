@@ -1,4 +1,5 @@
-#!/usr/bin/env objj
+#!/usr/bin/env npx objj
+#!/usr/bin/env npx --node-arg=--inspect-brk objj
 
 @import <OJUnit/OJTestRunnerText.j>
 @import <OJUnit/OJTestRunnerTextParallel.j>
@@ -7,69 +8,50 @@
 
 var LOCAL_OPTIONS_FILE = ".ojtest";
 
-var parser = new (require("narwhal/args").Parser)();
-
-parser.usage("INPUT_FILE ...");
-parser.help("Runs the given suite of tests.\nUsage: ojtest [OPTIONS] INPUT_FILE:NAME_OF_THE_TEST\nRuns only the given test of the given file");
-
-parser.option("-x", "stop")
-    .def(false)
-    .set(true)
-    .help("Stop running tests after the first error or failure")
-
-parser.option("-c", "coverage")
-    .def(false)
-    .set(true)
-    .help("Runs test coverage along with your OJUnit tests.");
-
-parser.option("-t", "threshold")
-    .def(0.8)
-    .set()
-    .help("Set the threshold for test coverage to the specified percentage. Implies -c. Default: 0.8");
-
-parser.option("-l", "level")
-    .def(@"warn")
-    .choices(["fatal", "error", "warn", "info", "debug", "trace"])
-    .set()
-    .help("Set the minimum log level.");
-
-parser.option("-s", "spec")
-    .def(false)
-    .set(true)
-    .help("Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default.");
-
-parser.option("-p", "parallel")
-    .set(true)
-    .help("Run with Rhino-enabled parallel test running on 10 threads.");
-
-parser.helpful();
+function help(status) {
+  console.log("usage: " + require('path').basename(process.argv[1]) + " INPUT_FILE ...");
+  console.log("Runs the given suite of tests.\nUsage: ojtest [OPTIONS] INPUT_FILE:NAME_OF_THE_TEST\nRuns only the given test of the given file");
+  console.log("OPTIONS:");
+  console.log("        -c            Runs test coverage along with your OJUnit tests.");
+  console.log("        -t threshold  Set the threshold for test coverage to the specified percentage. Implies -c. Default: 0.8");
+  console.log("        -l fatal | error | warn | info | debug | trace");
+  console.log("                      Set the minimum log level. Default: warn");
+  console.log("        -s            Run with OJSpec enabled (experimental). When this is stable, OJSpec will be enabled by default");
+  console.log("        -h | --help   Print usage");
+  process.exit(status);
+}
 
 function main(args) {
-
     var savedArgs = args.slice(0),
-        options = parser.parse(args),
-        SYS = require("system"),
-        FILE = require("file"),
-        shouldStopAtFirstFailure = false;
+        options = {threshold: 0.8, level: "warn"},
+        FILE = require("fs"),
+        infiles = [];
 
-    if (FILE.exists(LOCAL_OPTIONS_FILE))
+    // We start at index 3 as the Shebang at the top has 3 arguments
+    for (var i = 3; i < process.argv.length; ++i) {
+        var arg = process.argv[i];
+        if (arg == "-c") options.coverage = true;
+        else if (arg == "-t") options.threshold = process.argv[++i];
+        else if (arg == "-l") {
+            if (![["fatal", "error", "warn", "info", "debug", "trace"] containsObject:options.level = process.argv[++i]]) {
+              console.log("Minimum log level must be one of fatal, error, warn, info, debug or trace");
+              help(1);
+            }
+        }
+        else if (arg == "-s") options.spec = true;
+        else if (arg == "--help") help(0);
+        else if (arg == "-h") help(0);
+        else infiles.push(arg);
+    }
+
+    if (!infiles.length) help(1);
+
+    if (FILE.existsSync(LOCAL_OPTIONS_FILE))
     {
-        var fileOptions = JSON.parse(FILE.read(LOCAL_OPTIONS_FILE));
+        var fileOptions = JSON.parse(FILE.readSync(LOCAL_OPTIONS_FILE, { encoding: 'utf8' }));
         for (var x in fileOptions)
             options[x] = fileOptions[x];
     }
-
-    if (options.args.length < 1)
-    {
-        parser.printUsage(options);
-        return;
-    }
-
-    if (options.spec)
-        @import <OJSpec/OJSpec.j>
-
-    if (options.stop || savedArgs.indexOf("-x") !== -1)
-        shouldStopAtFirstFailure = true;
 
     CPLogRegister(CPLogPrint, options.level);
 
@@ -88,6 +70,5 @@ function main(args) {
         var runner = [[OJTestRunnerText alloc] init];
     }
 
-    [runner setShouldStopAtFirstFailureOrError:shouldStopAtFirstFailure];
-    [runner startWithArguments:options.args];
+    [runner startWithArguments:infiles];
 }
