@@ -35,7 +35,6 @@ var stream = require("objj-runtime").term.stream;
 
 - (OJTest)getTest:(CPString)suiteClassName selectorRegex:(CPString)selectorRegex
 {
-    debugger;
     var testClass = objj_lookUpClass(suiteClassName);
 
     if (testClass)
