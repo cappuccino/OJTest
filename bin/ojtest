@@ -12,12 +12,14 @@
 "use strict";
 
 // Add path to './Frameworks' in this module to the search path
-var newURL = new CFURL("Frameworks", new CFURL(process.mainModule.path)).asDirectoryPathURL();
+var moduleBasePath = new CFURL(process.mainModule.path);
+var newURL = new CFURL("Frameworks", moduleBasePath).asDirectoryPathURL();
 objjRuntime.StaticResource.includeURLs().push(newURL);
 
 // Inject path to the OJTest main Objective-J file into the arguments so it is the file to be executed.
 var args = process.argv.slice(); // Copy
-args.splice(2, 0, "src/ojtest.j");
+var pathToOJTest = new CFURL("src/ojtest.j", moduleBasePath).absoluteString();
+args.splice(2, 0, pathToOJTest);
 
 // Compile, load and run it
 objjRuntime.run(args);
