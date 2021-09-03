@@ -1,10 +1,10 @@
 {
-    "name": "objj-ojtest",
+    "name": "@objj/ojtest",
     "description": "Test framework written in Objective-J used by the Cappuccino framework",
     "homepage": "https://github.com/cappuccino/OJTest/tree/node",
-    "version": "0.2.2",
+    "version": "1.0.0",
     "engines": {
-        "node": ">=0.10.0"
+        "node": ">=14.0.0"
     },
     "preferGlobal": true,
     "contributors": [
@@ -44,8 +44,8 @@
         "Frameworks"
     ],
     "dependencies": {
-        "objj-runtime": "^0.4.6"
     },
+    "main": "index.js",
     "bin": {
         "ojtest": "./bin/ojtest"
     }

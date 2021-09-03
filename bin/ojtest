@@ -3,7 +3,7 @@
 (function(mod)
 {
     if (typeof exports == "object" && typeof module == "object")
-        return mod(exports, require("objj-runtime")); // CommonJS
+        return mod(exports, require("@objj/runtime")); // CommonJS
     if (typeof define == "function" && define.amd)
         return define(["exports", "objj-runtime"], mod); // AMD
     mod(this.objjOjtest || (this.objjOjtest = {}), ObjectiveJ); // Plain browser env

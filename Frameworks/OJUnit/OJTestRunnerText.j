@@ -9,7 +9,7 @@
 
 @global require
 
-var stream = require("objj-runtime").term.stream;
+var stream = ObjectiveJ.term.stream;
 
 @implementation OJTestRunnerText : CPObject
 {

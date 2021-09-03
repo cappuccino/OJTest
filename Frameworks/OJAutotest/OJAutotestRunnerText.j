@@ -2,7 +2,7 @@
 
 var SYSTEM = require("system");
 var PATH = require("path");
-var STREAM = require("objj-runtime").term.stream;
+var STREAM = ObjectiveJ.term.stream;
 var STREAM = {print: console.log};
 
 var GROWL = require("growl-js");

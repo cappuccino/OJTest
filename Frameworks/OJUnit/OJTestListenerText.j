@@ -1,6 +1,6 @@
 @import <Foundation/Foundation.j>
 
-stream = require("objj-runtime").term.stream;
+stream = ObjectiveJ.term.stream;
 
 @implementation OJTestListenerText : CPObject
 {
