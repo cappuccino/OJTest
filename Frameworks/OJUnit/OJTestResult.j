@@ -76,13 +76,13 @@
         [_listeners[i] endTest:aTest];
 }
 
-- (void)run:(OJTestCase)aTest
+- (async void)run:(OJTestCase)aTest
 {
     [self startTest:aTest];
 
     try
     {
-        [aTest runBare];
+        await [aTest runBare];
         [self addSuccessTest:aTest];
     }
     catch (e)

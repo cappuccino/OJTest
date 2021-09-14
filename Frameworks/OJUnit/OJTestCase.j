@@ -41,10 +41,10 @@
 /*!
    Runs the tests and returns the result.
  */
-- (OJTestResult)run
+- (async OJTestResult)run
 {
     var result = [OJTestResult createResult];
-    [self run:result];
+    await [self run:result];
     return result;
 }
 
@@ -52,20 +52,20 @@
     Run the tests using the given OJTestResult handler.
     @param result the OJTestResult to run the tests
  */
-- (void)run:(OJTestResult)result
+- (async void)run:(OJTestResult)result
 {
-    [result run:self];
+    await [result run:self];
 }
 
 /*!
    Runs the setup, test and teardown for the current test selector.
  */
-- (void)runBare
+- (async void)runBare
 {
     [self setUp];
     try
     {
-        [self runTest];
+        await [self runTest];
     }
     finally
     {
@@ -93,11 +93,11 @@
 /*!
     Run the test(s) for the current selector.
  */
-- (void)runTest
+- (async void)runTest
 {
     [OJAssert assertNotNull:_selector];
 
-    [self performSelector:_selector];
+    await [self performSelector:_selector];
 }
 
 /*!

@@ -225,9 +225,9 @@
 
             [self assertNoThrow:function(){[myObject myMessage:myArgument];}];
  */
-- (void)assertNoThrow:(Function)zeroArgClosure
+- (id)assertNoThrow:(Function)zeroArgClosure
 {
-    [OJAssert assertNoThrow:zeroArgClosure];
+    return [OJAssert assertNoThrow:zeroArgClosure];
 }
 
 /*!
@@ -243,7 +243,7 @@
  */
 - (void)assertThrows:(Function)zeroArgClosure
 {
-    [OJAssert assertThrows:zeroArgClosure];
+    return [OJAssert assertThrows:zeroArgClosure];
 }
 
 /*!

@@ -81,12 +81,12 @@ var stream = ObjectiveJ.term.stream;
             selectorRegex = matches[2];
 
         [self beforeRequire];
-        objj_importFile(testCaseFile.split(":")[0], YES, function() {
+        objj_importFile(testCaseFile.split(":")[0], YES, async function() {
             if (selectorRegex)
                 selectorRegex = @"^"+selectorRegex+"$";
 
             var suite = [self getTest:testCaseClass selectorRegex:selectorRegex];
-            [self run:suite];
+            await [self run:suite];
             [self afterRun];
             process.stderr.write("\n");
 
@@ -124,20 +124,20 @@ var stream = ObjectiveJ.term.stream;
     return require("path").resolve(process.cwd(), args.shift());
 }
 
-- (OJTestResult)run:(OJTest)suite wait:(BOOL)wait
+- (async OJTestResult)run:(OJTest)suite wait:(BOOL)wait
 {
     var result = [[OJTestResult alloc] init];
 
     [result addListener:_listener];
 
-    [suite run:result];
+    await [suite run:result];
 
     return result;
 }
 
-- (OJTestResult)run:(OJTest)suite
+- (async OJTestResult)run:(OJTest)suite
 {
-    return [self run:suite wait:NO];
+    return await [self run:suite wait:NO];
 }
 
 + (void)runTest:(OJTest)suite

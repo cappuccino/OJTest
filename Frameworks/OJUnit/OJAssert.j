@@ -197,12 +197,14 @@ AssertionFailedError = @"AssertionFailedError";
 
             [self assertNoThrow:function(){[myObject myMessage:myArgument];}];
  */
-+ (void)assertNoThrow:(Function)zeroArgClosure
++ (id)assertNoThrow:(Function)zeroArgClosure
 {
+    var result = nil;
     var exception = nil;
-    try { zeroArgClosure(); }
+    try { result = zeroArgClosure(); }
     catch (e) { exception = e; }
     [self assertNull:exception message:"Caught unexpected exception " + exception];
+    return result;
 }
 
 /*!
@@ -214,12 +216,14 @@ AssertionFailedError = @"AssertionFailedError";
 
             [self assertThrows:function(){[myObject myMessage:myArgument];}];
  */
-+ (void)assertThrows:(Function)zeroArgClosure
++ (id)assertThrows:(Function)zeroArgClosure
 {
+    var result = nil;
     var exception = nil;
-    try { zeroArgClosure(); }
-    catch (e) { exception = e; }
+    try { result = zeroArgClosure(); }
+    catch (e) { result = exception = e; }
     [self assertNotNull:exception message:"Should have caught an exception, but got nothing"];
+    return result;
 }
 
 /*!
