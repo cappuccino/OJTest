@@ -184,7 +184,7 @@ var DEFAULT_REGEX = @".*";
     return "init";
 }
 
-- (void)run:(OJTestResult)result
+- (async void)run:(OJTestResult)result
 {
     for (var i = 0; i < _tests.length; i++)
     {
@@ -194,7 +194,7 @@ var DEFAULT_REGEX = @".*";
         if ([result shouldStop])
             break;
 
-        [_tests[i] run:result];
+        await [_tests[i] run:result];
 
         if (i == (_tests.length - 1))
             [_tests[i] tearDownClass];
