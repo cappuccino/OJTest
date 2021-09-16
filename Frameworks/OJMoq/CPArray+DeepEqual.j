@@ -47,13 +47,13 @@ var assert = require("assert");
 
 var deepEqual = function(obj1, obj2)
 {
-    var isEqual;
-    assert.pass = function() {
-        isEqual = true;
+    try
+    {
+        assert.deepEqual(obj1, obj2);
+        return true;
     }
-    assert.fail = function() {
-        isEqual = false;
+    catch (e)
+    {
+        return false;
     }
-    assert.deepEqual(obj1, obj2);
-    return isEqual;
 }
