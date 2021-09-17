@@ -62,7 +62,7 @@
  */
 - (async void)runBare
 {
-    [self setUp];
+    await [self setUp];
     try
     {
         await [self runTest];
@@ -70,7 +70,7 @@
     finally
     {
         [[CPRunLoop currentRunLoop] limitDateForMode:CPDefaultRunLoopMode];
-        [self tearDown];
+        await [self tearDown];
     }
 }
 
